@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Article url:</strong>
+  <%= @article.article_url %>
+</p>
+
+<p>
+  <strong>Article image url:</strong>
+  <%= @article.article_image_url %>
+</p>
+
+<p>
+  <strong>Desc:</strong>
+  <%= @article.desc %>
+</p>
+
+<p>
+  <strong>Resource type:</strong>
+  <%= @article.resource_type %>
+</p>
+
+<p>
+  <strong>Article date:</strong>
+  <%= @article.article_date %>
+</p>
+
+<p>
+  <strong>Publish it:</strong>
+  <%= @article.publish_it %>
+</p>
+
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
