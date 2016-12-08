@@ -24,7 +24,7 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-    @article = @resource.articles.build(article_params) #was Article.new 
+    @article = @resource.articles.build(article_params) #was Article.new
 
     respond_to do |format|
       if @article.save
@@ -69,6 +69,7 @@ class ArticlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:title, :article_url, :article_image_url, :desc, :resource_type, :article_date, :publish_it)
+      params.require(:article).permit(:title, :article_url, :article_image_url, :desc, :resource_type, :article_date,
+      :publish_it, :image)
     end
 end

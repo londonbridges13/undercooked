@@ -1,7 +1,11 @@
 <%= simple_form_for(@article) do |f| %>
   <%= f.error_notification %>
 
+
   <div class="form-inputs">
+    <%= image_tag @article.image.url %>
+    <%= f.input :image, as: :file %>
+
     <%= f.input :title %>
     <%= f.input :article_url %>
     <%= f.input :article_image_url %>
