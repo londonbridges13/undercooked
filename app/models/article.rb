@@ -4,6 +4,7 @@ class Article < ActiveRecord::Base
   validates_presence_of :article_url
   before_create :check_for_image
   belongs_to :resource
+  has_and_belongs_to_many :topics
 
   #Image
   has_attached_file :image, styles: { medium: "200x200>", thumb: "90x90>" }, default_url: "/images/:style/missing.png"

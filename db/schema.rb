@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207231934) do
+ActiveRecord::Schema.define(version: 20161209221828) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20161207231934) do
 
   add_index "articles", ["resource_id"], name: "index_articles_on_resource_id"
 
+  create_table "articles_topics", id: false, force: :cascade do |t|
+    t.integer "topic_id",   null: false
+    t.integer "article_id", null: false
+  end
+
+  add_index "articles_topics", ["article_id", "topic_id"], name: "index_articles_topics_on_article_id_and_topic_id"
+  add_index "articles_topics", ["topic_id", "article_id"], name: "index_articles_topics_on_topic_id_and_article_id"
+
   create_table "resources", force: :cascade do |t|
     t.string   "title"
     t.string   "resource_url"
@@ -42,6 +50,26 @@ ActiveRecord::Schema.define(version: 20161207231934) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "resources_topics", id: false, force: :cascade do |t|
+    t.integer "topic_id",    null: false
+    t.integer "resource_id", null: false
+  end
+
+  add_index "resources_topics", ["resource_id", "topic_id"], name: "index_resources_topics_on_resource_id_and_topic_id"
+  add_index "resources_topics", ["topic_id", "resource_id"], name: "index_resources_topics_on_topic_id_and_resource_id"
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.string   "taglist",            default: "--- []\n"
   end
 
 end
