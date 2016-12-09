@@ -1,4 +1,8 @@
 class Resource < ActiveRecord::Base
+  validates_uniqueness_of :resource_url
+  validates_presence_of :resource_url
+  validates_presence_of :title
+  validates_presence_of :image 
   has_many :articles
 
 
