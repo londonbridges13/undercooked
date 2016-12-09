@@ -57,4 +57,12 @@ class FeedController < ApplicationController
   end
 
 
+  def remove_old_version_articles
+    # Removes all articles that are more than 2 days AND never published
+    two_days_ago = Time.now - 3.days
+    all_articles = Article.all.where('article_date < ? AND publish_it = ?', two_days_ago, nil)
+
+  end
+
+
 end
