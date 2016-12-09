@@ -3,26 +3,15 @@ require 'sanitize' #for tweaking article description
 class FeedController < ApplicationController
 
   def index
-    sources = Resource.all
-    @sources = [] # unchecked resources
-    @empty_sources = [] # checked resources that are empty
-
-    sources.each do |s|
-      @sources.push(s.resource_url)
-    end
-
-    @feeds = []
-
-    @sources.each do |s|
-      #
-
-    end
+    search_for_articles()
   end
 
-  def get_more_articles
-    if @feed.count == 0
-      #Get More articles
 
+
+  def search_for_articles
+    all_resources = Resource.all
+    all_resources.each do |resource|
+      check_resource(resource)
     end
   end
 
