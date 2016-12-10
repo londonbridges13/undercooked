@@ -6,6 +6,7 @@ class Article < ActiveRecord::Base
   belongs_to :resource
   has_and_belongs_to_many :topics
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :tags
 
   #Image
   has_attached_file :image, styles: { medium: "200x200>", thumb: "90x90>" }, default_url: "/images/:style/missing.png"

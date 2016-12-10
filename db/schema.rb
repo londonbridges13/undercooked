@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210040731) do
+ActiveRecord::Schema.define(version: 20161210070004) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(version: 20161210040731) do
   end
 
   add_index "articles", ["resource_id"], name: "index_articles_on_resource_id"
+
+  create_table "articles_tags", id: false, force: :cascade do |t|
+    t.integer "tag_id",     null: false
+    t.integer "article_id", null: false
+  end
+
+  add_index "articles_tags", ["article_id", "tag_id"], name: "index_articles_tags_on_article_id_and_tag_id"
+  add_index "articles_tags", ["tag_id", "article_id"], name: "index_articles_tags_on_tag_id_and_article_id"
 
   create_table "articles_topics", id: false, force: :cascade do |t|
     t.integer "topic_id",   null: false
@@ -59,6 +67,14 @@ ActiveRecord::Schema.define(version: 20161210040731) do
     t.datetime "image_updated_at"
   end
 
+  create_table "products_tags", id: false, force: :cascade do |t|
+    t.integer "tag_id",     null: false
+    t.integer "product_id", null: false
+  end
+
+  add_index "products_tags", ["product_id", "tag_id"], name: "index_products_tags_on_product_id_and_tag_id"
+  add_index "products_tags", ["tag_id", "product_id"], name: "index_products_tags_on_tag_id_and_product_id"
+
   create_table "products_topics", id: false, force: :cascade do |t|
     t.integer "topic_id",   null: false
     t.integer "product_id", null: false
@@ -79,6 +95,14 @@ ActiveRecord::Schema.define(version: 20161210040731) do
     t.datetime "image_updated_at"
   end
 
+  create_table "resources_tags", id: false, force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.integer "tag_id",      null: false
+  end
+
+  add_index "resources_tags", ["resource_id", "tag_id"], name: "index_resources_tags_on_resource_id_and_tag_id"
+  add_index "resources_tags", ["tag_id", "resource_id"], name: "index_resources_tags_on_tag_id_and_resource_id"
+
   create_table "resources_topics", id: false, force: :cascade do |t|
     t.integer "topic_id",    null: false
     t.integer "resource_id", null: false
@@ -86,6 +110,20 @@ ActiveRecord::Schema.define(version: 20161210040731) do
 
   add_index "resources_topics", ["resource_id", "topic_id"], name: "index_resources_topics_on_resource_id_and_topic_id"
   add_index "resources_topics", ["topic_id", "resource_id"], name: "index_resources_topics_on_topic_id_and_resource_id"
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags_topics", id: false, force: :cascade do |t|
+    t.integer "tag_id",   null: false
+    t.integer "topic_id", null: false
+  end
+
+  add_index "tags_topics", ["tag_id", "topic_id"], name: "index_tags_topics_on_tag_id_and_topic_id"
+  add_index "tags_topics", ["topic_id", "tag_id"], name: "index_tags_topics_on_topic_id_and_tag_id"
 
   create_table "topics", force: :cascade do |t|
     t.string   "title"
