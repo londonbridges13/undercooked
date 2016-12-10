@@ -1,0 +1,15 @@
+<%= simple_form_for(@product) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= image_tag @product.image.url %>
+    <%= f.input :image, as: :file %>
+
+    <%= f.input :title %>
+    <%= f.input :product_url %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
