@@ -12,7 +12,7 @@ module API
       mount V1::Articles
       # mount V1::Products
       # mount V1::Topics
-      # mount V1::Users
+      mount V1::Users
       # mount V1::Tags
 
     end

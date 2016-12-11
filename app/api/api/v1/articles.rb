@@ -11,7 +11,8 @@ module API
       resource :articles do
         desc "Query Articles based on User's Topics"
         get do
-          present Article.order(title: :asc), with: Entity::V1::ArticlesEntity
+          current_user = User.find_by
+          present User.first#Article.order(title: :asc), with: Entity::V1::ArticlesEntity
         end
       end
     end
