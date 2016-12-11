@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   resources :tags
   devise_for :users
   resources :products
   resources :topics
   resources :articles
   resources :resources
+  mount API::Base => '/'
 
   root 'resources#index'
   # The priority is based upon order of creation: first created -> highest priority.
