@@ -100,6 +100,28 @@ module API
           end
         end
       end
+
+      resource :users do
+        namespace 'topics' do
+          desc "Get User's  Topics"
+          post do
+            token = params[:utoken]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              present existing_user.topics
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
+
+
+
     end
   end
 end
