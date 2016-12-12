@@ -13,43 +13,30 @@ module API
         namespace 'signin' do
           desc 'Sing In (Basic)'
           post do
-            email = params[:uemail]
+            email = params[:uemail].downcase
             password = params[:upassword]
             token = params[:utoken]
-            if token == nil
               # use email address to sign in
               @user = User.find_by_email(email)
-              if @user.valid_password? password
+              if @user == nil
+                @user = User.find_by_access_token(token)
+              end
+              if @user and @user.valid_password? password
                 # give user a new personal access_token, and set doorkeeper_token.resource_owner_id = @user.id
                 @user.access_token = Devise.friendly_token.first(35)
                 @user.save
                 doorkeeper_token.resource_owner_id = @user.id
-                present @user.access_token
+                present @user
                 # client should use this token to user. But server knows the user through the doorkeeper_token
                 # When accessing ... hmmmmmmm
               else
                 # invalid password
-                present "ERROR: Invalid Credentials #{email}"
+                present "ERROR: Invalid Credentials #{token}"
               end
-            else
-              # use email address to sign in
-              @user = User.find_by_access_token(token)
-              if @user.valid_password? password
-                # give user a new personal access_token, and set doorkeeper_token.resource_owner_id = @user.id
-                @user.access_token = Devise.friendly_token.first(35)
-                @user.save
-                doorkeeper_token.resource_owner_id = @user.id
-                present @user.access_token
-                # client should use this token to user. But server knows the user through the doorkeeper_token
-                # When accessing ... hmmmmmmm
-              else
-                # invalid password
-                present "ERROR: Invalid Credentials #{email}"
-              end
-            end
           end
         end
       end
+
       resource :users do
         namespace 'signup' do
           desc 'Sign Up'
@@ -72,11 +59,47 @@ module API
             else
               present "ERROR: There is already a user by this email"
             end
-
           end
         end
       end
 
+      resource :users do
+        namespace 'profile' do
+          desc 'Get Profile Information'
+          post do
+            token = params[:utoken]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              present existing_user
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
+
+      resource :users do
+        namespace 'profile_pic' do
+          desc 'Get Profile Information'
+          post do
+            token = params[:utoken]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              present existing_user.image.url
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
     end
   end
 end
