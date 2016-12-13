@@ -2,6 +2,7 @@ class Product < ActiveRecord::Base
   validates_uniqueness_of :product_url
   validates_presence_of :product_url
   validates_presence_of :title
+  validates_presence_of :description
   validates_presence_of :image
   has_and_belongs_to_many :topics
   has_and_belongs_to_many :tags
