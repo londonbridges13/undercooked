@@ -54,7 +54,7 @@ module API
               current_user.save
               doorkeeper_token.resource_owner_id = current_user.id
               #present "Successfully Created Account"
-              present current_user.access_token
+              present current_user
               # With Above, we can find the user by the client access_token(doorkeeper_token)
             else
               present "ERROR: There is already a user by this email"
@@ -112,7 +112,7 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              present existing_user.topics 
+              present existing_user.topics
             else
               present "ERROR: Cannot find user by token, please sign in again"
             end
