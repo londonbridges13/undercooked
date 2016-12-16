@@ -93,7 +93,7 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              present existing_user.image.url
+              present existing_user.image
             else
               present "ERROR: Cannot find user by token, please sign in again"
             end
