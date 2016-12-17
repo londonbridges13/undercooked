@@ -24,6 +24,8 @@ gem 'sanitize'
 gem 'grape', '~> 0.14.0'
 gem 'grape-entity'
 gem 'doorkeeper'
+gem 'engtagger'
+
 gem 'rails_12factor', group: :production
 group :development, :test do
   gem 'sqlite3'

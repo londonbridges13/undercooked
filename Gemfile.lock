@@ -79,6 +79,7 @@ GEM
       warden (~> 1.2.3)
     doorkeeper (4.2.0)
       railties (>= 4.2)
+    engtagger (0.2.1)
     equalizer (0.0.11)
     erubis (2.7.0)
     ethon (0.9.1)
@@ -270,6 +271,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   devise
   doorkeeper
+  engtagger
   feedjira
   grape (~> 0.14.0)
   grape-entity
