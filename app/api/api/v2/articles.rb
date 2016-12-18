@@ -28,6 +28,7 @@ module API
           end
         end
       end
+
       resource :articles do
         namespace 'accepted_articles' do
           desc "Query New Articles"
@@ -43,6 +44,7 @@ module API
           end
         end
       end
+
       resource :articles do
         namespace 'rejected_articles' do
           desc "Query New Articles"
@@ -58,6 +60,7 @@ module API
           end
         end
       end
+
       resource :articles do
         namespace 'add_article_topics' do
           desc "Query Articles based on User's Topics"
