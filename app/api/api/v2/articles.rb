@@ -28,7 +28,36 @@ module API
           end
         end
       end
-
+      resource :articles do
+        namespace 'accepted_articles' do
+          desc "Query New Articles"
+          post do
+            articles = Article.where(:publish_it => true).shuffle#, with: Entity::V1::ArticlesEntity
+            if articles.count > 0
+              # Display Articles
+              present articles #Article.order(title: :asc), with: Entity::V1::ArticlesEntity
+            else
+              # Grab New Content from Feed,
+              search_for_articles # edit in ArticlesHelper.rb
+            end
+          end
+        end
+      end
+      resource :articles do
+        namespace 'rejected_articles' do
+          desc "Query New Articles"
+          post do
+            articles = Article.where(:publish_it => false).shuffle#, with: Entity::V1::ArticlesEntity
+            if articles.count > 0
+              # Display Articles
+              present articles #Article.order(title: :asc), with: Entity::V1::ArticlesEntity
+            else
+              # Grab New Content from Feed,
+              search_for_articles # edit in ArticlesHelper.rb
+            end
+          end
+        end
+      end
       resource :articles do
         namespace 'add_article_topics' do
           desc "Query Articles based on User's Topics"
