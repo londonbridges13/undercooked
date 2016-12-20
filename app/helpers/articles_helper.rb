@@ -46,6 +46,45 @@ module ArticlesHelper
     all_articles.each do |e|
       e.delete
     end
-
   end
+
+
+  def get_articles_from(topics)
+    @size = topics.count * 3
+    @articles = []
+    i = 0
+    while @articles.count < @size
+      topics.each do |t|
+        if @articles.count < @size
+          add_an_article(t)
+
+        end
+      end
+    end
+  end
+
+  def add_an_article(topic)
+    potential_articles = topic.articles.where(:publish_it => true).sort_by(&:created_at).reverse
+    if potential_articles.count > 0
+      done = false
+      i = 0
+      while i < potential_articles.count and done == false
+        # check if articles includes
+        unless @articles.include? potential_articles[i]
+          #doesn't contain this article, so add it
+          @articles.push(potential_articles[i])
+          done = true
+        end
+        i += 1
+        present_articles
+      end
+    end
+  end
+
+  def present_articles
+    if @articles.count >= @size
+      present @articles
+    end
+  end
+
 end
