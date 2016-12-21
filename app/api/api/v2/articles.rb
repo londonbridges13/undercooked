@@ -39,6 +39,7 @@ module API
               present articles #Article.order(title: :asc), with: Entity::V1::ArticlesEntity
             else
               # Grab New Content from Feed,
+              present 0
               search_for_articles # edit in ArticlesHelper.rb
             end
           end
@@ -55,6 +56,7 @@ module API
               present articles #Article.order(title: :asc), with: Entity::V1::ArticlesEntity
             else
               # Grab New Content from Feed,
+              present 0
               search_for_articles # edit in ArticlesHelper.rb
             end
           end
