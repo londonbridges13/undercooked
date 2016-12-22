@@ -108,6 +108,16 @@ module API
         end
       end
 
+      resource :products do
+        namespace 'product_count' do
+          desc ""
+          get do
+            product_count = Product.all.count#, with: Entity::V1::ArticlesEntity
+            present product_count
+          end
+        end
+      end
+
       resource :topics do
         namespace 'display_topics' do
           desc "Query All Topics"
@@ -117,6 +127,7 @@ module API
           end
         end
       end
+
 
       resource :tags do
         namespace 'suggest_tags' do
@@ -153,6 +164,21 @@ module API
               end
             end
             present all_tags
+          end
+        end
+      end
+
+
+      resource :topics do
+        namespace 'count_recent_articles' do
+          desc "Counts the Topic's recent articles"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)
+            two_days_ago = Time.now - 2.days
+            article_count = topic.articles.where('article_date > ?', two_days_ago).count
+            
+            present article_count
           end
         end
       end
