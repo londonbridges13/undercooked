@@ -30,6 +30,15 @@ module API
       end
 
       resource :articles do
+        namespace 'get_new_articles' do
+          desc "Get New Articles"
+          post do
+            search_for_articles
+          end
+        end
+      end
+
+      resource :articles do
         namespace 'new_article_count' do
           desc "Query New Articles"
           post do
@@ -118,7 +127,7 @@ module API
         end
       end
 
-    
+
 
 
       resource :tags do
