@@ -118,15 +118,7 @@ module API
         end
       end
 
-      resource :topics do
-        namespace 'display_topics' do
-          desc "Query All Topics"
-          post do
-            topics = Topic.all#, with: Entity::V1::ArticlesEntity
-            present topics
-          end
-        end
-      end
+    
 
 
       resource :tags do
