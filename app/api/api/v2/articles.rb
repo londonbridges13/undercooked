@@ -32,7 +32,7 @@ module API
       resource :articles do
         namespace 'new_article_count' do
           desc "Query New Articles"
-          get do
+          post do
             articles = Article.where(:publish_it => nil)#, with: Entity::V1::ArticlesEntity
             present articles.count
           end
@@ -101,7 +101,7 @@ module API
       resource :users do
         namespace 'user_count' do
           desc ""
-          get do
+          post do
             users_count = User.all.count#, with: Entity::V1::ArticlesEntity
             present users_count
           end
@@ -111,7 +111,7 @@ module API
       resource :products do
         namespace 'product_count' do
           desc ""
-          get do
+          post do
             product_count = Product.all.count#, with: Entity::V1::ArticlesEntity
             present product_count
           end
@@ -177,7 +177,7 @@ module API
             topic = Topic.find_by_id(id)
             two_days_ago = Time.now - 2.days
             article_count = topic.articles.where('article_date > ?', two_days_ago).count
-            
+
             present article_count
           end
         end
