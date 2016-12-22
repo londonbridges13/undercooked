@@ -30,6 +30,16 @@ module API
       end
 
       resource :articles do
+        namespace 'new_article_count' do
+          desc "Query New Articles"
+          get do
+            articles = Article.where(:publish_it => nil)#, with: Entity::V1::ArticlesEntity
+            present articles.count
+          end
+        end
+      end
+
+      resource :articles do
         namespace 'accepted_articles' do
           desc "Query New Articles"
           post do
@@ -82,6 +92,18 @@ module API
 
               end
             end
+          end
+        end
+      end
+
+
+
+      resource :users do
+        namespace 'user_count' do
+          desc ""
+          get do
+            users_count = User.all.count#, with: Entity::V1::ArticlesEntity
+            present users_count
           end
         end
       end
