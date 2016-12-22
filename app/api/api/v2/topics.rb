@@ -19,6 +19,7 @@ module API
         end
       end
 
+
       resource :topics do
         namespace 'display_topic_articles' do
           desc "Query All Topic's Articles"
@@ -30,6 +31,16 @@ module API
         end
       end
 
+      resource :topics do
+        namespace 'get_topic_info' do
+          desc "Query a Topic"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            present topic
+          end
+        end
+      end
 
     end
   end
