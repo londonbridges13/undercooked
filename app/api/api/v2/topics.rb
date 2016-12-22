@@ -19,6 +19,16 @@ module API
         end
       end
 
+      resource :topics do
+        namespace 'display_topic_articles' do
+          desc "Query All Topic's Articles"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            present topic.articles.limit(20).all
+          end
+        end
+      end
 
 
     end
