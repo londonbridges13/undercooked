@@ -83,6 +83,93 @@ module API
       end
 
       resource :articles do
+        namespace 'accept_article' do
+          desc "Set Publish = true"
+          post do
+            id = params[:uarticle]
+            article = Article.find_by_id(id)
+            article.publish_it = true
+            article.save
+            present article
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'reject_article' do
+          desc "Set Publish = false"
+          post do
+            id = params[:uarticle]
+            article = Article.find_by_id(id)
+            article.publish_it = false
+            article.save
+            present article
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'get_article_info' do
+          desc "Self"
+          post do
+            id = params[:uarticle]
+            article = Article.find_by_id(id)
+            present article
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'update_title_desc' do
+          desc "Update Desc and Title of an Article"
+          post do
+            id = params[:uarticle]
+            title = params[:title]
+            desc = params[:desc]
+
+            article = Article.find_by_id(id)
+            article.desc = desc
+            article.title = title
+            article.save
+            present article
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'article_topics' do
+          desc "Query Article's Topics"
+          post do
+            id = params[:uarticle]
+            article = Article.find_by_id(id)
+            topics = article.topics
+            present topics
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'update_topics' do
+          desc "Sets Article's Topics"
+          post do
+            id = params[:uarticle]
+            topics = params[:topics]
+
+            article = Article.find_by_id(id)
+            article.topics.delete_all
+
+            topics.each do |t|
+              topic = Topic.find_or_create_by(title: t)
+              unless article.topics.include? topic
+                article.topics.push(topic)
+              end
+            end
+            present topics
+          end
+        end
+      end
+
+      resource :articles do
         namespace 'add_article_topics' do
           desc "Query Articles based on User's Topics"
           post do

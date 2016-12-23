@@ -8,7 +8,7 @@ module API
       version 'v2', using: :path
 
 
-      # mount V2::Resources
+      mount V2::Resources
       mount V2::Articles
       # mount V2::Products
       mount V2::Topics
