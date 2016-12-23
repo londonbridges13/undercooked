@@ -75,16 +75,16 @@ module API
           desc "Update Desc and Title of a Topic"
           post do
             id = params[:utopic]
-            tags = params[:tags].downcase
+            tags = params[:tags]
 
             topic = Topic.find_by_id(id)
             topic.tags.delete_all
-            array_of_tags = tags.split(",").map
+            array_of_tags = tags
 
             array_of_tags.each do |t|
-              t = Tag.find_or_create_by(title: t)
-              unless topic.tags.include? t
-                topic.tags.push(t)
+              tag = Tag.find_or_create_by(title: t)
+              unless topic.tags.include? tag
+                topic.tags.push(tag)
               end
             end
             present topic
