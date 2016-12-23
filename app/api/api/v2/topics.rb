@@ -42,6 +42,24 @@ module API
         end
       end
 
+      resource :topics do
+        namespace 'update_title_desc' do
+          desc "Update Desc and Title of a Topic"
+          post do
+            id = params[:utopic]
+            title = params[:title]
+            desc = params[:desc]
+
+            topic = Topic.find_by_id(id)
+            topic.description = desc
+            topic.title = title
+            topic.save 
+            present topic
+          end
+        end
+      end
+
+
     end
   end
 end
