@@ -43,6 +43,17 @@ module API
       end
 
       resource :topics do
+        namespace 'get_topic_tags' do
+          desc "Query a Topic's Tags"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            present topic.tags
+          end
+        end
+      end
+
+      resource :topics do
         namespace 'update_title_desc' do
           desc "Update Desc and Title of a Topic"
           post do
@@ -53,12 +64,33 @@ module API
             topic = Topic.find_by_id(id)
             topic.description = desc
             topic.title = title
-            topic.save 
+            topic.save
             present topic
           end
         end
       end
 
+      resource :topics do
+        namespace 'update_tags' do
+          desc "Update Desc and Title of a Topic"
+          post do
+            id = params[:utopic]
+            tags = params[:tags].downcase
+
+            topic = Topic.find_by_id(id)
+            topic.tags.delete_all
+            array_of_tags = tags.split(",").map
+
+            array_of_tags.each do |t|
+              t = Tag.find_or_create_by(title: t)
+              unless topic.tags.include? t
+                topic.tags.push(t)
+              end
+            end
+            present topic
+          end
+        end
+      end
 
     end
   end
