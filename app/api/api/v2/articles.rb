@@ -108,6 +108,7 @@ module API
         end
       end
 
+
       resource :articles do
         namespace 'get_article_info' do
           desc "Self"
@@ -115,6 +116,17 @@ module API
             id = params[:uarticle].to_i
             article = Article.find_by_id(id)
             present article
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'get_article_tags' do
+          desc "Self"
+          post do
+            id = params[:uarticle].to_i
+            article = Article.find_by_id(id)
+            present article.tags
           end
         end
       end
@@ -252,6 +264,28 @@ module API
               end
             end
             present all_tags
+          end
+        end
+      end
+
+      resource :articles do
+        namespace 'update_tags' do
+          desc "Update Tags of an Article"
+          post do
+            id = params[:uarticle]
+            tags = params[:tags]
+
+            article = Article.find_by_id(id)
+            article.tags.delete_all
+            array_of_tags = tags
+
+            array_of_tags.each do |t|
+              tag = Tag.find_or_create_by(title: t)
+              unless article.tags.include? tag
+                article.tags.push(tag)
+              end
+            end
+            present article
           end
         end
       end
