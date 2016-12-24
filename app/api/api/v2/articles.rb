@@ -154,8 +154,7 @@ module API
           post do
             id = params[:uarticle]
             article = Article.find_by_id(id)
-            topics = article.topics
-            present topics
+            present article.topics
           end
         end
       end
