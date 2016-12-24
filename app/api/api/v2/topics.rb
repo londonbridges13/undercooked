@@ -82,7 +82,7 @@ module API
             array_of_tags = tags
 
             array_of_tags.each do |t|
-              tag = Tag.find_or_create_by(title: t)
+              tag = Tag.find_or_create_by(title: t.downcase)
               unless topic.tags.include? tag
                 topic.tags.push(tag)
               end
