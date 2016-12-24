@@ -75,7 +75,7 @@ module API
           desc "Update Desc and Title of a Topic"
           post do
             id = params[:utopic]
-            tags = params[:tags].downcase
+            tags = params[:tags].downcase!
 
             topic = Topic.find_by_id(id)
             topic.tags.delete_all

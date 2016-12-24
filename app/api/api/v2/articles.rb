@@ -233,9 +233,9 @@ module API
         namespace 'suggest_tags' do
           desc "Suggests tags for Article, based on Description"
           post do
-            desc = params[:description].downcase
+            desc = params[:description].downcase!
             article = Article.find_by_id(params[:article_id].to_i)
-            title = article.title.downcase
+            title = article.title.downcase!
             tgr = EngTagger.new
             tagged = tgr.add_tags(desc)
             title_tags = tgr.add_tags(title)
@@ -245,13 +245,13 @@ module API
             all_tags.push(title)
             noun_tags.each do |n|
               # take out string and add it to array
-              unless all_tags.include? n.first.downcase
+              unless all_tags.include? n.first.downcase!
                 all_tags.push(n.first)
               end
             end
             adj_tags.each do |a|
               # take out string and add it to array
-              unless all_tags.include? a.first.downcase
+              unless all_tags.include? a.first.downcase!
                 all_tags.push(a.first)
               end
             end
@@ -273,7 +273,7 @@ module API
           desc "Update Tags of an Article"
           post do
             id = params[:uarticle]
-            tags = params[:tags].downcase
+            tags = params[:tags].downcase!
 
             article = Article.find_by_id(id)
             article.tags.delete_all
