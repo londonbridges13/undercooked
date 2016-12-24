@@ -148,7 +148,7 @@ module API
         end
       end
 
-      resource :articles do
+      resource :topics do
         namespace 'article_topics' do
           desc "Query Article's Topics"
           post do
