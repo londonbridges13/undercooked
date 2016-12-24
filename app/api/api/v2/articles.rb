@@ -112,7 +112,7 @@ module API
         namespace 'get_article_info' do
           desc "Self"
           post do
-            id = params[:uarticle]
+            id = params[:uarticle].to_i
             article = Article.find_by_id(id)
             present article
           end
