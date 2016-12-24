@@ -273,7 +273,7 @@ module API
           desc "Update Tags of an Article"
           post do
             id = params[:uarticle]
-            tags = params[:tags]
+            tags = params[:tags].downcase
 
             article = Article.find_by_id(id)
             article.tags.delete_all
