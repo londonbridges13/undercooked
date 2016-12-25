@@ -245,6 +245,17 @@ module API
         end
       end
 
+      resource :tags do
+        namespace 'count_tag' do
+          desc ""
+          post do
+            id = params[:utag]
+            tag = Tag.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            count = tag.articles.count + tag.topics.count + tag.resources.count + tag.products.count
+            present count
+          end
+        end
+      end
 
 
       resource :tags do
