@@ -156,11 +156,11 @@ module API
             title = params[:title]
             desc = params[:desc]
 
-            article = Article.find_by_id(id)
-            article.desc = desc
-            article.title = title
-            article.save
-            present article
+            product = Product.find_by_id(id)
+            product.description = desc
+            product.title = title
+            product.save
+            present product
           end
         end
       end
