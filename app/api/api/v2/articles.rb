@@ -225,6 +225,25 @@ module API
         end
       end
 
+      resource :products do
+        namespace 'display_products' do
+          desc ""
+          post do
+            products = Product.all#, with: Entity::V1::ArticlesEntity
+            present products
+          end
+        end
+      end
+
+      resource :tags do
+        namespace 'display_tags' do
+          desc ""
+          post do
+            tags = Tag.all#, with: Entity::V1::ArticlesEntity
+            present tags
+          end
+        end
+      end
 
 
 
