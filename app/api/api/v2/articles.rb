@@ -282,34 +282,37 @@ module API
             desc = params[:description].downcase
             article = Article.find_by_id(params[:article_id].to_i)
             title = article.title.downcase
-            tgr = EngTagger.new
-            tagged = tgr.add_tags(desc)
-            title_tags = tgr.add_tags(title)
-            noun_tags = tgr.get_nouns(tagged)
-            adj_tags = tgr.get_adjectives(tagged)
-            all_tags = []
-            all_tags.push(title)
-            noun_tags.each do |n|
-              # take out string and add it to array
-              unless all_tags.include? n.first.downcase
-                all_tags.push(n.first)
+            if atricle.tags.count == 0
+
+              tgr = EngTagger.new
+              tagged = tgr.add_tags(desc)
+              title_tags = tgr.add_tags(title)
+              noun_tags = tgr.get_nouns(tagged)
+              adj_tags = tgr.get_adjectives(tagged)
+              all_tags = []
+              all_tags.push(title)
+              noun_tags.each do |n|
+                # take out string and add it to array
+                unless all_tags.include? n.first.downcase
+                  all_tags.push(n.first)
+                end
               end
-            end
-            adj_tags.each do |a|
-              # take out string and add it to array
-              unless all_tags.include? a.first.downcase
-                all_tags.push(a.first)
+              adj_tags.each do |a|
+                # take out string and add it to array
+                unless all_tags.include? a.first.downcase
+                  all_tags.push(a.first)
+                end
               end
-            end
-            # Find or Create tag, then link article to each tag
-            all_tags.each do |t|
-              tag = Tag.find_or_create_by(title: t)
-              unless tag.articles.include? article
-                # Add tag
-                tag.articles.push(article)
+              # Find or Create tag, then link article to each tag
+              all_tags.each do |t|
+                tag = Tag.find_or_create_by(title: t)
+                unless tag.articles.include? article
+                  # Add tag
+                  tag.articles.push(article)
+                end
               end
+              present all_tags
             end
-            present all_tags
           end
         end
       end
