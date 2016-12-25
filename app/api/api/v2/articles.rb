@@ -148,6 +148,23 @@ module API
         end
       end
 
+      resource :products do
+        namespace 'update_title_desc' do
+          desc "Update Desc and Title of an Article"
+          post do
+            id = params[:uproduct]
+            title = params[:title]
+            desc = params[:desc]
+
+            article = Article.find_by_id(id)
+            article.desc = desc
+            article.title = title
+            article.save
+            present article
+          end
+        end
+      end
+
       resource :topics do
         namespace 'article_topics' do
           desc "Query Article's Topics"
