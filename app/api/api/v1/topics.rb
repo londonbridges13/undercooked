@@ -88,18 +88,16 @@ module API
           desc "Query User's Topics"
           post do
             token = params[:utoken]
-            topic = params[:utopic]
+            id = params[:utopic]
 
             #find user by token
             current_user = User.find_by_access_token(token)
             #make sure current_user exists
-            if current_user
-              t = Topic.find_by_id(topic)
-              if t
+            # if current_user
+              t = Topic.find_by_id(id)
                 # present image_url
                 present t.image.url
-              end
-            end
+            # end
 
           end
         end
