@@ -78,7 +78,7 @@ module API
           post do
             id = params[:utopic]
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
-            present topic.articles.limit(20).all
+            present topic.articles.where(:publish_it => true).order(created_at: :desc).limit(20).all
           end
         end
       end
