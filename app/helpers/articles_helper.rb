@@ -77,7 +77,7 @@ module ArticlesHelper
         if potential_articles.count == 1
           done = true
         end
-        i += 1
+        i += 1 
         present_articles
       end
     end
