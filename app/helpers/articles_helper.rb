@@ -69,9 +69,12 @@ module ArticlesHelper
       i = 0
       while i < potential_articles.count and done == false
         # check if articles includes
-        unless @articles.include? potential_articles[i]
+        unless @articles.include? potential_articles[i] # MAYBE HERE LYES THE PROBLEM
           #doesn't contain this article, so add it
           @articles.push(potential_articles[i])
+          done = true
+        end
+        if potential_articles.count == 1
           done = true
         end
         i += 1
