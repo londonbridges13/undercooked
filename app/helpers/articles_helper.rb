@@ -57,7 +57,6 @@ module ArticlesHelper
       topics.each do |t|
         if @articles.count < @size
           add_an_article(t)
-
         end
       end
     end
@@ -82,7 +81,7 @@ module ArticlesHelper
   end
 
   def present_articles
-    if @articles.count >= @size
+    if @articles.count <= @size
       present @articles
     end
   end
