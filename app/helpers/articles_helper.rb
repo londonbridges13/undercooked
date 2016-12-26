@@ -84,7 +84,7 @@ module ArticlesHelper
   end
 
   def present_articles
-    if @articles.count <= @size
+    if @articles.count >= @size
       present @articles
     end
   end
