@@ -45,12 +45,15 @@ module API
         end
       end
 
+
       resource :articles do
-        namespace 'extra' do
-          desc "Query Articles based on User's Topics"
-          get do
-            current_user = User.find_by
-            present User.first#Article.order(title: :asc), with: Entity::V1::ArticlesEntity
+        namespace 'get_resource' do
+          desc ""
+          post do
+            id = params[:uarticle]
+            article = Article.find_by_id(id)
+
+            present article.resource.title
           end
         end
       end
