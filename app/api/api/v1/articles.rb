@@ -46,7 +46,7 @@ module API
       end
 
 
-      resource :articles do
+      resource :resources do
         namespace 'get_resource' do
           desc ""
           post do
