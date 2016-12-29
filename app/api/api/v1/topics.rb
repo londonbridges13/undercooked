@@ -17,7 +17,7 @@ module API
             # if a topic = Featured, remove it from list of presented topics. Because featured isnt an option
             display_topics = []
             topics.each do |t|
-              unless t.title == "Featured"
+              unless t.title == "Sweets"
                 #add to display_topics
                 display_topics.push(t)
               end
