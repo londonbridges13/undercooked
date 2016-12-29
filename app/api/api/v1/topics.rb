@@ -8,6 +8,25 @@ module API
         doorkeeper_authorize!
       end
       format :json
+
+      resource :topics do
+        namespace 'display_topics' do
+          desc "Query All Topics"
+          post do
+            topics = Topic.all#, with: Entity::V1::ArticlesEntity
+            # if a topic = Featured, remove it from list of presented topics. Because featured isnt an option
+            display_topics = []
+            topics.each do |t|
+              unless t.title == "Featured"
+                #add to display_topics
+                display_topics.push(t)
+              end
+            end
+            present display_topics
+          end
+        end
+      end
+
       resource :topics do
         namespace 'addtopics' do
           desc "Set the User's Topics"
