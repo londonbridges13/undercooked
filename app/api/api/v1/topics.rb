@@ -53,6 +53,32 @@ module API
       end
 
       resource :topics do
+        namespace 'add_one_topic' do
+          desc "When User purchases another topic. Set the User's Topics"
+          post do
+            token = params[:utoken]
+            topics = params[:utopics]
+            #find user by token
+            current_user = User.find_by_access_token(token)
+            #make sure current_user exists
+            if current_user
+              # found user, find and add topics (by ids)
+              array_of_topics = topics.split(",").map(&:to_i)
+              array_of_topics.each do |t|
+                a_topic = Topic.find_by_id(t)
+                unless current_user.topics.include? a_topic
+                  # Don't want to add a topic that already exists
+                  current_user.topics.push(a_topic)
+                  present "Successfully added topics"
+                end
+              end
+            end
+          end
+        end
+      end
+
+
+      resource :topics do
         namespace 'remove_a_topic' do
           desc "Remove one of User's Topics"
           post do
