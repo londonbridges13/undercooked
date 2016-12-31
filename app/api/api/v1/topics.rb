@@ -74,6 +74,55 @@ module API
         end
       end
 
+      resource :topics do
+        namespace 'swap_topics' do
+          desc "Query User's Topics"
+          post do
+            token = params[:utoken]
+            oldtopic_id = params[:oldtopic]
+            newtopic_id = params[:newtopic]
+            newtopic = Topic.find_by_id(newtopic_id)
+            oldtopic = Topic.find_by_id(oldtopic_id)
+            #find user by token
+            current_user = User.find_by_access_token(token)
+            #make sure current_user exists
+            if current_user
+              if current_user.topics.include? oldtopic
+                current_user.topics.delete(oldtopic)
+                if current_user.topics.include? newtopic
+                  current_user.topics.push(newtopic)
+                  present "Successfully added Topic"
+                end
+              end
+            end
+
+          end
+        end
+      end
+
+      resource :topics do
+        namespace 'get_swappable_topics' do
+          desc "Query All that are not User's Topics"
+          post do
+            token = params[:utoken]
+            #find user by token
+            current_user = User.find_by_access_token(token)
+            #make sure current_user exists
+            if current_user
+              all_topics = Topic.all
+              swappable_topics = [] # swappable topics
+              all_topics.each do |t|
+                unless current_user.topics.include? t
+                  # add to display array
+                  swappable_topics.push(t)
+                end
+              end
+              present swappable_topics
+            end
+            
+          end
+        end
+      end
 
       resource :topics do
         namespace 'remove_a_topic' do
