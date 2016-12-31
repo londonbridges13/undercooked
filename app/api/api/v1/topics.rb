@@ -44,7 +44,7 @@ module API
                   current_user.topics.push(a_topic)
                   present "Successfully added topics"
                 end
-            end
+              end
           end
         end
       end
