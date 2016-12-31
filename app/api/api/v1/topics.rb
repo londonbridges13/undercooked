@@ -89,7 +89,7 @@ module API
             if current_user
               if current_user.topics.include? oldtopic
                 current_user.topics.delete(oldtopic)
-                if current_user.topics.include? newtopic
+                unless current_user.topics.include? newtopic
                   current_user.topics.push(newtopic)
                   present "Successfully added Topic"
                 end
