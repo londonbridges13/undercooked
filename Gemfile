@@ -25,6 +25,7 @@ gem 'grape', '~> 0.14.0'
 gem 'grape-entity'
 gem 'doorkeeper'
 gem 'engtagger'
+gem 'aws-sdk', '~> 2.3'
 
 gem 'rails_12factor', group: :production
 group :development, :test do
