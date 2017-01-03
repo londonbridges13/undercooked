@@ -111,9 +111,9 @@ module API
             if existing_user == nil
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
-            if  existing_user
+            if existing_user
               # set the image
-              ## @picture = existing_user.pictures.new
+              @picture = existing_user.image
 
               if params[:file_data]
                 image_file                   = Paperclip.io_adapters.for(params[:file_data])
