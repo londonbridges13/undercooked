@@ -115,7 +115,7 @@ module API
               # set the image
               @picture = existing_user.image
 
-              if params[:photo_path]
+              if params[:file_data]
                 image_file                   = Paperclip.io_adapters.for(params[:photo_path][:file_data])
                 image_file.original_filename = existing_user.name #params[:file_name]
                 image_file.content_type      = "image/jpeg"
