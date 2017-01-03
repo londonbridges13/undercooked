@@ -116,8 +116,8 @@ module API
               @picture = existing_user.image
 
                 image_file = Paperclip.io_adapters.for(params[:photo_path][:name])
-                image_file.original_filename = existing_user.name #params[:file_name]
-                # image_file.content_type = "image/jpeg"
+                image_file.original_filename = "existing_user.name" #params[:file_name]
+                image_file.content_type = "image/jpeg"
                 @picture = image_file
                 existing_user.image = @picture
                 present params[:photo_path][:name]
