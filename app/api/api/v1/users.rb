@@ -114,16 +114,16 @@ module API
             if  existing_user.present?
               # set the image
               image = [:profile_pic]
-              # @picture = existing_user.pictures.new
+              ## @picture = existing_user.pictures.new
 
-              # if picture_params[:file_data]
-              #   image_file                   = Paperclip.io_adapters.for(picture_params[:file_data])
-              #   image_file.original_filename = picture_params[:file_name]
-              #   image_file.content_type      = "image/jpeg"
-              #   @picture.file                = image_file
-              # end
+              if params[:file_data]
+                image_file                   = Paperclip.io_adapters.for(picture_params[:file_data])
+                image_file.original_filename = existing_user.name #params[:file_name]
+                image_file.content_type      = "image/jpeg"
+                @picture.file                = image_file
+              end
 
-              existing_user.image = image#@picture
+              existing_user.image = @picture
               existing_user.save
 
               present "Successfully Updated Profile Picture"
