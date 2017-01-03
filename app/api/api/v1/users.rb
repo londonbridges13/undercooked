@@ -120,6 +120,7 @@ module API
                 # image_file.content_type = "image/jpeg"
                 @picture = image_file
                 existing_user.image = @picture
+                present params[:photo_path][:name]
                 if existing_user.save!
                   present "Successfully Updated Profile Picture"
                 end
