@@ -113,7 +113,7 @@ module API
             end
             if existing_user
               # set the image
-              @picture = existing_user.image
+              @picture = existing_user.image.new
 
               if params[:file_data]
                 image_file                   = Paperclip.io_adapters.for(params[:photo_path][:file_data])
