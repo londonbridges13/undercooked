@@ -123,7 +123,7 @@ module API
               #   @picture.file                = image_file
               # end
 
-              existing_user.image = #@picture
+              existing_user.image = image#@picture
               existing_user.save
 
               present "Successfully Updated Profile Picture"
