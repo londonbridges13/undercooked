@@ -102,6 +102,41 @@ module API
       end
 
       resource :users do
+        namespace 'update_profile_pic' do
+          desc 'Get Profile Information'
+          post do
+            token = params[:utoken]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              # set the image
+              image = [:profile_pic]
+              # @picture = existing_user.pictures.new
+
+              # if picture_params[:file_data]
+              #   image_file                   = Paperclip.io_adapters.for(picture_params[:file_data])
+              #   image_file.original_filename = picture_params[:file_name]
+              #   image_file.content_type      = "image/jpeg"
+              #   @picture.file                = image_file
+              # end
+
+              existing_user.image = #@picture
+              existing_user.save
+
+              present "Successfully Updated Profile Picture"
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
+
+
+
+      resource :users do
         namespace 'topics' do
           desc "Get User's  Topics"
           post do

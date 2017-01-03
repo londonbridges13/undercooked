@@ -29,7 +29,7 @@ module API
 
       resource :articles do
         namespace 'likedarticles' do
-          desc "Query Articles based on User's Topics"
+          desc "Query Articles that the User has liked"
           post do
             current_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             unless current_user
@@ -45,6 +45,27 @@ module API
         end
       end
 
+      resource :articles do
+        namespace 'like_an_article' do
+          desc "Like an Article"
+          post do
+            current_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            unless current_user
+              token = params[:utoken]
+              current_user = User.find_by_access_token(token)
+            end
+            if current_user.present?
+              # find Article
+              id = params[:uarticle]
+              article = Article.find_by_id(id)
+              article.users.push(current_user)
+
+              present article.users.count
+
+            end
+          end
+        end
+      end
 
 
 
