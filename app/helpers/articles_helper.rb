@@ -41,7 +41,7 @@ module ArticlesHelper
 
   def remove_old_unused_articles
     # Removes all articles that are more than 2 days AND never published
-    two_days_ago = Time.now - 2.days
+    two_days_ago = Time.now - 22.days
     all_articles = Article.all.where('article_date < ? AND publish_it == ?', two_days_ago, false)
     all_articles.each do |e|
       e.delete
