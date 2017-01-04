@@ -60,6 +60,8 @@ module API
               article = Article.find_by_id(id)
               unless current_user.articles.include? article
                 article.users.push(current_user)
+              else
+                article.users.delete(current_user)
               end
               present article.users.count
 
