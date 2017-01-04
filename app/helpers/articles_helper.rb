@@ -4,13 +4,15 @@ module ArticlesHelper
   def search_for_articles
     all_resources = Resource.all
     all_resources.each do |resource|
-      check_resource(resource)
+      unless resource.resource_url == ""
+        check_resource(resource)
+      end
     end
   end
 
   def check_resource(resource) #resource object here
     # Check for articles in this resource
-    feed = Feedjira::Feed.fetch_and_parse "http://feeds.feedburner.com/hungryfoodlove?format=xml"#force_encoding('UTF-8')
+    feed = Feedjira::Feed.fetch_and_parse resource.resource_url#force_encoding('UTF-8')
     feed.entries.each do |entry|
       i = 0
       while i < 3
