@@ -58,8 +58,9 @@ module API
               # find Article
               id = params[:uarticle]
               article = Article.find_by_id(id)
-              article.users.push(current_user)
-
+              unless current_user.articles.include? article
+                article.users.push(current_user)
+              end
               present article.users.count
 
             end
