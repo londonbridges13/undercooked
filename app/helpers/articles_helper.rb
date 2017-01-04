@@ -17,7 +17,7 @@ module ArticlesHelper
       i = 0
       while i < 3
         # Check if the entry is older than two days, and check if it exists in the articles database
-        two_days_ago = Time.now - 52.days
+        two_days_ago = Time.now - 2.days
         all_articles = Article.all.where('article_date > ?', two_days_ago) #works
         all_article_urls = []
         all_articles.each do |u|
@@ -43,7 +43,7 @@ module ArticlesHelper
 
   def remove_old_unused_articles
     # Removes all articles that are more than 2 days AND never published
-    two_days_ago = Time.now - 52.days
+    two_days_ago = Time.now - 2.days
     all_articles = Article.all.where('article_date < ? AND publish_it == ?', two_days_ago, false)
     all_articles.each do |e|
       e.delete
