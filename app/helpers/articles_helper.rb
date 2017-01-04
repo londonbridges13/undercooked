@@ -4,7 +4,7 @@ module ArticlesHelper
   def search_for_articles
     all_resources = Resource.all
     all_resources.each do |resource|
-      unless resource.resource_url == ""
+      unless resource.resource_url == "="
         check_resource(resource)
       end
     end
