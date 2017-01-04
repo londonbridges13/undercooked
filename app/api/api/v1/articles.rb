@@ -95,9 +95,9 @@ module API
 
               if user.articles.include? article
                 # user liked this article
-                present true
+                present "true"
               else
-                present false
+                present "false"
               end
 
           end
