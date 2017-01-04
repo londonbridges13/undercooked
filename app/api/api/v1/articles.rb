@@ -68,6 +68,18 @@ module API
         end
       end
 
+      resource :articles do
+        namespace 'get_article_like_count' do
+          desc "Count Article's likes"
+          post do
+              # find Article
+              id = params[:uarticle]
+              article = Article.find_by_id(id)
+              present article.users.count
+
+          end
+        end
+      end
 
 
     end
