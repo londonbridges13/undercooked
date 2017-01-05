@@ -164,9 +164,9 @@ module API
 
               if article.users.include? current_user
                 # user liked this article
-                present true
+                present 1
               else
-                present false
+                present 0
               end
 
           end
