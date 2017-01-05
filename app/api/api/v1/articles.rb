@@ -83,26 +83,7 @@ module API
         end
       end
 
-      resource :articles do
-        namespace 'did_user_like_article' do
-          desc "Check if user liked Article"
-          post do
-              # find Article
-              id = params[:uarticle]
-              article = Article.find_by_id(id)
-              token = params[:utoken]
-              current_user = User.find_by_access_token(token)
-
-              if current_user.articles.include? article
-                # user liked this article
-                present true
-              else
-                present false
-              end
-
-          end
-        end
-      end
+    
 
 
 
