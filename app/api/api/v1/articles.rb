@@ -91,9 +91,9 @@ module API
               id = params[:uarticle]
               article = Article.find_by_id(id)
               token = params[:utoken]
-              user = User.find_by_access_token(token)
+              current_user = User.find_by_access_token(token)
 
-              if user.articles.include? article
+              if current_user.articles.include? article
                 # user liked this article
                 present true
               else
