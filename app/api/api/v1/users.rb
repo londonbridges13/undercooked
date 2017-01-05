@@ -170,7 +170,12 @@ module API
                 end
               end
 
-              present did_like
+              if did_like == true
+                # user liked this article
+                present "true"
+              else
+                present "false"
+              end
 
           end
         end
