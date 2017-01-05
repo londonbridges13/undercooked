@@ -165,7 +165,7 @@ module API
               did_like = false
 
               article.users.each do |u|
-                if u.id == current_user.id
+                if u.email == current_user.email
                   did_like = true
                 end
               end
