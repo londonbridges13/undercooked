@@ -160,23 +160,14 @@ module API
               id = params[:uarticle]
               article = Article.find_by_id(id)
               token = params[:utoken]
-              @user = User.find_by_access_token(token)
+              current_user = User.find_by_access_token(token)
 
-              did_like = false
-
-              article.users.each do |u|
-                if u == @user
-                  did_like = true
-                end
+              if current_user.articles.include? article
+                # user liked this article
+                present true
+              else
+                present false
               end
-
-              present @user
-              # if did_like == true
-              #   # user liked this article
-              #   present "true"
-              # else
-              #   present "false"
-              # end
 
           end
         end
