@@ -162,7 +162,7 @@ module API
               token = params[:utoken]
               current_user = User.find_by_access_token(token)
 
-              if current_user.articles.include? article
+              if article.users.include? current_user
                 # user liked this article
                 present true
               else
