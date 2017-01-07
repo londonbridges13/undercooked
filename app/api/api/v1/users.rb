@@ -187,7 +187,7 @@ module API
             if  existing_user.present?
               existing_user.name = name
               existing_user.save
-              present "Successfully Changed Name"
+              present existing_user
             else
               present "ERROR: Cannot find user by token, please sign in again"
             end
