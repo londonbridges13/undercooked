@@ -173,7 +173,54 @@ module API
         end
       end
 
+      resource :users do
+        namespace 'edit_name' do
+          desc 'Edit Profile Information'
+          post do
+            token = params[:utoken]
+            name = params[:uname]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              existing_user.name = name
+              existing_user.save
+              present "Successfully Changed Name"
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
 
+      resource :users do
+        namespace 'edit_password' do
+          desc 'Edit Profile Information'
+          post do
+            token = params[:utoken]
+            new_password = params[:newpassword]
+            old_password = params[:oldpassword]
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
+            end
+            if  existing_user.present?
+              if existing_user.valid_password? old_password
+                existing_user.password = new_password
+                existing_user.save
+                present existing_user
+              else
+                present "Invalid Password"
+              end
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
+          end
+        end
+      end
 
     end
   end
