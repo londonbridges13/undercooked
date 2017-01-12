@@ -8,6 +8,7 @@ module API
         doorkeeper_authorize!
       end
       format :json
+      helpers TopicsHelper
 
       resource :topics do
         namespace 'display_topics' do
@@ -193,6 +194,27 @@ module API
           end
         end
       end
+
+
+
+      resource :topics do
+        namespace 'handpicked_articles' do
+          desc "Query Articles based on User's Topics"
+          post do
+            token = params[:utoken]
+            current_user = User.find_by_access_token(token)
+            if current_user
+              # get articles
+              topics = current_user.topics.shuffle
+              get_articles_from(topics)
+            else
+              present "ERROR: No User Found"
+            end
+          end
+        end
+      end
+
+
 
 
 
