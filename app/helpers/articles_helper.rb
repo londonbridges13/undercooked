@@ -58,7 +58,7 @@ module ArticlesHelper
     # while @articles.count < @size
     topics.each do |t|
       i += 1
-      if i >= topics.count #@articles.count < @size
+      unless i >= topics.count #@articles.count < @size
         add_articles(t) #add_an_article(t)
       else
         present_articles # ship it
