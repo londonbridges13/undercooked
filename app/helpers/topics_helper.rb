@@ -86,7 +86,7 @@ module TopicsHelper
       # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
       # the goal is to get three articles per topic
 
-      featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
+      featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
       featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:created_at).reverse.limit(5).all
       done = false
       i = 0
