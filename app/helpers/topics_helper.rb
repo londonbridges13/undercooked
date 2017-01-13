@@ -59,11 +59,13 @@ module TopicsHelper
     potential_articles = topic.articles.where('publish_it = ? AND article_date > ?', true ,two_days_ago)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
+      counter = 0
       potential_articles.each do |a|
-        unless @articles.include? a
+        unless @articles.include? a or counter == 3
           # doesn't contain this article, add it
           a.display_topic = topic.title
           @articles.push(a)
+          counter += 1
         end
       end
     else
