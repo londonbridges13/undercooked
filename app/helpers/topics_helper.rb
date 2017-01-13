@@ -67,7 +67,7 @@ module TopicsHelper
       end
     else
       # Back up Query
-      potential_articles = Article.where(:publish_it => true).sort_by(&:created_at).reverse.limit(5).all
+      potential_articles = Article.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
       # grabs five newest articles
 
       count = 0
