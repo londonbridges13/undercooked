@@ -41,7 +41,7 @@ module TopicsHelper
 
   def add_articles(topic)
     two_days_ago = Time.now - 82.days # change back to 2
-    potential_articles = topic.articles.all#.where('article_date < ? AND publish_it == ?', two_days_ago, true)
+    potential_articles = topic.articles.where('article_date < ? AND publish_it == ?', two_days_ago, true)
     if potential_articles.count > 0
       # add each to @articles if they aren't in the article
       potential_articles.each do |a|
