@@ -95,10 +95,11 @@ module TopicsHelper
       while i < featured_articles.count and done == false
         a = featured_articles[i]
         unless @articles.include? a
-          a.display_topic = topic.title
-          @articles.push(a)
           if count >= 3
             done = true
+          else
+            a.display_topic = topic.title
+            @articles.push(a)
           end
         end
         i += 1
