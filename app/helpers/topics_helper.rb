@@ -62,6 +62,7 @@ module TopicsHelper
       potential_articles.each do |a|
         unless @articles.include? a
           # doesn't contain this article, add it
+          a.display_topic = topic.title
           @articles.push(a)
         end
       end
@@ -76,6 +77,7 @@ module TopicsHelper
         #collect 2 potential_articles add to @articles
         a = potential_articles[ii]
         unless @articles.include? a or count == 2
+          a.display_topic = topic.title
           @articles.push(a)
           count += 1
         end
@@ -93,6 +95,7 @@ module TopicsHelper
       while i < featured_articles.count and done == false
         a = featured_articles[i]
         unless @articles.include? a
+          a.display_topic = topic.title
           @articles.push(a)
           if count >= 3
             done = true
