@@ -47,6 +47,7 @@ module TopicsHelper
       potential_articles.each do |a|
         unless @articles.include? a
           # doesn't contain this article, add it
+          a.display_topic = topic.title
           @articles.push(a)
         end
       end
