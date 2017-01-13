@@ -59,18 +59,18 @@ module TopicsHelper
     potential_articles = topic.articles.where('publish_it = ? AND article_date > ?', true ,two_days_ago)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
-      counter = 0
+      count = 0
       potential_articles.each do |a|
-        unless @articles.include? a or counter == 3
+        unless @articles.include? a or count == 3
           # doesn't contain this article, add it
           a.display_topic = topic.title
           @articles.push(a)
-          counter += 1
+          count += 1
         end
       end
     else
       # Back up Query
-      potential_articles = Article.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
+      potential_articles = topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
       # grabs five newest articles
 
       count = 0
