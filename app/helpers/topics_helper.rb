@@ -98,7 +98,7 @@ module TopicsHelper
           if count >= 3
             done = true
           else
-            a.display_topic = topic.title
+            a.display_topic = featured_topic.title
             @articles.push(a)
           end
         end
