@@ -115,7 +115,10 @@ module API
               all_topics.each do |t|
                 unless current_user.topics.include? t
                   # add to display array
-                  swappable_topics.push(t)
+                  unless t.id == 4 # The Featured Topic
+                    swappable_topics.push(t)
+                  end
+
                 end
               end
               present swappable_topics
