@@ -144,7 +144,7 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              present existing_user.topics.where(:publish_it => true).order(article_date: :desc)
+              present existing_user.topics
             else
               present "ERROR: Cannot find user by token, please sign in again"
             end
