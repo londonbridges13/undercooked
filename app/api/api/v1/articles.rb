@@ -38,7 +38,7 @@ module API
             end
             if current_user.present?
               # display articles that the user liked.
-              present current_user.articles.where(:publish_it => true).order(article_date: :desc).all
+              present current_user.articles.where(:publish_it => true).order(article_date: :desc).limit(200).all
               # present User.first#Article.order(title: :asc), with: Entity::V1::ArticlesEntity
             end
           end
