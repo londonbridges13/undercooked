@@ -14,8 +14,9 @@ module ArticlesHelper
     # Check for articles in this resource
     #able_to_parse
     url =  "http://feeds.feedburner.com/MinimalistBaker?format=xml"
+    urll = url.force_encoding('utf-8')
     # xml = Faraday.get(url)
-    feed = Feedjira::Feed.fetch_and_parse url.force_encoding('utf-8')#resource.resource_url#force_encoding('UTF-8')
+    feed = Feedjira::Feed.fetch_and_parse urll#resource.resource_url#force_encoding('UTF-8')
     feed.entries.each do |entry|
       i = 0
       while i < 3
