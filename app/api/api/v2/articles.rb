@@ -34,6 +34,7 @@ module API
           desc "Get New Articles"
           post do
             search_for_articles
+            remove_old_unused_articles
           end
         end
       end
