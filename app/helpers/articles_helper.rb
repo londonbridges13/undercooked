@@ -12,7 +12,8 @@ module ArticlesHelper
 
   def check_resource(resource) #resource object here
     # Check for articles in this resource
-    xml =  "http://feeds.feedburner.com/MinimalistBaker/"
+    url =  "http://feeds.feedburner.com/MinimalistBaker/"
+    Faraday.get(url).body
     feed = Feedjira::Feed.parse xml#resource.resource_url#force_encoding('UTF-8')
     feed.entries.each do |entry|
       i = 0
