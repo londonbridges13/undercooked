@@ -282,7 +282,7 @@ module API
             desc = params[:description].downcase
             article = Article.find_by_id(params[:article_id].to_i)
             title = article.title.downcase
-            if atricle.tags.count == 0
+            if article.tags.count == 0
 
               tgr = EngTagger.new
               tagged = tgr.add_tags(desc)
