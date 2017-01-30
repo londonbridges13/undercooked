@@ -346,7 +346,7 @@ module API
           post do
             id = params[:utopic]
             topic = Topic.find_by_id(id)
-            two_days_ago = Time.now - 2.days
+            two_days_ago = Time.now - 3.days
             article_count = topic.articles.where('article_date > ?', two_days_ago).count
 
             present article_count
