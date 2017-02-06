@@ -64,7 +64,7 @@ module ArticlesHelper
             unless all_article_urls.include? entry.url
               #good to Use
               # images = LinkThumbnailer.generate(entry.url)
-              if LinkThumbnailer.generate(entry.url).images.first.src.to_s
+              if LinkThumbnailer.generate(entry.url)
                 article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
                 # article_image_url = images.images.first.src.to_s
               else
