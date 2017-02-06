@@ -20,6 +20,7 @@ module ArticlesHelper
     else
       # Check for articles in this resource
       get_articles(resource)
+    end
   end
 
 
