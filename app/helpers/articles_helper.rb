@@ -64,8 +64,12 @@ module ArticlesHelper
             unless all_article_urls.include? entry.url
               #good to Use
               # images = LinkThumbnailer.generate(entry.url)
-              article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
-              # article_image_url = images.images.first.src.to_s
+              if LinkThumbnailer.generate(entry.url).images.first.src.to_s
+                article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
+                # article_image_url = images.images.first.src.to_s
+              else
+                article_image_url = nil
+              end
 
               new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
               :desc => Sanitize.fragment(entry.summary), :resource_type => 'article', :article_date => entry.published, :publish_it => nil)#, :image)
