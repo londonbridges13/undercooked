@@ -11,37 +11,70 @@ module ArticlesHelper
   end
 
   def check_resource(resource) #resource object here
-    # Check for articles in this resource
-    #able_to_parse
-    url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-    xml = Faraday.get(url).body.force_encoding('utf-8')
-    feed = Feedjira::Feed.parse xml#resource.resource_url#force_encoding('UTF-8')
-    feed.entries.each do |entry|
-      i = 0
-      while i < 3
-        # Check if the entry is older than two days, and check if it exists in the articles database
-        two_days_ago = Time.now - 3.days
-        all_articles = Article.all.where('article_date > ?', two_days_ago) #works
-        all_article_urls = []
-        all_articles.each do |u|
-          all_article_urls.push(u.article_url)
-        end
-        if entry.published > two_days_ago
-          # check if contained in Article Database
-          unless all_article_urls.include? entry.url
-            #good to Use
-            # images = LinkThumbnailer.generate(entry.url)
-            article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
-            # article_image_url = images.images.first.src.to_s
-
-            new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
-            :desc => Sanitize.fragment(entry.summary), :resource_type => 'article', :article_date => entry.published, :publish_it => nil)#, :image)
-            new_article.save
+    if resource.resource_url.include? "youtube.com"
+      # Check for videos in this resource
+      #able_to_parse
+      url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
+      xml = Faraday.get(url).body.force_encoding('utf-8')
+      feed = Feedjira::Feed.fetch_and_parse xml#resource.resource_url#force_encoding('UTF-8')
+      feed.entries.each do |entry|
+        i = 0
+        while i < 3
+          # Check if the entry is older than two days, and check if it exists in the articles database
+          two_days_ago = Time.now - 3.days
+          all_articles = Article.all.where('article_date > ?', two_days_ago) #works
+          all_article_urls = []
+          all_articles.each do |u|
+            all_article_urls.push(u.article_url)
           end
+          if entry.published > two_days_ago
+            # check if contained in Article Database
+            unless all_article_urls.include? entry.url
+              #good to Use
+              # images = LinkThumbnailer.generate(entry.url)
+              article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
+              # article_image_url = images.images.first.src.to_s
+
+              new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
+              :desc => Sanitize.fragment(entry.summary), :resource_type => 'article', :article_date => entry.published, :publish_it => nil)#, :image)
+              new_article.save
+            end
+          end
+          i += 1
         end
-        i += 1
       end
-    end
+    else
+      # Check for articles in this resource
+      #able_to_parse
+      url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
+      xml = Faraday.get(url).body.force_encoding('utf-8')
+      feed = Feedjira::Feed.parse xml#resource.resource_url#force_encoding('UTF-8')
+      feed.entries.each do |entry|
+        i = 0
+        while i < 3
+          # Check if the entry is older than two days, and check if it exists in the articles database
+          two_days_ago = Time.now - 3.days
+          all_articles = Article.all.where('article_date > ?', two_days_ago) #works
+          all_article_urls = []
+          all_articles.each do |u|
+            all_article_urls.push(u.article_url)
+          end
+          if entry.published > two_days_ago
+            # check if contained in Article Database
+            unless all_article_urls.include? entry.url
+              #good to Use
+              # images = LinkThumbnailer.generate(entry.url)
+              article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
+              # article_image_url = images.images.first.src.to_s
+
+              new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
+              :desc => Sanitize.fragment(entry.summary), :resource_type => 'article', :article_date => entry.published, :publish_it => nil)#, :image)
+              new_article.save
+            end
+          end
+          i += 1
+        end
+      end
   end
 
 
