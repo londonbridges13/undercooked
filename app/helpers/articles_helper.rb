@@ -208,7 +208,7 @@ module ArticlesHelper
   end
 
   def get_article_image_url(resource_url)
-    article_url = LinkThumbnailer.generate(resource_url)
+    article_url = LinkThumbnailer.generate(resource_url, attributes: [:images], image_limit: 1, image_stats: false)
     article_image_url = article_url.images.first.src.to_s
   rescue LinkThumbnailer::Exceptions
     nil
