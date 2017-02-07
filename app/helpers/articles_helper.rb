@@ -172,6 +172,7 @@ module ArticlesHelper
     # Check for articles in this resource
     url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
     xml = Faraday.get(url).body.force_encoding('utf-8')
+    puts xml
     feed = Feedjira::Feed.parse xml#resource.resource_url#force_encoding('UTF-8')
     feed.entries.each do |entry|
       i = 0
@@ -191,7 +192,7 @@ module ArticlesHelper
             # get_article_image_url(entry.url)
             max_retries = 3
             times_retried = 0
-            
+
             begin
               article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
             rescue Net::ReadTimeout => error
