@@ -14,9 +14,9 @@ module ArticlesHelper
     if resource.resource_url.include? "youtube.com"
       # Check for videos in this resource
       get_youtube_videos(resource)
-    elsif resource.resource_url.include? "autoimmunewellness.com"
-      # the weird articles that cause errors
-      get_other_articles(resource)
+    # elsif resource.resource_url.include? "autoimmunewellness.com"
+    #   # the weird articles that cause errors
+    #   get_other_articles(resource)
     else
       # Check for articles in this resource
       get_articles(resource)
