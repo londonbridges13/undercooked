@@ -187,13 +187,15 @@ module ArticlesHelper
           # check if contained in Article Database
           unless all_article_urls.include? entry.url
             #good to Use
+
+            get_article_image_url(entry.url)
             # images = LinkThumbnailer.generate(entry.url)
-            unless LinkThumbnailer.generate(entry.url).images == nil
-              article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
-              # article_image_url = images.images.first.src.to_s
-            else
-              article_image_url = nil
-            end
+            # if LinkThumbnailer.generate(entry.url)
+            #   article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
+            #   # article_image_url = images.images.first.src.to_s
+            # else
+            #   article_image_url = nil
+            # end
 
             new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
             :desc => Sanitize.fragment(entry.summary), :resource_type => 'article', :article_date => entry.published, :publish_it => nil)#, :image)
@@ -203,6 +205,12 @@ module ArticlesHelper
         i += 1
       end
     end
+  end
+
+  def get_article_image_url(resource_url)
+    article_image_url = LinkThumbnailer.generate(resource_url).images.first.src.to_s
+  rescue LinkThumbnailer::Exceptions
+    nil
   end
 
   def get_other_articles(resource)
