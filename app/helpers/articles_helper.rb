@@ -189,8 +189,21 @@ module ArticlesHelper
             #good to Use
 
             # get_article_image_url(entry.url)
-            article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
-
+            max_retries = 3
+            times_retried = 0
+            
+            begin
+              article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
+            rescue Net::ReadTimeout => error
+              if times_retried < max_retries
+                times_retried += 1
+                puts "Failed to <do the thing>, retry #{times_retried}/#{max_retries}"
+                retry
+              else
+                puts "Exiting script. <explanation of why this is unlikely to recover>"
+                exit(1)
+              end
+            end
             # images = LinkThumbnailer.generate(entry.url)
             # if LinkThumbnailer.generate(entry.url)
             #   article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
