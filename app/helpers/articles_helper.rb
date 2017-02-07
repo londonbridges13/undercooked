@@ -189,7 +189,7 @@ module ArticlesHelper
             #good to Use
 
             # get_article_image_url(entry.url)
-            article_url = LinkThumbnailer.generate(entry.url, image_limit: 1).images.first.src.to_s
+            article_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false)#.images.first.src.to_s
 
             # images = LinkThumbnailer.generate(entry.url)
             # if LinkThumbnailer.generate(entry.url)
