@@ -14,9 +14,9 @@ module ArticlesHelper
     if resource.resource_url.include? "youtube.com"
       # Check for videos in this resource
       get_youtube_videos(resource)
-    # elsif resource.resource_url.include? "autoimmunewellness.com"
-    #   # the weird articles that cause errors
-    #   get_other_articles(resource)
+    elsif resource.resource_url.include? "autoimmunewellness.com"
+      # the weird articles that cause errors
+      get_other_articles(resource)
     else
       # Check for articles in this resource
       get_articles(resource)
@@ -209,12 +209,7 @@ module ArticlesHelper
     end
   end
 
-  def get_article_image_url(resource_url)
-    article_url = LinkThumbnailer.generate(resource_url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
-    article_image_url = article_url.images.first.src.to_s
-  rescue LinkThumbnailer::Exceptions
-    nil
-  end
+
 
   def get_other_articles(resource)
     # this gets the other articles using Feedjira::fetch_and_parse
@@ -237,7 +232,7 @@ module ArticlesHelper
           unless all_article_urls.include? entry.url
             #good to Use
             # images = LinkThumbnailer.generate(entry.url)
-            article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
+            article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
             # article_image_url = images.images.first.src.to_s
 
             new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
@@ -250,5 +245,12 @@ module ArticlesHelper
     end
   end
 
+
+  def get_article_image_url(resource_url)
+    article_url = LinkThumbnailer.generate(resource_url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
+    article_image_url = article_url.images.first.src.to_s
+  rescue LinkThumbnailer::Exceptions
+    nil
+  end
 
 end
