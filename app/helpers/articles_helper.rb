@@ -172,7 +172,7 @@ module ArticlesHelper
     # Check for articles in this resource
     url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
     xml = Faraday.get(url).body.force_encoding('utf-8')
-    puts xml
+    puts url
     feed = Feedjira::Feed.parse url#resource.resource_url#force_encoding('UTF-8')
     feed.entries.each do |entry|
       i = 0
