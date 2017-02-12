@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113042624) do
+ActiveRecord::Schema.define(version: 20170212221254) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20170113042624) do
   end
 
   add_index "articles", ["resource_id"], name: "index_articles_on_resource_id"
+
+  create_table "articles_suggestions", id: false, force: :cascade do |t|
+    t.integer "article_id",    null: false
+    t.integer "suggestion_id", null: false
+  end
+
+  add_index "articles_suggestions", ["article_id", "suggestion_id"], name: "index_articles_suggestions_on_article_id_and_suggestion_id"
+  add_index "articles_suggestions", ["suggestion_id", "article_id"], name: "index_articles_suggestions_on_suggestion_id_and_article_id"
 
   create_table "articles_tags", id: false, force: :cascade do |t|
     t.integer "tag_id",     null: false
@@ -156,6 +164,17 @@ ActiveRecord::Schema.define(version: 20170113042624) do
   add_index "resources_topics", ["resource_id", "topic_id"], name: "index_resources_topics_on_resource_id_and_topic_id"
   add_index "resources_topics", ["topic_id", "resource_id"], name: "index_resources_topics_on_topic_id_and_resource_id"
 
+  create_table "suggestions", force: :cascade do |t|
+    t.boolean  "rejected"
+    t.string   "reason"
+    t.string   "evidence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "topic_id"
+  end
+
+  add_index "suggestions", ["topic_id"], name: "index_suggestions_on_topic_id"
+
   create_table "tags", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
@@ -180,6 +199,7 @@ ActiveRecord::Schema.define(version: 20170113042624) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "taglist",            default: "--- []\n"
+    t.string   "keywords",           default: "--- []\n"
   end
 
   create_table "topics_users", id: false, force: :cascade do |t|

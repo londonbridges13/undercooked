@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rejected:</strong>
+  <%= @suggestion.rejected %>
+</p>
+
+<p>
+  <strong>Reason:</strong>
+  <%= @suggestion.reason %>
+</p>
+
+<p>
+  <strong>Evidence:</strong>
+  <%= @suggestion.evidence %>
+</p>
+
+<%= link_to 'Edit', edit_suggestion_path(@suggestion) %> |
+<%= link_to 'Back', suggestions_path %>
