@@ -82,6 +82,17 @@ module API
       end
 
       resource :resources do
+        namespace 'get_topic_resources' do
+          desc "Query Resource's Topics"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)
+            present topic.resources
+          end
+        end
+      end
+
+      resource :resources do
         namespace 'update_title_desc' do
           desc "Update Desc and Title of an Article"
           post do

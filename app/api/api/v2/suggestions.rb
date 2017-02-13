@@ -43,9 +43,10 @@ module API
             id = params[:utopic]
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
             suggested_articles = []
-            topic.suggestions.each do |a|
-              unless suggested_articles.include? a
-                suggested_articles.push(a.article)
+            topic.suggestions.each do |s|
+              unless suggested_articles.include? s
+                s.display_topic = s.reason 
+                suggested_articles.push(s.article)
               end
             end
 
