@@ -110,6 +110,7 @@ module API
               k.downcase!
               unless topic.keywords.include? k
                 topic.keywords.push(k)
+                topic.save
               end
             end
 

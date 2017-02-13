@@ -120,6 +120,18 @@ module API
         end
       end
 
+
+      resource :articles do
+        namespace 'get_article_resource' do
+          desc "Self"
+          post do
+            id = params[:uarticle].to_i
+            article = Article.find_by_id(id)
+            present article.resource
+          end
+        end
+      end
+
       resource :articles do
         namespace 'get_article_tags' do
           desc "Self"
