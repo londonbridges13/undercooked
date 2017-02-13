@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212221254) do
+ActiveRecord::Schema.define(version: 20170213071448) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -32,14 +32,6 @@ ActiveRecord::Schema.define(version: 20170212221254) do
   end
 
   add_index "articles", ["resource_id"], name: "index_articles_on_resource_id"
-
-  create_table "articles_suggestions", id: false, force: :cascade do |t|
-    t.integer "article_id",    null: false
-    t.integer "suggestion_id", null: false
-  end
-
-  add_index "articles_suggestions", ["article_id", "suggestion_id"], name: "index_articles_suggestions_on_article_id_and_suggestion_id"
-  add_index "articles_suggestions", ["suggestion_id", "article_id"], name: "index_articles_suggestions_on_suggestion_id_and_article_id"
 
   create_table "articles_tags", id: false, force: :cascade do |t|
     t.integer "tag_id",     null: false
@@ -171,8 +163,10 @@ ActiveRecord::Schema.define(version: 20170212221254) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "topic_id"
+    t.integer  "article_id"
   end
 
+  add_index "suggestions", ["article_id"], name: "index_suggestions_on_article_id"
   add_index "suggestions", ["topic_id"], name: "index_suggestions_on_topic_id"
 
   create_table "tags", force: :cascade do |t|
