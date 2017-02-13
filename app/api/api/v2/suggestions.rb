@@ -80,8 +80,14 @@ module API
           desc ""
           post do
 
-            s_id = params[:usuggestion]
-            suggestion = Suggestion.find_by_id(s_id)
+            t_id = params[:utopic]
+            a_id = params[:uarticle]
+
+            topic = Topic.find_by_id(t_id)
+            article = Article.find_by_id(a_id)
+
+            suggestions = topic.suggestions & article.suggestions # RETURNS AN ARRAY OF COMMON VALUES
+            suggestion = suggestions.first
 
             suggestion.rejected = true
             suggestion.save
