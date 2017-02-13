@@ -47,6 +47,8 @@ module ResourcesHelper
       c = Curl::Easy.perform(url) do |curl|
         curl.headers["User-Agent"] = "myapp-0.0"
         curl.verbose = true
+        feed = Feedjira::Feed.fetch_and_parse curl#resource.resource_url#force_encoding('UTF-8')
+
       end
       xml = Faraday.get(url).body.force_encoding('utf-8')
       puts url
