@@ -1,5 +1,3 @@
-require 'curb'
-
 module ResourcesHelper
 
   def test_resource(resource)
@@ -44,14 +42,9 @@ module ResourcesHelper
       # this gets the other articles using Feedjira::parse
       # Check for articles in this resource
       url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-      c = Curl::Easy.perform(url) do |curl|
-        curl.headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0"
-        curl.verbose = true
-      end
-      #xml = Faraday.get(url).body.force_encoding('utf-8')
+      xml = Faraday.get(url).body.force_encoding('utf-8')
       puts url
-      xml = c.body_str.body.force_encoding('utf-8')
-      feed = Feedjira::Feed.parse xml #url#resource.resource_url#force_encoding('UTF-8')
+      feed = Feedjira::Feed.parse xml#url#resource.resource_url#force_encoding('UTF-8')
       if feed.entries.count > 0
         present "Successful Test"
 
