@@ -47,9 +47,9 @@ module ResourcesHelper
       Curl::Easy.perform(url) do |curl|
         curl.headers["User-Agent"] = "myapp-0.0"
         curl.verbose = true
-        xml = Faraday.get(curl).body.force_encoding('utf-8')
+        xml = Faraday.get(url).body.force_encoding('utf-8')
         puts url
-        feed = Feedjira::Feed.parse xml#url#resource.resource_url#force_encoding('UTF-8')
+        feed = Feedjira::Feed.parse curl#url#resource.resource_url#force_encoding('UTF-8')
         if feed.entries.count > 0
           present "Successful Test"
 
