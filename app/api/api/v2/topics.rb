@@ -95,6 +95,47 @@ module API
       end
 
 
+      resource :topics do
+        namespace 'set_keywords' do
+          desc "Self"
+          post do
+            id = params[:utopic]
+            keywords = params[:keywords]#.downcase
+
+            topic = Topic.find_by_id(id)
+            topic.keywords.delete_all
+            array_of_keywords = keywords
+
+            array_of_keywords.each do |k|
+              k.downcase!
+              unless topic.keywords.include? k
+                topic.keywords.push(k)
+              end
+            end
+
+            present topic
+          end
+        end
+      end
+
+
+      resource :topics do
+        namespace 'get_topic_keywords' do
+          desc "Query a Topic's Keywords"
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            # PRESENT LIKE A TAG SO THAT THERE ARE NO ISSUES IN CLIENT APP
+            keywords = []
+            topic.keywords.each do |k|
+              keyword = Tag.new(:title => k)
+              keywords.push(keyword)
+            end
+            present keywords
+          end
+        end
+      end
+
 
       resource :topics do
         namespace 'get_new_articles_from_topic' do
