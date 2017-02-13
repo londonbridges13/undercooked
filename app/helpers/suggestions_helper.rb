@@ -2,7 +2,6 @@ module SuggestionsHelper
 
 
   def create_suggestions_for_topic(topic)
-    two_days_ago = Time.now - 3.days
     all_recent_articles = Article.where('article_date > ?', 3.days.ago).potential_suggested_articles #test, not working
 
     existing_suggestions = []
