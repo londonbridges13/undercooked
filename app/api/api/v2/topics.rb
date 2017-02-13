@@ -8,6 +8,7 @@ module API
         doorkeeper_authorize!
       end
       format :json
+      helpers TopicsHelper
 
       resource :topics do
         namespace 'display_topics' do

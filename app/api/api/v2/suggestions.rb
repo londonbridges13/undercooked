@@ -8,19 +8,32 @@ module API
         doorkeeper_authorize!
       end
       format :json
+      helpers SuggestionsHelper
 
       resource :suggestions do
         namespace 'create_suggestions_for_topic' do
           desc ""
           post do
             id = params[:utopic]
-            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
-
-
-            present
+            topic = Topic.find_by_id(id)
+            create_suggestions_for_topic(topic)
           end
         end
       end
+
+
+      # resource :suggestions do
+      #   namespace 'suggested_article_count' do
+      #     desc ""
+      #     post do
+      #       id = params[:utopic]
+      #       topic = Topic.find_by_id(id)
+      #
+      #       present topic.suggestions.count
+      #     end
+      #   end
+      # end
+
 
 
       resource :suggestions do
