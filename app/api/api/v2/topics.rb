@@ -103,7 +103,7 @@ module API
             keywords = params[:keywords]#.downcase
 
             topic = Topic.find_by_id(id)
-            topic.keywords.delete_all
+            topic.keywords.clear
             array_of_keywords = keywords
 
             array_of_keywords.each do |k|
