@@ -44,18 +44,18 @@ module ResourcesHelper
       # this gets the other articles using Feedjira::parse
       # Check for articles in this resource
       url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-      Curl::Easy.perform(url) do |curl|
+      c = Curl::Easy.perform(url) do |curl|
         curl.headers["User-Agent"] = "myapp-0.0"
         curl.verbose = true
-        xml = Faraday.get(url).body.force_encoding('utf-8')
-        puts url
-        feed = Feedjira::Feed.parse curl#url#resource.resource_url#force_encoding('UTF-8')
-        if feed.entries.count > 0
-          present "Successful Test"
+      end
+      xml = Faraday.get(url).body.force_encoding('utf-8')
+      puts url
+      feed = Feedjira::Feed.parse c#url#resource.resource_url#force_encoding('UTF-8')
+      if feed.entries.count > 0
+        present "Successful Test"
 
-        else
-          present "Found Nothing, but still Successful"
-        end
+      else
+        present "Found Nothing, but still Successful"
       end
     end
 
