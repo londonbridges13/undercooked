@@ -8,7 +8,7 @@ module SuggestionsHelper
     existing_suggested_articles = topic.articles # should = topic.suggestions
     all_recent_articles.each do |a|
       unless existing_suggested_articles.include? a
-        existing_suggested_articles.push a.article
+        existing_suggested_articles.push a
       end
     end
 
