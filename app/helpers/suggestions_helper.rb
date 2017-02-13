@@ -2,7 +2,7 @@ module SuggestionsHelper
 
 
   def create_suggestions_for_topic(topic)
-    all_recent_articles = Article.where('article_date > ?', 3.days.ago)#.potential_suggested_articles #test, not working
+    all_recent_articles = Article.where('article_date > ?', 3.days.ago).where.not(publish_it: false) #test, not working with scope
 
     existing_suggestions = []
     topic.suggestions.each do |a|
