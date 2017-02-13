@@ -56,7 +56,7 @@ module SuggestionsHelper
   def count_suggested_articles_of_topic(topic)
     count = 0
     topic.suggestions.each do |s|
-      unless s.rejected = true
+      unless s.rejected == true
         count += 1
       end
     end
