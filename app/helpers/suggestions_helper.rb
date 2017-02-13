@@ -5,10 +5,10 @@ module SuggestionsHelper
     remove_accepted_suggestions(topic)
     all_recent_articles = Article.where('article_date > ?', 3.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
 
-    existing_suggestions = []
-    topic.suggestions.each do |a|
-      unless existing_suggestions.include? a
-        existing_suggestions.push a.article
+    existing_suggested_articles = topic.articles # should = topic.suggestions
+    all_recent_articles.each do |a|
+      unless existing_suggested_articles.include? a
+        existing_suggested_articles.push a.article
       end
     end
 
@@ -16,7 +16,7 @@ module SuggestionsHelper
         #Resource
       if topic.resources.include? a.resource
         #create suggestions
-        unless existing_suggestions.include? a
+        unless existing_suggested_articles.include? a
           new_suggestion = topic.suggestions.build(:reason => "Resource", :evidence => a.resource.title)
           new_suggestion.article = a
           new_suggestion.save
@@ -27,7 +27,7 @@ module SuggestionsHelper
           # see if the keyword exists in in the article's desc or title
           if a.title.include? k
             #create suggestion
-            unless existing_suggestions.include? a
+            unless existing_suggested_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
               new_suggestion.article = a
               new_suggestion.save
@@ -35,7 +35,7 @@ module SuggestionsHelper
 
           elsif a.desc.include? k
             #create suggestion
-            unless existing_suggestions.include? a
+            unless existing_suggested_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
               new_suggestion.article = a
               new_suggestion.save
