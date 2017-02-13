@@ -54,7 +54,7 @@ module SuggestionsHelper
 
 
   def count_suggested_articles_of_topic(topic)
-    present topic.suggestions.count
+    present topic.suggestions.where("rejected != ?", false).count
   end
 
   def remove_accepted_suggestions(topic)
