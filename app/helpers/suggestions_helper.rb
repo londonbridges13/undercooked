@@ -10,6 +10,7 @@ module SuggestionsHelper
       if topic.resources.include? a.resource
         #create suggestions
         new_suggestion = topic.suggestions.build(:reason => "Resource", :evidence => a.resource.title)
+        new_suggestion.article = a
         new_suggestion.save
       else
         #Keyword
@@ -18,11 +19,13 @@ module SuggestionsHelper
           if a.title.include? k
             #create suggestion
             new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
+            new_suggestion.article = a
             new_suggestion.save
 
           elsif a.desc.include? k
             #create suggestion
             new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
+            new_suggestion.article = a
             new_suggestion.save
           end
         end
