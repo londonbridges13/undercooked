@@ -48,7 +48,7 @@ module ResourcesHelper
         curl.headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0"
         curl.verbose = true
       end
-      xml = Faraday.get(url).body.force_encoding('utf-8')
+      #xml = Faraday.get(url).body.force_encoding('utf-8')
       puts url
       feed = Feedjira::Feed.fetch_and_parse c.body_str#url#resource.resource_url#force_encoding('UTF-8')
       if feed.entries.count > 0
