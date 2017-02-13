@@ -2,6 +2,7 @@ module SuggestionsHelper
 
 
   def create_suggestions_for_topic(topic)
+    remove_accepted_suggestions(topic)
     all_recent_articles = Article.where('article_date > ?', 3.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
 
     existing_suggestions = []
@@ -50,6 +51,18 @@ module SuggestionsHelper
 
   def count_suggested_articles_of_topic(topic)
     present topic.suggestions.count
+  end
+
+  def remove_accepted_suggestions(topic)
+    # if the topic contains this article, we want to remove the suggestion
+    suggestions = []
+    topic.suggestions.each do |s|
+      # get article suggestions
+      if topic.articles.include? s.article
+        # remove the suggestion
+        s.delete # WE DON'T NEED TO KEEP A SUGGESTION IF IT WAS ACCEPTED
+      end
+    end
   end
 
 end
