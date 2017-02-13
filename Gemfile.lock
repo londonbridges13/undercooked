@@ -74,6 +74,7 @@ GEM
     coffee-script-source (1.11.1)
     concurrent-ruby (1.0.2)
     crass (1.0.2)
+    curb (0.9.3)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -277,6 +278,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   byebug
   coffee-rails (~> 4.1.0)
+  curb
   devise
   doorkeeper
   engtagger

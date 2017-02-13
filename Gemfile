@@ -26,7 +26,7 @@ gem 'grape-entity'
 gem 'doorkeeper'
 gem 'engtagger'
 gem 'aws-sdk', '~> 2.3'
-
+gem 'curb'
 gem 'rails_12factor', group: :production
 group :development, :test do
   gem 'sqlite3'

@@ -1,3 +1,5 @@
+require 'curb'
+
 module ResourcesHelper
 
   def test_resource(resource)
@@ -57,17 +59,33 @@ module ResourcesHelper
 
     def get_other_articles(resource)
       # this gets the other articles using Feedjira::fetch_and_parse
-
       url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-      # xml = Faraday.get(url).body.force_encoding('utf-8')
-      puts url
-      feed = Feedjira::Feed.fetch_and_parse url#resource.resource_url#force_encoding('UTF-8')
-      if feed.entries.count > 0
-        present "Successful Test"
 
-      else
-        present "Found Nothing, but still Successful"
+      Curl::Easy.perform(url) do |curl|
+        curl.headers["User-Agent"] = "myapp-0.0"
+        curl.verbose = true
+        # xml = Faraday.get(url).body.force_encoding('utf-8')
+        puts url
+        feed = Feedjira::Feed.fetch_and_parse curl#resource.resource_url#force_encoding('UTF-8')
+        if feed.entries.count > 0
+          present "Successful Test"
+
+        else
+          present "Found Nothing, but still Successful"
+        end
+
       end
+
+      # url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
+      # # xml = Faraday.get(url).body.force_encoding('utf-8')
+      # puts url
+      # feed = Feedjira::Feed.fetch_and_parse url#resource.resource_url#force_encoding('UTF-8')
+      # if feed.entries.count > 0
+      #   present "Successful Test"
+      #
+      # else
+      #   present "Found Nothing, but still Successful"
+      # end
     end
 
 
