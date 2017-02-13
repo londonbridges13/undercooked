@@ -92,7 +92,7 @@ module API
             suggestion.rejected = true
             suggestion.save
             # We don't mess with the actual article because it may be used for another topic.
-            present suggestion.article
+            present suggestion
           end
         end
       end
