@@ -29,7 +29,8 @@ module ResourcesHelper
         #able_to_parse
         url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
         #xml = Faraday.get(url).body.force_encoding('utf-8')
-        feed = Feedjira::Feed.fetch_and_parse url #for munchies  #resource.resource_url#force_encoding('UTF-8')
+        feed = Feedjira::Feed.fetch_and_parse(url, on_failure: ->(c,e) { present 'something went wrong' } )
+         #for munchies  #resource.resource_url#force_encoding('UTF-8')
         if feed.entries.count > 0
           present "Successful Test"
 
