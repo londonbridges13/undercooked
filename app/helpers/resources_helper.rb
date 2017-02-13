@@ -45,7 +45,7 @@ module ResourcesHelper
       # Check for articles in this resource
       url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
       c = Curl::Easy.perform(url) do |curl|
-        curl.headers["User-Agent"] = "myapp-0.0"
+        curl.headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0"
         curl.verbose = true
       end
       xml = Faraday.get(url).body.force_encoding('utf-8')
