@@ -45,7 +45,7 @@ module API
             suggested_articles = []
             topic.suggestions.each do |s|
               unless suggested_articles.include? s
-                s.display_topic = s.reason 
+                s.article.display_topic = s.reason 
                 suggested_articles.push(s.article)
               end
             end
