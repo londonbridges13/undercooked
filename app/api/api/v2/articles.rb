@@ -17,7 +17,6 @@ module API
         namespace 'new_articles' do
           desc "Query New Articles"
           post do
-            remove_old_unused_articles # remove old unused articles
             articles = Article.where(:publish_it => nil).shuffle#, with: Entity::V1::ArticlesEntity
             if articles.count > 0
               # Display Articles
@@ -70,6 +69,7 @@ module API
         namespace 'rejected_articles' do
           desc "Query New Articles"
           post do
+            remove_old_unused_articles
             articles = Article.where(:publish_it => false).shuffle#, with: Entity::V1::ArticlesEntity
             if articles.count > 0
               # Display Articles
