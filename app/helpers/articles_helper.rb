@@ -29,7 +29,7 @@ module ArticlesHelper
     two_days_ago = Time.now - 3.days
     all_articles = Article.all.where('article_date < ?', two_days_ago)
     all_articles.each do |e|
-      if publish_it == false
+      if e.publish_it == false
         e.delete
       end
 
