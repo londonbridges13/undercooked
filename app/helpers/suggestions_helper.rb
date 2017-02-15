@@ -29,7 +29,7 @@ module SuggestionsHelper
         #Keyword
         topic.keywords.each do |k|
           # see if the keyword exists in in the article's desc or title
-          if a.title.include? k
+          if a.title.include? k.downcase
             #create suggestion
             unless existing_suggested_articles.include? a or existing_topic_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
@@ -37,7 +37,7 @@ module SuggestionsHelper
               new_suggestion.save
             end
 
-          elsif a.desc.include? k
+          elsif a.desc.include? k.downcase
             #create suggestion
             unless existing_suggested_articles.include? a or existing_topic_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
