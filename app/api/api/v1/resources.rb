@@ -16,6 +16,7 @@ module API
           post do
             id = params[:uarticle]
             article = Article.find_by_id(id)
+            
             if article.resource.title
               present article.resource.title
             end
