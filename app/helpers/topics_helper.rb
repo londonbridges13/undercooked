@@ -34,7 +34,7 @@ module TopicsHelper
         unless i >= topics.count #@articles.count < @size
           add_articles(t) #add_an_article(t)
         else
-          add_featured_articles(@amount) #present_articles # ship it
+          present_articles#add_featured_articles(@amount) #present_articles # ship it
         end
         # i += 1
       end
