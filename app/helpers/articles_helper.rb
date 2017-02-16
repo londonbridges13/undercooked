@@ -39,16 +39,18 @@ module ArticlesHelper
 
   def get_articles_from(topics)
     @size = topics.count * 3
+    @amount = 0
     @articles = []
     i = 0
     # while @articles.count < @size
+    i += 1
     topics.each do |t|
       unless i >= topics.count #@articles.count < @size
         add_articles(t) #add_an_article(t)
       else
-        present_articles # ship it
+        add_featured_articles(@amount) #present_articles # ship it
       end
-      i += 1
+      # i += 1
     end
     # end
   end
@@ -106,20 +108,22 @@ module ArticlesHelper
       # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
       # the goal is to get three articles per topic
 
-      featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
-      featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
-      done = false
-      i = 0
-      while i < featured_articles.count and done == false
-        a = featured_articles[i]
-        unless @articles.include? a
-          @articles.push(a)
-          if count >= 1 #shouldn't grab three featured articles for every 2 topic articles
-            done = true
-          end
-        end
-        i += 1
-      end
+      @amount += 3 - count # I want 3 articles. if they only got 2, search featured articles for the third
+
+      # featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
+      # featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
+      # done = false
+      # i = 0
+      # while i < featured_articles.count and done == false
+      #   a = featured_articles[i]
+      #   unless @articles.include? a
+      #     @articles.push(a)
+      #     if count >= 1 #shouldn't grab three featured articles for every 2 topic articles
+      #       done = true
+      #     end
+      #   end
+      #   i += 1
+      # end
 
     end
   end
@@ -129,6 +133,27 @@ module ArticlesHelper
       present @articles
     # end
   end
+
+
+  def add_featured_articles(amount)
+    # this querys for the amount of featured articles needed
+    featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
+    featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(10).all
+    i = 0
+    count = 0
+    while i < featured_articles.count and count < amount
+      a = featured_articles[i]
+      unless @articles.include? a
+        @articles.push(a)
+        count += 1
+      end
+      i += 1
+    end
+
+    present_articles
+
+  end
+
 
 
 
