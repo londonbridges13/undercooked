@@ -114,7 +114,7 @@ module ArticlesHelper
         a = featured_articles[i]
         unless @articles.include? a
           @articles.push(a)
-          if count >= 1 #shouldn't grab three featured articles for every 2 topic articles
+          if count == 1 #shouldn't grab three featured articles for every 2 topic articles
             done = true
           end
         end
