@@ -137,6 +137,7 @@ module TopicsHelper
     while i < featured_articles.count and count < amount
       a = featured_articles[i]
       unless @articles.include? a
+        a.display_topic = featured_topic.title
         @articles.push(a)
         count += 1
       end
