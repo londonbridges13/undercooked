@@ -87,7 +87,7 @@ module ArticlesHelper
       end
     else
       # Back up Query
-      potential_articles = Article.where(:publish_it => true).sort_by(&:created_at).reverse.limit(5).all
+      potential_articles = Article.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
       # grabs five newest articles
 
       count = 0
@@ -107,14 +107,14 @@ module ArticlesHelper
       # the goal is to get three articles per topic
 
       featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
-      featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:created_at).reverse.limit(5).all
+      featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
       done = false
       i = 0
       while i < featured_articles.count and done == false
         a = featured_articles[i]
         unless @articles.include? a
           @articles.push(a)
-          if count >= 3
+          if count >= 1 #shouldn't grab three featured articles for every 2 topic articles 
             done = true
           end
         end
