@@ -76,7 +76,7 @@ module ArticlesHelper
 
   def add_articles(topic)
     two_days_ago = Time.now - 3.days # change back to 3
-    potential_articles = topic.articles.where('article_date > ? AND publish_it == ?', two_days_ago, true)
+    potential_articles = topic.articles.where('article_date > ? AND publish_it = 1', two_days_ago)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
       potential_articles.each do |a|
@@ -114,7 +114,7 @@ module ArticlesHelper
         a = featured_articles[i]
         unless @articles.include? a
           @articles.push(a)
-          if count >= 1 #shouldn't grab three featured articles for every 2 topic articles 
+          if count >= 1 #shouldn't grab three featured articles for every 2 topic articles
             done = true
           end
         end
