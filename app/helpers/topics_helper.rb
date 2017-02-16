@@ -97,13 +97,15 @@ module TopicsHelper
       # the goal is to get three articles per topic
 
       featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
-      featured_articles = featured_topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
+      # featured_articles = featured_topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
+      featured_articles = featured_topic.articles.limit(10).where(:publish_it => true).order("article_date DESC")
+
       done = false
       i = 0
       while i < featured_articles.count and done == false
         a = featured_articles[i]
         unless @articles.include? a
-          if count >= 3
+          if count >= 1 
             done = true
           else
             a.display_topic = featured_topic.title
