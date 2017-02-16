@@ -78,7 +78,7 @@ module ArticlesHelper
 
   def add_articles(topic)
     two_days_ago = Time.now - 3.days # change back to 3
-    potential_articles = topic.articles.where('article_date < ?', two_days_ago).where(:publish_it => true)
+    potential_articles = topic.articles.where('article_date > ?', two_days_ago).where(:publish_it => true)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
       potential_articles.each do |a|
@@ -89,7 +89,7 @@ module ArticlesHelper
       end
     else
       # Back up Query
-      potential_articles = topic.articles.limit(5).where(:publish_it => true).sort_by(&:article_date).reverse
+      potential_articles = topic.articles.limit(5).where(:publish_it => true).sort_by(&:article_date)#.reverse
       # grabs five newest articles from the topic
 
       count = 0
