@@ -17,9 +17,7 @@ module API
             id = params[:uarticle]
             article = Article.find_by_id(id)
 
-            if article.resource
-              present article.resource.title
-            end
+            present article.resource.title
           end
         end
       end
