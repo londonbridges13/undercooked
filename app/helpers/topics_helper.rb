@@ -41,78 +41,44 @@ module TopicsHelper
       # end
     end
 
-    # def add_an_article(topic)
-    #   potential_articles = topic.articles.where(:publish_it => true).sort_by(&:created_at).reverse
-    #   if potential_articles.count > 0
-    #     done = false
-    #     i = 0
-    #     while i < potential_articles.count and done == false
-    #       # check if articles includes
-    #       unless @articles.include? potential_articles[i] # MAYBE HERE LYES THE PROBLEM
-    #         #doesn't contain this article, so add it
-    #         @articles.push(potential_articles[i])
-    #         done = true
+
+
+    # def add_articles(topic)
+    #   two_days_ago = Time.now - 3.days # change back to 3
+    #   potential_articles = topic.articles.where('article_date > ?', two_days_ago).where(:publish_it => true)
+    #   if potential_articles.count > 2 # 3 is enough
+    #     # add each to @articles if they aren't in the article
+    #     potential_articles.each do |a|
+    #       unless @articles.include? a
+    #         # doesn't contain this article, add it
+    #         @articles.push(a)
     #       end
-    #       if potential_articles.count == 1
-    #         done = true
-    #       end
-    #       i += 1
-    #       present_articles
     #     end
+    #   else
+    #     # Back up Query
+    #     potential_articles = topic.articles.limit(5).where(:publish_it => true).order("article_date DESC")#.reverse
+    #     # grabs five newest articles from the topic
+    #
+    #     count = 0
+    #     ii = 0
+    #     while ii < potential_articles.count
+    #       #collect 2 potential_articles add to @articles
+    #       a = potential_articles[ii]
+    #       unless @articles.include? a or count == 2
+    #         @articles.push(a)
+    #         count += 1
+    #       end
+    #       ii += 1
+    #     end
+    #     # the goal above is to collect two articles from this topics
+    #     # the goal below is to collect another article that was featured
+    #     # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
+    #     # the goal is to get three articles per topic
+    #
+    #     @amount += 3 - count # I want 3 articles. if they only got 2, search featured articles for the third
+    #
     #   end
     # end
-
-    def add_articles(topic)
-      two_days_ago = Time.now - 3.days # change back to 3
-      potential_articles = topic.articles.where('article_date > ?', two_days_ago).where(:publish_it => true)
-      if potential_articles.count > 2 # 3 is enough
-        # add each to @articles if they aren't in the article
-        potential_articles.each do |a|
-          unless @articles.include? a
-            # doesn't contain this article, add it
-            @articles.push(a)
-          end
-        end
-      else
-        # Back up Query
-        potential_articles = topic.articles.limit(5).where(:publish_it => true).order("article_date DESC")#.reverse
-        # grabs five newest articles from the topic
-
-        count = 0
-        ii = 0
-        while ii < potential_articles.count
-          #collect 2 potential_articles add to @articles
-          a = potential_articles[ii]
-          unless @articles.include? a or count == 2
-            @articles.push(a)
-            count += 1
-          end
-          ii += 1
-        end
-        # the goal above is to collect two articles from this topics
-        # the goal below is to collect another article that was featured
-        # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
-        # the goal is to get three articles per topic
-
-        @amount += 3 - count # I want 3 articles. if they only got 2, search featured articles for the third
-
-        # featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
-        # featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
-        # done = false
-        # i = 0
-        # while i < featured_articles.count and done == false
-        #   a = featured_articles[i]
-        #   unless @articles.include? a
-        #     @articles.push(a)
-        #     if count >= 1 #shouldn't grab three featured articles for every 2 topic articles
-        #       done = true
-        #     end
-        #   end
-        #   i += 1
-        # end
-
-      end
-    end
 
     def present_articles
       # if @articles.count >= @size
@@ -143,61 +109,61 @@ module TopicsHelper
 
 
 #replaced
-  # def add_articles(topic)
-  #   two_days_ago = Time.now - 3.days # change back to 2
-  #   potential_articles = topic.articles.where('publish_it = ? AND article_date > ?', true ,two_days_ago)
-  #   if potential_articles.count > 2 # 3 is enough
-  #     # add each to @articles if they aren't in the article
-  #     count = 0
-  #     potential_articles.each do |a|
-  #       unless @articles.include? a or count == 3
-  #         # doesn't contain this article, add it
-  #         a.display_topic = topic.title
-  #         @articles.push(a)
-  #         count += 1
-  #       end
-  #     end
-  #   else
-  #     # Back up Query
-  #     potential_articles = topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
-  #     # grabs five newest articles
-  #
-  #     count = 0
-  #     ii = 0
-  #     while ii < potential_articles.count
-  #       #collect 2 potential_articles add to @articles
-  #       a = potential_articles[ii]
-  #       unless @articles.include? a or count == 2
-  #         a.display_topic = topic.title
-  #         @articles.push(a)
-  #         count += 1
-  #       end
-  #       ii += 1
-  #     end
-  #     # the goal above is to collect two articles from this topics
-  #     # the goal below is to collect another article that was featured
-  #     # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
-  #     # the goal is to get three articles per topic
-  #
-  #     featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
-  #     featured_articles = featured_topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
-  #     done = false
-  #     i = 0
-  #     while i < featured_articles.count and done == false
-  #       a = featured_articles[i]
-  #       unless @articles.include? a
-  #         if count >= 3
-  #           done = true
-  #         else
-  #           a.display_topic = featured_topic.title
-  #           @articles.push(a)
-  #         end
-  #       end
-  #       i += 1
-  #     end
-  #
-  #   end
-  # end
+  def add_articles(topic)
+    two_days_ago = Time.now - 3.days # change back to 2
+    potential_articles = topic.articles.where('publish_it = ? AND article_date > ?', true ,two_days_ago)
+    if potential_articles.count > 2 # 3 is enough
+      # add each to @articles if they aren't in the article
+      count = 0
+      potential_articles.each do |a|
+        unless @articles.include? a or count == 3
+          # doesn't contain this article, add it
+          a.display_topic = topic.title
+          @articles.push(a)
+          count += 1
+        end
+      end
+    else
+      # Back up Query
+      potential_articles = topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
+      # grabs five newest articles
+
+      count = 0
+      ii = 0
+      while ii < potential_articles.count
+        #collect 2 potential_articles add to @articles
+        a = potential_articles[ii]
+        unless @articles.include? a or count == 2
+          a.display_topic = topic.title
+          @articles.push(a)
+          count += 1
+        end
+        ii += 1
+      end
+      # the goal above is to collect two articles from this topics
+      # the goal below is to collect another article that was featured
+      # also if the potential_articles didn't give 2 articles, below will provide extra articles for @articles
+      # the goal is to get three articles per topic
+
+      featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
+      featured_articles = featured_topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
+      done = false
+      i = 0
+      while i < featured_articles.count and done == false
+        a = featured_articles[i]
+        unless @articles.include? a
+          if count >= 3
+            done = true
+          else
+            a.display_topic = featured_topic.title
+            @articles.push(a)
+          end
+        end
+        i += 1
+      end
+
+    end
+  end
   #
   #
   # def present_articles
