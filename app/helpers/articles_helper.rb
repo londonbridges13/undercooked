@@ -138,7 +138,7 @@ module ArticlesHelper
   def add_featured_articles(amount)
     # this querys for the amount of featured articles needed
     featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
-    featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(10).all
+    featured_articles = featured_topic.articles.limit(10).where(:publish_it => true).order("article_date DESC")
     i = 0
     count = 0
     while i < featured_articles.count and count < amount
