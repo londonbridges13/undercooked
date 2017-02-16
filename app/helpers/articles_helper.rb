@@ -43,12 +43,12 @@ module ArticlesHelper
     i = 0
     # while @articles.count < @size
     topics.each do |t|
-      i += 1
       unless i >= topics.count #@articles.count < @size
         add_articles(t) #add_an_article(t)
       else
         present_articles # ship it
       end
+      i += 1
     end
     # end
   end
@@ -75,7 +75,7 @@ module ArticlesHelper
   # end
 
   def add_articles(topic)
-    two_days_ago = Time.now - 3.days # change back to 2
+    two_days_ago = Time.now - 3.days # change back to 3
     potential_articles = topic.articles.where('article_date > ? AND publish_it == ?', two_days_ago, true)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
