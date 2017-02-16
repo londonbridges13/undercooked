@@ -105,7 +105,7 @@ module TopicsHelper
       while i < featured_articles.count and done == false
         a = featured_articles[i]
         unless @articles.include? a
-          if count < 2 #shouldn't be more than 1
+          if count >= 3
             done = true
           else
             a.display_topic = featured_topic.title
