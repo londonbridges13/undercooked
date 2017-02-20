@@ -235,9 +235,10 @@ module API
                 #create feedback here (message, suggestion)
                 new_feedback.new(:message => feedback, :suggestion => suggestion)
                 new_feedback.save
+                present "Saved"
+              else
+                present "Error"
               end
-
-
           end
         end
       end
