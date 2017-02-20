@@ -19,7 +19,7 @@ module API
 
               if feedback
                 #create feedback here (message, suggestion)
-                new_feedback.new(:message => feedback, :suggestion => suggestion)
+                new_feedback = Feedback.new(:message => feedback, :suggestion => suggestion)
                 new_feedback.save
                 present "Saved"
               else
