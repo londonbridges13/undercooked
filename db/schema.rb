@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220135956) do
+ActiveRecord::Schema.define(version: 20170220170318) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -62,7 +62,10 @@ ActiveRecord::Schema.define(version: 20170220135956) do
     t.string   "suggestion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
   end
+
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
