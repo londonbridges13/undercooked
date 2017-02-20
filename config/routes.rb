@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :feedbacks
   resources :suggestions
   use_doorkeeper
   resources :tags

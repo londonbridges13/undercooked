@@ -222,6 +222,29 @@ module API
         end
       end
 
+
+      resource :users do
+        namespace 'feedback' do
+          desc "Sends feedback and suggestion from user"
+          post do
+              # find Article
+              suggestion = params[:suggestion]
+              feedback = params[:feedback]
+
+              if feedback and suggestion
+                #create feedback here (message, suggestion)
+                new_feedback.new(:message => feedback, :suggestion => suggestion)
+                new_feedback.save
+              end
+
+
+          end
+        end
+      end
+
+
+
+
     end
   end
 end
