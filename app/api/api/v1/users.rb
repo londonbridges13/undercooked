@@ -231,7 +231,7 @@ module API
               suggestion = params[:suggestion]
               feedback = params[:feedback]
 
-              if feedback and suggestion
+              if feedback 
                 #create feedback here (message, suggestion)
                 new_feedback.new(:message => feedback, :suggestion => suggestion)
                 new_feedback.save
