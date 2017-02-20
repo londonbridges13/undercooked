@@ -19,7 +19,7 @@ module API
               token = params[:utoken]
 
               user = User.find_by_access_token(token)
-              
+
               if feedback
                 #create feedback here (message, suggestion)
                 new_feedback = user.feedbacks.build(:message => feedback, :suggestion => suggestion)
@@ -37,9 +37,9 @@ module API
           desc "Checks for  feedback from user"
           post do
               # find Article
-              id = params[:utoken]
+              token = params[:utoken]
 
-              user = User.find_by_id(id)
+              user = User.find_by_access_token(token)
 
               if user
                 if user.feedbacks.count > 0
