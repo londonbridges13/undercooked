@@ -1,7 +1,7 @@
 require 'doorkeeper/grape/helpers'
 
 module API
-  module V2
+  module V1
     class Feedbacks < Grape::API
       helpers Doorkeeper::Grape::Helpers
       before do
