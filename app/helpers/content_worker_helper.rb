@@ -1,0 +1,2 @@
+module ContentWorkerHelper
+end

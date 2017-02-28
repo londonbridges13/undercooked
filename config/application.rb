@@ -24,3 +24,5 @@ module Undercooked
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
+
+SuckerPunch.logger = Logger.new("#{Rails.root}/log/sucker_punch.log")
