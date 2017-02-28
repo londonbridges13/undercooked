@@ -47,6 +47,8 @@ module API
                 else
                   present "no" # no the user has not given feedback
                 end
+              else
+                present "no user"
               end
           end
         end
