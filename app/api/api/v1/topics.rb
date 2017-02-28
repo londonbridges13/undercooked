@@ -155,7 +155,7 @@ module API
         namespace 'get_topics' do
           desc "Query User's Topics"
           post do
-            token = params[:utoken]
+            token = params[:utoken] 
             #find user by token
             current_user = Topic.find_by_access_token(token)
             #make sure current_user exists
