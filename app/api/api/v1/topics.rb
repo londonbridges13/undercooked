@@ -157,7 +157,7 @@ module API
           post do
             token = params[:utoken]
             #find user by token
-            current_user = User.find_by_access_token(token)
+            current_user = Topic.find_by_access_token(token)
             #make sure current_user exists
             if current_user
               present current_user.topics
