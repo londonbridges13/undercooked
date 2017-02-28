@@ -1,6 +1,6 @@
 class ContentWorkerController
   include SuckerPunch::Job
-#  workers 1
+  worker 1
 
   def perform(topic_id)
     ActiveRecord::Base.connection_pool.with_connection do
