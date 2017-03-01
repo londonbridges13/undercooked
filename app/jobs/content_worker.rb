@@ -5,8 +5,7 @@ class ContentWorker
   def perform(topic_id)
     ActiveRecord::Base.connection_pool.with_connection do
       topic = User.find_by_id(topic_id)
-      topic.name = "James Mackey"
-      topic.save
+      topic.update_attributes(name: "James Mackey")
     end
   end
 
