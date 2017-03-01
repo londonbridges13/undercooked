@@ -144,7 +144,7 @@ module API
           post do
             id = params[:utopic]
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
-            find_new_articles_from_topic(topic)
+            #find_new_articles_from_topic(topic)
           end
         end
       end

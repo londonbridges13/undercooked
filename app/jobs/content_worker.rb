@@ -23,6 +23,8 @@ class ContentWorker
         topic.resources.each do |r|
           check_resource(r)
         end
+        cm = ContentManagement.new()
+        cm.save
       end
 
       def check_resource(resource) #should be the same as ArticlesHelper

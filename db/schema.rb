@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220170318) do
+ActiveRecord::Schema.define(version: 20170301042916) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -56,6 +56,12 @@ ActiveRecord::Schema.define(version: 20170220170318) do
 
   add_index "articles_users", ["article_id", "user_id"], name: "index_articles_users_on_article_id_and_user_id"
   add_index "articles_users", ["user_id", "article_id"], name: "index_articles_users_on_user_id_and_article_id"
+
+  create_table "content_managements", force: :cascade do |t|
+    t.string   "last_new_article_grab_date"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "feedbacks", force: :cascade do |t|
     t.string   "message"
