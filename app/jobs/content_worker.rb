@@ -5,11 +5,11 @@ class ContentWorker
   def perform(none)
     ActiveRecord::Base.connection_pool.with_connection do
       topics = Topic.all
+      @cm = ContentManagement.first
       topics.each do |topic|
-        @cm = ContentManagement.first
         a_day_ago = Time.now - 1.minute
         if topic and @cm.updated_at < a_day_ago
-          puts "Checking for knew articles"
+          puts "Checking for new articles"
           find_new_articles_from_topic(topic)
         else
           puts "Checked in last 24 hours"
