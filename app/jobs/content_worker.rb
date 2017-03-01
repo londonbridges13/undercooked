@@ -4,9 +4,11 @@ class ContentWorker
 
   def perform(none)
     ActiveRecord::Base.connection_pool.with_connection do
-      topic = Topic.find_by_id(none)
-      if topic
-        find_new_articles_from_topic(topic)
+      topics = Topic.all
+      topics.each do |topic|
+        if topic
+          find_new_articles_from_topic(topic)
+        end
       end
     end
   end
