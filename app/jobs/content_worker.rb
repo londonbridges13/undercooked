@@ -41,7 +41,7 @@ class ContentWorker
           get_other_articles(resource)
         elsif resource.resource_type == "2"
           get_other_articles_2(resource)
-        end
+        else
           # Check for articles in this resource
           get_articles(resource)
         end
