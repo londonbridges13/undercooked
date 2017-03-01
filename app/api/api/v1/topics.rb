@@ -167,15 +167,6 @@ module API
         end
       end
 
-      resource :topics do
-        namespace 'test_worker' do
-          desc "Query All Topic's Articles"
-          post do
-            id = params[:utopic]
-            ContentWorker.perform_async(id)
-          end
-        end
-      end
 
 
       resource :topics do
