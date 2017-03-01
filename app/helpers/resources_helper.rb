@@ -6,12 +6,14 @@ module ResourcesHelper
   end
 
   def check_resource(resource) #should be the same as ArticlesHelper
-    if resource.resource_url.include? "youtube.com"
-      # Check for videos in this resource
-      get_youtube_videos(resource)
+    if resource.resource_type == "error"
+      #do nothing
     elsif resource.resource_url.include? "autoimmunewellness.com" or resource.resource_type == "article-xml"
       # the weird articles that cause errors
       get_other_articles(resource)
+    elsif resource.resource_url.include? "youtube.com" or resource.resource_type == "video"
+      # Check for videos in this resource
+      get_youtube_videos(resource)
     else
       # Check for articles in this resource
       get_articles(resource)
