@@ -172,7 +172,7 @@ module API
           desc "Query All Topic's Articles"
           post do
             id = params[:utopic]
-            puts "ContentWorker.perform_async(id)"
+            present "ContentWorker.perform_async(id)"
           end
         end
       end
