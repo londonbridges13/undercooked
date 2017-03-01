@@ -7,7 +7,7 @@ class ContentWorker
       topics = Topic.all
       topics.each do |topic|
         @cm = ContentManagement.first
-        a_day_ago = Time.now - 1.days
+        a_day_ago = Time.now - 2.days
         if topic and @cm.updated_at < a_day_ago
           puts "Checking for knew articles"
           find_new_articles_from_topic(topic)
