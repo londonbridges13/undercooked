@@ -33,7 +33,7 @@ class ContentWorker
       end
 
       def check_resource(resource) #should be the same as ArticlesHelper
-        if resource.resource_url.include? "youtube.com"
+        if resource.resource_url.include? "youtube.com" or resource.resource_type == "video"
           # Check for videos in this resource
           get_youtube_videos(resource)
         elsif resource.resource_url.include? "autoimmunewellness.com" or resource.resource_type == "article-xml"
@@ -59,8 +59,8 @@ class ContentWorker
         # Check for videos in this resource
         #able_to_parse
         url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-        xml = Faraday.get(url).body.force_encoding('utf-8')
-        feed = Feedjira::Feed.fetch_and_parse xml#resource.resource_url#force_encoding('UTF-8')
+        #xml = Faraday.get(url).body.force_encoding('utf-8')
+        feed = Feedjira::Feed.fetch_and_parse url#resource.resource_url#force_encoding('UTF-8')
         feed.entries.each do |entry|
           i = 0
           while i < 3
