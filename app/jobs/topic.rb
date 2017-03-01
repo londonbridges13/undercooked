@@ -1,4 +1,4 @@
-class ContentWorkerController
+class TopicJob
   include SuckerPunch::Job
   # workers 1
 
