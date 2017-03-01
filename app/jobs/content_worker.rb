@@ -8,8 +8,8 @@ class ContentWorker
       @cm = ContentManagement.first
       topics.each do |topic|
         a_day_ago = Time.now - 1.minute
-        if topic 
-          if @cm.updated_at < a_day_ago
+        if topic
+          if a_day_ago > @cm.updated_at
             puts "Checking for new articles"
             find_new_articles_from_topic(topic)
           else
