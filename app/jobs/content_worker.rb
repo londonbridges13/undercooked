@@ -187,9 +187,9 @@ class ContentWorker
       # this gets the other articles using Feedjira::fetch_and_parse
 
       url =  resource.resource_url#"http://feeds.feedburner.com/MinimalistBaker?format=xml"
-      # xml = Faraday.get(url).body.force_encoding('utf-8')
+      xml = Faraday.get(url).body.force_encoding('utf-8')
       puts url
-      feed = Feedjira::Feed.parse url#resource.resource_url#force_encoding('UTF-8')
+      feed = Feedjira::Feed.fetch_and_parse xml#resource.resource_url#force_encoding('UTF-8')
       feed.entries.each do |entry|
         i = 0
         while i < 3
