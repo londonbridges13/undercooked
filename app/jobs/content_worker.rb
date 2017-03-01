@@ -6,8 +6,13 @@ class ContentWorker
     ActiveRecord::Base.connection_pool.with_connection do
       topics = Topic.all
       topics.each do |topic|
-        if topic
+        @cm = ContentManagement.first
+        a_day_ago = Time.now - 1.days
+        if topic and @cm.updated_at < a_day_ago
+          puts "Checking for knew articles"
           find_new_articles_from_topic(topic)
+        else
+          puts "Checked in last 24 hours"
         end
       end
     end
@@ -23,8 +28,8 @@ class ContentWorker
         topic.resources.each do |r|
           check_resource(r)
         end
-        cm = ContentManagement.new()
-        cm.save
+        @cm.last_new_article_grab_date = "#{Time.now}"
+        @cm.save
       end
 
       def check_resource(resource) #should be the same as ArticlesHelper
