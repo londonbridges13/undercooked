@@ -19,6 +19,8 @@ class ContentWorker
           puts "No Topic"
         end
       end
+      @cm.last_new_article_grab_date = "#{Time.now}"
+      @cm.save
     end
   end
 
@@ -32,8 +34,6 @@ class ContentWorker
         topic.resources.each do |r|
           check_resource(r)
         end
-        @cm.last_new_article_grab_date = "#{Time.now}"
-        @cm.save
       end
 
       def check_resource(resource) #should be the same as ArticlesHelper
