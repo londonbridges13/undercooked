@@ -45,7 +45,11 @@ module API
             suggested_articles = []
             topic.suggestions.each do |s|
               unless suggested_articles.include? s or s.rejected == true
-                s.article.display_topic = s.reason
+                if s.reason == "Resource"
+                  s.article.display_topic = s.reason
+                else
+                  s.article.display_topic = s.evidence
+                end
                 suggested_articles.push(s.article)
               end
             end
