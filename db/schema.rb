@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301042916) do
+ActiveRecord::Schema.define(version: 20170303024024) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -198,6 +198,17 @@ ActiveRecord::Schema.define(version: 20170301042916) do
 
   add_index "tags_topics", ["tag_id", "topic_id"], name: "index_tags_topics_on_tag_id_and_topic_id"
   add_index "tags_topics", ["topic_id", "tag_id"], name: "index_tags_topics_on_topic_id_and_tag_id"
+
+  create_table "timers", force: :cascade do |t|
+    t.integer  "seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "topic_id"
+  end
+
+  add_index "timers", ["topic_id"], name: "index_timers_on_topic_id"
+  add_index "timers", ["user_id"], name: "index_timers_on_user_id"
 
   create_table "topics", force: :cascade do |t|
     t.string   "title"
