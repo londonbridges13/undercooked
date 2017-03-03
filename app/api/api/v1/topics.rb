@@ -43,7 +43,14 @@ module API
                 unless current_user.topics.include? a_topic
                   # Don't want to add a topic that already exists
                   current_user.topics.push(a_topic)
-                  present "Successfully added topics"
+                  # Create timer for topic
+                  timer = Timer.new
+                  timer.seconds = 0
+                  timer.topic = a_topic
+                  timer.user = current_user
+                  timer.save
+
+                  present "Successfully added topics, timers set"
                 end
               end
           end
@@ -90,9 +97,20 @@ module API
             if current_user
               if current_user.topics.include? oldtopic
                 current_user.topics.delete(oldtopic)
+                # Remove old timer as well
+                old_timer = Timer.where(:topic => oldtopic).where(:user => current_user).first
+                if old_timer
+                  old_timer.delete
+                end
                 unless current_user.topics.include? newtopic
                   current_user.topics.push(newtopic)
-                  present "Successfully added Topic"
+                  # Create timer for topic
+                  timer = Timer.new
+                  timer.seconds = 0
+                  timer.topic = newtopic
+                  timer.user = current_user
+                  timer.save
+                  present "Successfully added Topic, timer set"
                 end
               end
             end
