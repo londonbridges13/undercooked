@@ -179,31 +179,48 @@ module API
           desc ""
           post do
               # find Topic
-              id = params[:utopic]
-              topic = Topic.find_by_id(id)
+              # id = params[:utopic]
+              # topic = Topic.find_by_id(id)
+
+              a_id = params[:uarticle]
+              article = Article.find_by_id(a_id)
+
               token = params[:utoken]
               time = params[:utimer].to_i # number of seconds
               user = User.find_by_access_token(token)
 
-              if user.present? and user.topics.include? topic
-                # user liked this topic
-                user.timers.each do |ti|
-                  if topic.timers.include? ti
-                    # add time to this timer
-                    if ti.seconds.present?
-                      ti.seconds += time
-                      ti.save
-                      present "success"
-                    else
-                      ti.seconds = time
-                      ti.save
-                      present "success"
+              topics = []
+              article.topics.each do |t|
+                if user.topics.include? t
+                  topics.push t
+                end
+              end
+
+              topics.each do |topic|
+                # update timers for all of these topics
+                # check if user has this topic, nvm already did
+
+                if user.present? and user.topics.include? topic
+                  # user liked this topic
+                  user.timers.each do |ti|
+                    if topic.timers.include? ti
+                      # add time to this timer
+                      if ti.seconds.present?
+                        ti.seconds += time
+                        ti.save
+                        present "success"
+                      else
+                        ti.seconds = time
+                        ti.save
+                        present "success"
+                      end
                     end
                   end
+
+                else
+                  present "no topic or no user"
                 end
 
-              else
-                present "no topic or no user"
               end
 
           end
