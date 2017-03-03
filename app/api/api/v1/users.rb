@@ -173,6 +173,40 @@ module API
         end
       end
 
+
+      resource :users do
+        namespace 'add_reading_time' do
+          desc ""
+          post do
+              # find Topic
+              id = params[:utopic]
+              topic = Topic.find_by_id(id)
+              token = params[:utoken]
+              time = params[:utimer] # number of seconds
+              current_user = User.find_by_access_token(token)
+
+              if current_user.topics.include? topic
+                # user liked this topic
+                current_user.timers.each do |ti|
+                  if topic.timers.include? ti
+                    # add time to this timer
+                    if ti.seconds > 0
+                      ti.seconds += time
+                    else
+                      ti.seconds = time
+                    end
+                  end
+                end
+
+              else
+                present "no topic"
+              end
+
+          end
+        end
+      end
+
+
       resource :users do
         namespace 'edit_name' do
           desc 'Edit Profile Information'
@@ -223,7 +257,7 @@ module API
       end
 
 
-      
+
 
 
 
