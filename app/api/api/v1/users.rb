@@ -190,7 +190,7 @@ module API
                 user.timers.each do |ti|
                   if topic.timers.include? ti
                     # add time to this timer
-                    if ti.seconds > 0
+                    if ti.seconds.present?
                       ti.seconds += time
                       ti.save
                       present "success"
