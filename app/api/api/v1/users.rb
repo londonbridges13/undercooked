@@ -185,7 +185,7 @@ module API
               time = params[:utimer] # number of seconds
               user = User.find_by_access_token(token)
 
-              if topic and user.topics.include? topic
+              if user.present? and user.topics.include? topic
                 # user liked this topic
                 current_user.timers.each do |ti|
                   if topic.timers.include? ti
