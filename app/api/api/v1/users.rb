@@ -182,7 +182,7 @@ module API
               id = params[:utopic]
               topic = Topic.find_by_id(id)
               token = params[:utoken]
-              time = params[:utimer] # number of seconds
+              time = params[:utimer].to_i # number of seconds
               user = User.find_by_access_token(token)
 
               if user.present? and user.topics.include? topic
