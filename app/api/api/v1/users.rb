@@ -192,8 +192,12 @@ module API
                     # add time to this timer
                     if ti.seconds > 0
                       ti.seconds += time
+                      ti.save
+                      present "success"
                     else
                       ti.seconds = time
+                      ti.save
+                      present "success"
                     end
                   end
                 end
