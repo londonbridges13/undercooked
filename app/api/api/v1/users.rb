@@ -187,7 +187,7 @@ module API
 
               if user.present? and user.topics.include? topic
                 # user liked this topic
-                current_user.timers.each do |ti|
+                user.timers.each do |ti|
                   if topic.timers.include? ti
                     # add time to this timer
                     if ti.seconds > 0
@@ -203,7 +203,7 @@ module API
                 end
 
               else
-                present "no topic"
+                present "no topic or no user"
               end
 
           end
