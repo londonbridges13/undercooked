@@ -6,21 +6,28 @@ class ContentWorker
     ActiveRecord::Base.connection_pool.with_connection do
       topics = Topic.all
       @cm = ContentManagement.first
-      topics.each do |topic|
-        a_day_ago = Time.now - 1.day
-        if topic
-          if a_day_ago > @cm.updated_at
+      @count = 0
+      if a_day_ago > @cm.updated_at
+        topics.each do |topic|
+          a_day_ago = Time.now - 1.day
+          if topic
             puts "Checking for new articles"
             find_new_articles_from_topic(topic)
           else
-            puts "Checked in last 24 hours"
+            puts "No Topic"
           end
-        else
-          puts "No Topic"
         end
+        # done with search, update ContentManagement time
+        if @count >= Topic.all.count
+          @cm.last_new_article_grab_date = "#{Time.now}"
+          @cm.save
+        else
+          puts "All Topics are not acounted for. We only got #{@count}. Did not save the Content Management. Will try job again!"
+        end
+
+      else
+        puts "Checked in last 24 hours"
       end
-      @cm.last_new_article_grab_date = "#{Time.now}"
-      @cm.save
     end
   end
 
