@@ -13,6 +13,7 @@ class ContentWorker
           if topic
             puts "Checking for new articles"
             find_new_articles_from_topic(topic)
+            @count += 1
           else
             puts "No Topic"
           end
