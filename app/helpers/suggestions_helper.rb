@@ -3,7 +3,7 @@ module SuggestionsHelper
 
   def create_suggestions_for_topic(topic)
     remove_accepted_suggestions(topic)
-    all_recent_articles = Article.where('article_date > ?', 3.days.ago).where("publish_it != ? OR publish_it IS NULL",false)run
+    all_recent_articles = Article.where('article_date > ?', 3.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
 
     existing_suggested_articles = [] # get existing suggestions
     existing_topic_articles = topic.articles.where('article_date > ?', 3.days.ago) # get recent articles from topic
