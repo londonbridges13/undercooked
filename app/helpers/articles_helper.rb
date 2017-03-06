@@ -33,7 +33,6 @@ module ArticlesHelper
         e.suggestions.clear
         e.delete
       end
-
     end
   end
 

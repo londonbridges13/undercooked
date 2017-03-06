@@ -193,7 +193,13 @@ module API
           post do
             id = params[:utopic]
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
-            present topic.articles.where(:publish_it => true).order(article_date: :desc).limit(20).all
+            articles = topic.articles.where(:publish_it => true).order(article_date: :desc).limit(20).all
+            articles.each do |a|
+              if a.desc == ""
+                a.desc = "From #{a.resource}"
+              end
+            end
+            present articles
           end
         end
       end
