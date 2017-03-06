@@ -30,6 +30,7 @@ module ArticlesHelper
     all_articles = Article.all.where('article_date < ?', two_days_ago)
     all_articles.each do |e|
       if e.publish_it == false
+        e.suggestions.clear
         e.delete
       end
 
