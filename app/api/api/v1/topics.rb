@@ -196,7 +196,7 @@ module API
             articles = topic.articles.where(:publish_it => true).order(article_date: :desc).limit(20).all
             articles.each do |a|
               if a.desc == ""
-                a.desc = "From #{a.resource}"
+                a.desc = "From #{a.resource.title}"
               end
             end
             present articles

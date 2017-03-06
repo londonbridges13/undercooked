@@ -69,6 +69,9 @@ module TopicsHelper
         unless @articles.include? a or count == 3
           # doesn't contain this article, add it
           a.display_topic = topic.title
+          if a.desc == ""
+            a.desc = "From #{a.resource.title}"
+          end
           @articles.push(a)
           count += 1
         end
