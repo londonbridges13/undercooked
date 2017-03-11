@@ -14,6 +14,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 
 
+gem 'newrelic_rpm'
 gem 'sucker_punch', '~> 2.0'
 gem 'feedjira'
 gem 'link_thumbnailer'
