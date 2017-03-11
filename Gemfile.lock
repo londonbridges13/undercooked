@@ -155,6 +155,7 @@ GEM
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
     net_http_timeout_errors (0.3.0)
+    newrelic_rpm (3.18.1.330)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogumbo (1.4.9)
@@ -290,6 +291,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   link_thumbnailer
+  newrelic_rpm
   paperclip (~> 5.0.0)
   pg
   rails (= 4.2.6)
