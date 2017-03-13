@@ -208,7 +208,9 @@ module API
                 topic = Topic.find_by_id(x)
                 if topic #if topic exists
                   # add to display_topics
-                  display_topics.push topic
+                  unless display_topics.include? topic
+                    display_topics.push topic
+                  end
                 end
               end
 
