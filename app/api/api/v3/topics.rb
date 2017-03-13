@@ -197,33 +197,39 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              existing_user.topic_order
-              #order the Topics
-              display_topics = [] # this display the topics in the right order
-              viewable_topics = Topic.viewable_topics
+              if existing_user.topic_order.count > 0
+                #order the Topics
+                display_topics = [] # this display the topics in the right order
+                viewable_topics = Topic.viewable_topics
 
-              existing_user.topic_order.each do |x|
-                # x is the id of the topic
-                # get the topic from this id, add topic to display_topics
-                topic = Topic.find_by_id(x)
-                if topic #if topic exists
-                  # add to display_topics
-                  unless display_topics.include? topic
-                    display_topics.push topic
+                existing_user.topic_order.each do |x|
+                  # x is the id of the topic
+                  # get the topic from this id, add topic to display_topics
+                  topic = Topic.find_by_id(x)
+                  if topic #if topic exists
+                    # add to display_topics
+                    unless display_topics.include? topic
+                      display_topics.push topic
+                    end
                   end
                 end
-              end
 
-              # Now add the new topics that haven't been ordered yet
-              viewable_topics.each do |t|
-                # if topic isn't in the display_topics, add it
-                unless display_topics.include? t
-                  display_topics.push t
+                # Now add the new topics that haven't been ordered yet
+                viewable_topics.each do |t|
+                  # if topic isn't in the display_topics, add it
+                  unless display_topics.include? t
+                    display_topics.push t
+                  end
                 end
-              end
 
-              #finally present the display_topics
-              present display_topics
+                #finally present the display_topics
+                present display_topics
+              else
+                # no topic_order set, display articles
+                viewable_topics = Topic.viewable_topics
+                present viewable_topics
+
+              end
 
             else
               present "ERROR: Cannot find user by token, please sign in again"
