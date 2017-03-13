@@ -75,4 +75,22 @@ module SuggestionsHelper
     end
   end
 
+
+  def add_content_to_new_topic(topic)
+    # run in terminal, set the keywords of the topic first
+    topic.keywords.each do |k|
+      # search for tags with this title
+      t = Tag.where(:title => k).first
+      if t #if the tag exists
+        # grab all of the articles with this tag and add them to the topics articles
+        t.articles.each do |a|
+          unless topic.articles.include? a
+            topic.articles.push a
+          end
+        end
+      end
+    end
+
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303024024) do
+ActiveRecord::Schema.define(version: 20170313043618) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 20170303024024) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "access_token"
+    t.integer  "topic_order",            default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
