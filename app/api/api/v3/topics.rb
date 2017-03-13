@@ -169,22 +169,66 @@ module API
         end
       end
 
+      # resource :topics do
+      #   namespace 'get_topics' do
+      #     desc "Query User's Topics"
+      #     post do
+      #       token = params[:utoken]
+      #       #find user by token
+      #       current_user = User.find_by_access_token(token)
+      #       #make sure current_user exists
+      #       if current_user
+      #         present current_user.topics
+      #       end
+      #
+      #     end
+      #   end
+      # end
+
       resource :topics do
         namespace 'get_topics' do
-          desc "Query User's Topics"
+          #desc "Get User's  Topics"
+          desc "Get All Topics"
           post do
             token = params[:utoken]
-            #find user by token
-            current_user = User.find_by_access_token(token)
-            #make sure current_user exists
-            if current_user
-              present current_user.topics
+            # Check if this Token exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user == nil
+              existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
+            if  existing_user.present?
+              existing_user.topic_order
+              #order the Topics
+              display_topics = [] # this display the topics in the right order
+              viewable_topics = Topic.viewable_topics
 
+              existing_user.topic_order.each do |x|
+                # x is the id of the topic
+                # get the topic from this id, add topic to display_topics
+                topic = Topic.find_by_id(x)
+                if topic #if topic exists
+                  # add to display_topics
+                  display_topics.push topic
+                end
+              end
+
+              # Now add the new topics that haven't been ordered yet
+              viewable_topics.each do |t|
+                # if topic isn't in the display_topics, add it
+                unless display_topics.include? t
+                  display_topics.push t
+                end
+              end
+
+              #finally present the display_topics
+              present display_topics
+
+            else
+              present "ERROR: Cannot find user by token, please sign in again"
+            end
           end
         end
       end
-
 
 
       resource :topics do

@@ -132,7 +132,6 @@ module API
       end
 
 
-      #This func is not needed
       resource :users do
         namespace 'topics' do
           #desc "Get User's  Topics"
@@ -165,7 +164,7 @@ module API
                 # if topic isn't in the display_topics, add it
                 unless display_topics.include? t
                   display_topics.push t
-                end 
+                end
               end
 
               #finally present the display_topics
