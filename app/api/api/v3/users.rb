@@ -72,7 +72,7 @@ module API
             email = params[:uemail].downcase
             # Check if this Email exists
             existing_user = User.find_by_email(email)
-            if existing_user.present?
+            if existing_user
               present true
             else
               present false
