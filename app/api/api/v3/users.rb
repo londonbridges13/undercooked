@@ -73,9 +73,9 @@ module API
             # Check if this Email exists
             existing_user = User.find_by_email(email)
             if existing_user
-              present true
+              present "yes"
             else
-              present false
+              present "no"
             end
           end
         end
@@ -92,9 +92,9 @@ module API
             existing_user = User.find_by_email(email)
             if existing_user.present?
               if existing_user.topics.count > 0
-                present true
+                present "yes"
               else
-                present false
+                present "no"
               end
             end
 
