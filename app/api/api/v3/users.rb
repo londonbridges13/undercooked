@@ -63,6 +63,45 @@ module API
         end
       end
 
+
+      resource :users do
+        namespace 'does_user_exist' do
+          desc 'check for user'
+          post do
+            # Create User using Params
+            email = params[:uemail].downcase
+            # Check if this Email exists
+            existing_user = User.find_by_email(email)
+            if existing_user.present?
+              present true
+            else
+              present false
+            end
+          end
+        end
+      end
+
+
+      resource :users do
+        namespace 'does_user_have_topics' do
+          desc 'check for topics'
+          post do
+            # Create User using Params
+            email = params[:uemail].downcase
+            # Check if this Email exists
+            existing_user = User.find_by_email(email)
+            if existing_user.present?
+              if existing_user.topics.count > 0
+                present true
+              else
+                present false
+              end
+            end
+
+          end
+        end
+      end
+
       resource :users do
         namespace 'profile' do
           desc 'Get Profile Information'
