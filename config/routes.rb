@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   resources :resources
   mount API::Base => '/'
 
-  root 'resources#index'
+  # root 'resources#index'
+  root "/"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
