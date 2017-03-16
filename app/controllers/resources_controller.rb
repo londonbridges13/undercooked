@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_admin!, only: [:index, :show, :new, :create, :update, :edit, :destroy]
+  before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   # GET /resources
   # GET /resources.json
