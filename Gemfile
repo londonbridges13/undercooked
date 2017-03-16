@@ -13,7 +13,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-
+gem 'cancancan', '~> 1.10'
 gem 'newrelic_rpm'
 gem 'sucker_punch', '~> 2.0'
 gem 'feedjira'
