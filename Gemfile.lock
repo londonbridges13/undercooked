@@ -118,6 +118,9 @@ GEM
     grape-entity (0.5.1)
       activesupport
       multi_json (>= 1.3.2)
+    hangry (0.0.2)
+      activesupport
+      nokogiri
     hashie (3.4.4)
     i18n (0.7.0)
     ice_nine (0.11.2)
@@ -290,6 +293,7 @@ DEPENDENCIES
   feedjira
   grape (~> 0.14.0)
   grape-entity
+  hangry
   jbuilder (~> 2.0)
   jquery-rails
   link_thumbnailer
