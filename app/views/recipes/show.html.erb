@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @recipe.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @recipe.description %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @recipe.author %>
+</p>
+
+<p>
+  <strong>Serving size:</strong>
+  <%= @recipe.serving_size %>
+</p>
+
+<p>
+  <strong>Prep time:</strong>
+  <%= @recipe.prep_time %>
+</p>
+
+<p>
+  <strong>Cooktime:</strong>
+  <%= @recipe.cooktime %>
+</p>
+
+<p>
+  <strong>Total time:</strong>
+  <%= @recipe.total_time %>
+</p>
+
+<%= link_to 'Edit', edit_recipe_path(@recipe) %> |
+<%= link_to 'Back', recipes_path %>

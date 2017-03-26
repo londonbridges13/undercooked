@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313043618) do
+ActiveRecord::Schema.define(version: 20170326161803) do
+
+  create_table "actions", force: :cascade do |t|
+    t.string   "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "actions_instructions", id: false, force: :cascade do |t|
+    t.integer "action_id",      null: false
+    t.integer "instruction_id", null: false
+  end
+
+  add_index "actions_instructions", ["action_id", "instruction_id"], name: "index_actions_instructions_on_action_id_and_instruction_id"
+  add_index "actions_instructions", ["instruction_id", "action_id"], name: "index_actions_instructions_on_instruction_id_and_action_id"
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -72,6 +86,21 @@ ActiveRecord::Schema.define(version: 20170313043618) do
   end
 
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "instructions", force: :cascade do |t|
+    t.string   "instruction"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "recipe_id"
+  end
+
+  add_index "instructions", ["recipe_id"], name: "index_instructions_on_recipe_id"
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -141,6 +170,32 @@ ActiveRecord::Schema.define(version: 20170313043618) do
 
   add_index "products_topics", ["product_id", "topic_id"], name: "index_products_topics_on_product_id_and_topic_id"
   add_index "products_topics", ["topic_id", "product_id"], name: "index_products_topics_on_topic_id_and_product_id"
+
+  create_table "recipe_ingredients", force: :cascade do |t|
+    t.float    "amount"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "ingredient_id"
+    t.integer  "recipe_id"
+  end
+
+  add_index "recipe_ingredients", ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
+  add_index "recipe_ingredients", ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
+
+  create_table "recipes", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "author"
+    t.string   "serving_size"
+    t.float    "prep_time"
+    t.float    "cooktime"
+    t.float    "total_time"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "article_id"
+  end
+
+  add_index "recipes", ["article_id"], name: "index_recipes_on_article_id"
 
   create_table "resources", force: :cascade do |t|
     t.string   "title"

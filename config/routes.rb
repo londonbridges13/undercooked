@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :actions
+  resources :instructions
+  resources :ingredients
+  resources :recipe_ingredients
+  resources :recipes
   resources :feedbacks
   resources :suggestions
   use_doorkeeper
