@@ -91,6 +91,10 @@ module API
             article = Article.find_by_id(a_id)
 
             suggestions = topic.suggestions & article.suggestions # RETURNS AN ARRAY OF COMMON VALUES
+            suggestions.each do |s|
+              s.rejected = true
+              s.save
+            end
             suggestion = suggestions.first
 
             suggestion.rejected = true
