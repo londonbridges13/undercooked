@@ -9,7 +9,7 @@ module ResourcesHelper
     if resource.resource_type == "error"
       #do nothing
       present "This resoruce has it's own error"
-    elsif resource.resource_url.include? "autoimmunewellness.com" or resource.resource_type == "article-xml"
+    elsif resource.resource_type == "article-xml" #or resource.resource_url.include? "autoimmunewellness.com" or 
       # the weird articles that cause errors
       get_other_articles(resource)
     elsif resource.resource_url.include? "youtube.com" or resource.resource_type == "video"
