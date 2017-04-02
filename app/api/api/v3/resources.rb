@@ -17,7 +17,8 @@ module API
             id = params[:uarticle]
             article = Article.find_by_id(id)
 
-            present article.resource.title
+            display = Article.new(title: article.resource, article_image_url: article.resource.image.url)
+            present display #article.resource
           end
         end
       end
