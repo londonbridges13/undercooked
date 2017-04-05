@@ -103,6 +103,8 @@ module SuggestionsHelper
 
     # given the topic, sauer will explore it's attributes and decide whether a particular article fits it's standards
 
+    number_rejects = 0
+    number_accepts = 0
     new_suggestions = topic.suggestions.where("rejected IS ?", nil)
     new_suggestions.each do |s|
       # determine whether this article fits the topic
@@ -129,6 +131,7 @@ module SuggestionsHelper
           # if article was rejected, do not change
           accept_suggestion(s, topic)
           puts percent
+          number_accepts += 1
         else
           # Reliabilty Test + History(use percent / 2 from above code)
           part_1 = percent / 2 # 0% - 50%
@@ -140,16 +143,20 @@ module SuggestionsHelper
             # accept suggestion  , (both are automatic if you think about it)
             accept_suggestion(s, topic)
             puts percent_2
-
+            number_accepts += 1
           else
             puts "Rejected Article"
             puts percent_2
+            number_rejects += 1
           end
 
         end
 
       end
     end
+
+    puts "Number of accepted suggestions #{number_accepts}"
+    puts "Number of rejected suggestions #{number_rejects}"
 
   end
 
