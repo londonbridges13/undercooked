@@ -141,6 +141,7 @@ module SuggestionsHelper
             accept_suggestion(s, topic)
           else
             puts "Rejected Article"
+            puts percent_2
           end
 
         end
@@ -155,22 +156,22 @@ module SuggestionsHelper
     #using topic and suggestion, add the article into the topics
     # if article was rejected, do not change
 
-    if s.article
-      unless s.article.publish_it == false
-        #article exists and wasn't rejected, add to the topic
-        article = s.article
-
-        article.publish_it = true # we set it to true because it could have been nil before
-        article.save
-        unless article.topics.include? topic
-          #add topic
-          article.topics.push(topic)
-        end
-        # accept the suggestion
-        s.rejected = false
-        s.save
-      end
-    end
+    # if s.article
+    #   unless s.article.publish_it == false
+    #     #article exists and wasn't rejected, add to the topic
+    #     article = s.article
+    #
+    #     article.publish_it = true # we set it to true because it could have been nil before
+    #     article.save
+    #     unless article.topics.include? topic
+    #       #add topic
+    #       article.topics.push(topic)
+    #     end
+    #     # accept the suggestion
+    #     s.rejected = false
+    #     s.save
+    #   end
+    # end
     puts "Accepted Article"
   end
 
@@ -195,6 +196,9 @@ module SuggestionsHelper
 
     return score
   end
+
+
+
 
 
   def delete_duplicates
