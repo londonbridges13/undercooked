@@ -25,15 +25,17 @@ module ArticlesHelper
 
 
   def remove_old_unused_articles
+    #No Longer remove rejected articles, so that user can view all of bloggers work.
+
     # Removes all articles that are more than 2 days AND never published
-    two_days_ago = Time.now - 3.days
-    all_articles = Article.all.where('article_date < ?', two_days_ago)
-    all_articles.each do |e|
-      if e.publish_it == false
-        e.suggestions.clear
-        e.delete
-      end
-    end
+    # two_days_ago = Time.now - 3.days
+    # all_articles = Article.all.where('article_date < ?', two_days_ago)
+    # all_articles.each do |e|
+    #   if e.publish_it == false
+    #     e.suggestions.clear
+    #     e.delete
+    #   end
+    # end
   end
 
 

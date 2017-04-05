@@ -60,7 +60,7 @@ module SuggestionsHelper
         count += 1
       end
     end
-    present count # what if it displays a accepted suggestion. IMPOSSIBLE, these are deleted because they were added to the topic.articles. See Below
+    present count # what if it displays an accepted suggestion. IMPOSSIBLE, these are deleted because they were added to the topic.articles. See Below
   end
 
   def remove_accepted_suggestions(topic)
@@ -90,7 +90,136 @@ module SuggestionsHelper
         end
       end
     end
+  end
+
+
+
+  def sauerAI(topic)
+    #sauer automatically adds suggested articles to there respected articles
+    # if and when sauer is sure, he has the privlege to accept articles that have not already been accept
+    # by no means does sauer have the authority to reject an article (written April 4, 2017)
+
+    # given the topic, sauer will explore it's attributes and decide whether a particular article fits it's standards
+
+    new_suggestions = topic.suggestions.where("rejected IS ?", nil)
+    new_suggestions.each do |s|
+      # determine whether this article fits the topic
+
+      if s.article
+        #article exists, now validate that is fits the topic
+        resource = s.article.resource
+
+        #automatic admission (70% or above)
+        rataitt = 0.0 # number of resource articles that are in the topic
+
+        resource.articles.each do |a|
+          #check and add to rataitt
+          if a.topics.include? topic
+            # add one to rataitt
+            rataitt += 1.0
+          end
+        end
+
+        percent = rataitt / resource.articles.count
+
+        if percent >= 0.7
+          # automatic admission, accept and add the article to this topic
+          # if article was rejected, do not change
+          accept_suggestion(s, topic)
+
+        else
+          # Reliabilty Test + History(use percent / 2 from above code)
+          part_1 = percent / 2 # 0% - 50%
+          part_2 = resource_reliability_score(resource, topic) # returns 0 - 50%
+
+          percent_2 = part_2 + part_1
+
+          if percent_2 > 0.69
+            # accept suggestion  , (both are automatic if you think about it)
+            accept_suggestion(s, topic)
+          else
+            puts "Rejected Article"
+          end
+
+        end
+
+      end
+    end
 
   end
+
+
+  def accept_suggestion(s, topic)
+    #using topic and suggestion, add the article into the topics
+    # if article was rejected, do not change
+
+    if s.article
+      unless s.article.publish_it == false
+        #article exists and wasn't rejected, add to the topic
+        article = s.article
+
+        article.publish_it = true # we set it to true because it could have been nil before
+        article.save
+        unless article.topics.include? topic
+          #add topic
+          article.topics.push(topic)
+        end
+        # accept the suggestion
+        s.rejected = false
+        s.save
+      end
+    end
+    puts "Accepted Article"
+  end
+
+
+  def resource_reliability_score(resource, topic)
+    score = 0.0 # out of fifty percent
+
+    # does resource have topic
+    if resource.topics.include? topic
+      # add 25% to score
+      score = 0.25
+    end
+
+    accepted = resource.articles.where(:publish_it => true).count
+    ratio = (accepted * 1.0) / (resource.articles.count * 1.0)
+
+    if ratio > 0
+      #convert to percentage
+      ratio_converted = ratio / 4 #0 - 25%
+      score += ratio_converted
+    end
+
+    return score
+  end
+
+
+  def delete_duplicates
+    # delete the articles that appear twice
+    #find articles with same url, delete one
+    articles = Article.all
+
+    removing = []
+    count = 0 # count duplicates
+    articles.each do |a|
+      # look for double
+      if articles.where(:article_url => a.article_url).where("publish_it IS ?", nil).count > 1
+
+        removing.push articles.where(:article_url => a.article_url).where("publish_it IS ?", nil).first
+        count += articles.where(:article_url => a.article_url).where("publish_it IS ?", nil).count
+      end
+    end
+
+    removing.each do |r|
+      r.suggestions.clear
+      r.delete
+    end
+
+    puts count
+    puts removing.count
+  end
+
+
 
 end

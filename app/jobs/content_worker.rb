@@ -132,7 +132,9 @@ class ContentWorker
               times_retried = 0
 
               begin
-                article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
+                if LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first
+                  article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
+                end 
               rescue Net::ReadTimeout => error
                 if times_retried < max_retries
                   times_retried += 1
@@ -446,7 +448,7 @@ class ContentWorker
 
       found_sentence(last_step, url)
       found_sentence(first_step, url)
-      
+
       if found_sentence(last_step, url) and found_sentence(first_step, url)
         pry_instructions = grab_two_sentences(first_step, last_step, url)
       end
