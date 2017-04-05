@@ -103,7 +103,7 @@ module SuggestionsHelper
     # by no means does sauer have the authority to reject an article (written April 4, 2017)
 
     # running in the count_suggested_articles_of_topic()
-    
+
     # given the topic, sauer will explore it's attributes and decide whether a particular article fits it's standards
 
     number_rejects = 0
@@ -169,22 +169,22 @@ module SuggestionsHelper
     #using topic and suggestion, add the article into the topics
     # if article was rejected, do not change
 
-    # if s.article
-    #   unless s.article.publish_it == false
-    #     #article exists and wasn't rejected, add to the topic
-    #     article = s.article
-    #
-    #     article.publish_it = true # we set it to true because it could have been nil before
-    #     article.save
-    #     unless article.topics.include? topic
-    #       #add topic
-    #       article.topics.push(topic)
-    #     end
-    #     # accept the suggestion
-    #     s.rejected = false
-    #     s.save
-    #   end
-    # end
+    if s.article
+      unless s.article.publish_it == false
+        #article exists and wasn't rejected, add to the topic
+        article = s.article
+
+        article.publish_it = true # we set it to true because it could have been nil before
+        article.save
+        unless article.topics.include? topic
+          #add topic
+          article.topics.push(topic)
+        end
+        # accept the suggestion
+        s.rejected = false
+        s.save
+      end
+    end
     puts "Accepted Article"
   end
 
