@@ -54,6 +54,7 @@ module SuggestionsHelper
 
 
   def count_suggested_articles_of_topic(topic)
+    sauerAI(topic)
     count = 0
     topic.suggestions.each do |s|
       if s.article
@@ -101,6 +102,8 @@ module SuggestionsHelper
     # if and when sauer is sure, he has the privlege to accept articles that have not already been accept
     # by no means does sauer have the authority to reject an article (written April 4, 2017)
 
+    # running in the count_suggested_articles_of_topic()
+    
     # given the topic, sauer will explore it's attributes and decide whether a particular article fits it's standards
 
     number_rejects = 0
@@ -129,9 +132,10 @@ module SuggestionsHelper
         if percent >= 0.7
           # automatic admission, accept and add the article to this topic
           # if article was rejected, do not change
+          number_accepts += 1
+
           accept_suggestion(s, topic)
           puts percent
-          number_accepts += 1
         else
           # Reliabilty Test + History(use percent / 2 from above code)
           part_1 = percent / 2 # 0% - 50%
