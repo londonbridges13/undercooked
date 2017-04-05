@@ -44,14 +44,16 @@ module API
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
             suggested_articles = []
             topic.suggestions.each do |s|
-              unless suggested_articles.include? s.article or s.rejected == true or s.article.publish_it == false
-                if s.reason == "Resource"
-                  s.article.display_topic = s.reason
-                else
-                  s.article.display_topic = s.evidence
+              if s.article
+                unless suggested_articles.include? s.article or s.rejected == true or s.article.publish_it == false
+                  if s.reason == "Resource"
+                    s.article.display_topic = s.reason
+                  else
+                    s.article.display_topic = s.evidence
+                  end
+                  suggested_articles.push(s.article)
                 end
-                suggested_articles.push(s.article)
-              end
+              end 
             end
 
             present suggested_articles
