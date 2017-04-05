@@ -128,7 +128,7 @@ module SuggestionsHelper
           # automatic admission, accept and add the article to this topic
           # if article was rejected, do not change
           accept_suggestion(s, topic)
-
+          puts percent
         else
           # Reliabilty Test + History(use percent / 2 from above code)
           part_1 = percent / 2 # 0% - 50%
@@ -139,6 +139,8 @@ module SuggestionsHelper
           if percent_2 > 0.69
             # accept suggestion  , (both are automatic if you think about it)
             accept_suggestion(s, topic)
+            puts percent_2
+
           else
             puts "Rejected Article"
             puts percent_2
