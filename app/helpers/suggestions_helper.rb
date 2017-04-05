@@ -56,8 +56,10 @@ module SuggestionsHelper
   def count_suggested_articles_of_topic(topic)
     count = 0
     topic.suggestions.each do |s|
-      unless s.rejected == true or s.article.publish_it == false
-        count += 1
+      if s.article
+        unless s.rejected == true or s.article.publish_it == false
+          count += 1
+        end
       end
     end
     present count # what if it displays an accepted suggestion. IMPOSSIBLE, these are deleted because they were added to the topic.articles. See Below
