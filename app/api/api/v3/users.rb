@@ -103,6 +103,8 @@ module API
                 # set user equal to the resource_owner_id, to set token
                 doorkeeper_token.resource_owner_id = existing_user.id
 
+                present existing_user
+
               end
 
             end
