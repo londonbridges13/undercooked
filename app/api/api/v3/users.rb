@@ -65,6 +65,55 @@ module API
 
 
       resource :users do
+        namespace 'login_with_facebook' do
+          desc 'Login with Facebook'
+          post do
+            # Create User using Params
+            name = params[:uname] # get name through facebook
+            email = params[:uemail].downcase
+            facebook_id = params[:ufacebook_id] # this acts as a password
+            picture_url = params[:picture_url] # from facebook (Saving money from AWS)
+
+            # Check if this Email exists
+            existing_user = User.find_by_email(email)
+            unless existing_user.present?
+              #no user with this email
+              #create user
+              current_user = User.create(:name => name, :email => email, :login_with_facebook => true,
+               :facebook_id => facebook_id, :picture_url => picture_url)
+              current_user.access_token = Devise.friendly_token.first(65)
+              current_user.save
+              doorkeeper_token.resource_owner_id = current_user.id
+              #present "Successfully Created Account"
+              present current_user
+              # With Above, we can find the user by the client access_token(doorkeeper_token)
+            else
+              # user exists, check facebook_id
+              if existing_user.facebook_id == facebook_id
+                doorkeeper_token.resource_owner_id = current_user.id
+                present existing_user
+              else
+                #Error, Logging in with facebook. User might have logged in with email and now wants to use facebook.
+                # set user's facebook_id and allow user to pass
+                existing_user.picture_url = picture_url
+                existing_user.facebook_id = facebook_id
+                existing_user.login_with_facebook == true
+                existing_user.access_token = Devise.friendly_token.first(65)
+                existing_user.save
+                # set user equal to the resource_owner_id, to set token
+                doorkeeper_token.resource_owner_id = existing_user.id
+
+              end
+
+            end
+          end
+        end
+      end
+
+
+
+
+      resource :users do
         namespace 'does_user_exist' do
           desc 'check for user'
           post do
@@ -132,7 +181,11 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              present existing_user.image
+              if existing_user.image
+                present existing_user.image
+              elsif existing_user.picture_url # facebook profile picture url
+                present existing_user.picture_url
+              end
             else
               present "ERROR: Cannot find user by token, please sign in again"
             end
