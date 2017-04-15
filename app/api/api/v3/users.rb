@@ -83,14 +83,12 @@ module API
                :facebook_id => facebook_id, :picture_url => picture_url)
               current_user.access_token = Devise.friendly_token.first(65)
               current_user.save
-              doorkeeper_token.resource_owner_id = current_user.id
               #present "Successfully Created Account"
               present current_user
               # With Above, we can find the user by the client access_token(doorkeeper_token)
             else
               # user exists, check facebook_id
               if existing_user.facebook_id == facebook_id
-                doorkeeper_token.resource_owner_id = current_user.id
                 present existing_user
               else
                 #Error, Logging in with facebook. User might have logged in with email and now wants to use facebook.
@@ -101,7 +99,6 @@ module API
                 existing_user.access_token = Devise.friendly_token.first(65)
                 existing_user.save
                 # set user equal to the resource_owner_id, to set token
-                doorkeeper_token.resource_owner_id = existing_user.id
 
                 present existing_user
 
