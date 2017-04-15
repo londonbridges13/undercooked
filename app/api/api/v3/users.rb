@@ -100,7 +100,7 @@ module API
                 puts "Error, Logging in with facebook. User might have logged in with email"
                 existing_user.picture_url = picture_url
                 existing_user.facebook_id = facebook_id
-                existing_user.login_with_facebook == true
+                existing_user.login_with_facebook = true
                 existing_user.access_token = Devise.friendly_token.first(65)
                 existing_user.save
                 # set user equal to the resource_owner_id, to set token
