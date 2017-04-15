@@ -68,6 +68,8 @@ module API
         namespace 'login_with_facebook' do
           desc 'Login with Facebook'
           post do
+            puts "Starting Login with Facebook"
+
             # Create User using Params
             name = params[:uname] # get name through facebook
             email = params[:uemail].downcase
