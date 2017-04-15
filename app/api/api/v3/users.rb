@@ -79,6 +79,7 @@ module API
             unless existing_user.present?
               #no user with this email
               #create user
+              puts "no user with this email"
               current_user = User.create(:name => name, :email => email, :login_with_facebook => true,
                :facebook_id => facebook_id, :picture_url => picture_url)
               current_user.access_token = Devise.friendly_token.first(65)
@@ -89,10 +90,12 @@ module API
             else
               # user exists, check facebook_id
               if existing_user.facebook_id == facebook_id
+                puts "user exists, facebook_id"
                 present existing_user
               else
                 #Error, Logging in with facebook. User might have logged in with email and now wants to use facebook.
                 # set user's facebook_id and allow user to pass
+                puts "Error, Logging in with facebook. User might have logged in with email"
                 existing_user.picture_url = picture_url
                 existing_user.facebook_id = facebook_id
                 existing_user.login_with_facebook == true
