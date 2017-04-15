@@ -3,7 +3,7 @@ require 'hangry'
 
 class ContentWorker
   include SuckerPunch::Job
-  # workers 1
+  workers 2
 
   def perform(none)
     ActiveRecord::Base.connection_pool.with_connection do
@@ -134,7 +134,7 @@ class ContentWorker
               begin
                 if LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first
                   article_image_url = LinkThumbnailer.generate(entry.url, attributes: [:images], image_limit: 1, image_stats: false).images.first.src.to_s
-                end 
+                end
               rescue Net::ReadTimeout => error
                 if times_retried < max_retries
                   times_retried += 1
