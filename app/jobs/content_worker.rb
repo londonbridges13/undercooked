@@ -81,7 +81,7 @@ class ContentWorker
           i = 0
           while i < 3
             # Check if the entry is older than two days, and check if it exists in the articles database
-            two_days_ago = Time.now - 123.days
+            two_days_ago = Time.now - 3.days
             all_articles = Article.all.where('article_date > ?', two_days_ago) #works
             all_article_urls = []
             all_articles.each do |u|
@@ -116,7 +116,7 @@ class ContentWorker
         i = 0
         while i < 3
           # Check if the entry is older than two days, and check if it exists in the articles database
-          two_days_ago = Time.now - 123.days
+          two_days_ago = Time.now - 3.days
           all_articles = Article.all.where('article_date > ?', two_days_ago) #works
           all_article_urls = []
           all_articles.each do |u|
@@ -176,7 +176,7 @@ class ContentWorker
         i = 0
         while i < 3
           # Check if the entry is older than two days, and check if it exists in the articles database
-          two_days_ago = Time.now - 123.days
+          two_days_ago = Time.now - 3.days
           all_articles = Article.all.where('article_date > ?', two_days_ago) #works
           all_article_urls = []
           all_articles.each do |u|
