@@ -128,7 +128,7 @@ module API
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
             # PRESENT LIKE A TAG SO THAT THERE ARE NO ISSUES IN CLIENT APP
             keywords = []
-            if topic.keywords.count > 0
+            if topic
               topic.keywords.each do |k|
                 keyword = Tag.new(:title => k)
                 keywords.push(keyword)
