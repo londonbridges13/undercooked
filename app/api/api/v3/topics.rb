@@ -196,8 +196,8 @@ module API
             if existing_user == nil
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
-            if  existing_user.present?
-              if existing_user.topic_order!.count > 0
+            if  existing_user.present? and existing_user.topic_order
+              if existing_user.topic_order.count > 0
                 #order the Topics
                 display_topics = [] # this display the topics in the right order
                 viewable_topics = Topic.viewable_topics
