@@ -99,17 +99,19 @@ module API
         namespace 'set_keywords' do
           desc "Self"
           post do
+            #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS
             id = params[:utopic]
             keywords = params[:keywords]#.downcase
 
             topic = Topic.find_by_id(id)
-            topic.keywords.clear
+            topic.tags.clear
             array_of_keywords = keywords
 
             array_of_keywords.each do |k|
               k.downcase!
-              unless topic.keywords.include? k
-                topic.keywords.push(k)
+              k_tag = Tag.find_or_create_by(:title => k)
+              unless topic.tags.include? k_tag
+                topic.tags.push(k_tag)
                 topic.save
               end
             end
@@ -124,13 +126,14 @@ module API
         namespace 'get_topic_keywords' do
           desc "Query a Topic's Keywords"
           post do
+            #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS
             id = params[:utopic]
             topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
             # PRESENT LIKE A TAG SO THAT THERE ARE NO ISSUES IN CLIENT APP
             keywords = []
             if topic
-              topic.keywords.each do |k|
-                keyword = Tag.new(:title => k)
+              topic.tags.each do |k|
+                keyword = k#Tag.find_or_create_by(:title => k)
                 keywords.push(keyword)
               end
             end

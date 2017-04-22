@@ -27,8 +27,10 @@ module SuggestionsHelper
         end
       else
         #Keyword
-        topic.keywords.each do |k|
+        #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS 4/22
+        topic.tags.each do |keyword|
           # see if the keyword exists in in the article's desc or title
+          k = keyword.title
           if a.title.include? k.downcase
             #create suggestion
             unless existing_suggested_articles.include? a or existing_topic_articles.include? a
@@ -81,7 +83,8 @@ module SuggestionsHelper
 
   def add_content_to_new_topic(topic)
     # run in terminal, set the keywords of the topic first
-    topic.keywords.each do |k|
+    topic.tags.each do |keyword|
+      k = keyword.title.downcase
       # search for tags with this title
       t = Tag.where(:title => k).first
       if t #if the tag exists
