@@ -139,17 +139,18 @@ module API
         namespace 'does_user_have_topics' do
           desc 'check for topics'
           post do
+            present "hiiii"
             # Create User using Params
-            email = params[:uemail].downcase
-            # Check if this Email exists
-            existing_user = User.find_by_email(email)
-            if existing_user.present?
-              if existing_user.topics.count >= 1
-                present "yes"
-              else
-                present "no"
-              end
-            end
+            # email = params[:uemail].downcase
+            # # Check if this Email exists
+            # existing_user = User.find_by_email(email)
+            # if existing_user.present?
+            #   if existing_user.topics.count >= 1
+            #     present "yes"
+            #   else
+            #     present "no"
+            #   end
+            # end
 
           end
         end
