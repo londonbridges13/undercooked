@@ -68,48 +68,48 @@ module API
         namespace 'login_with_facebook' do
           desc 'Login with Facebook'
           post do
-            present "Starting Login with Facebook"
+            # present "Starting Login with Facebook"
 
             # Create User using Params
-            # name = params[:uname] # get name through facebook
-            # email = params[:uemail].downcase
-            # facebook_id = params[:ufacebook_id] # this acts as a password
-            # picture_url = params[:picture_url] # from facebook (Saving money from AWS)
-            #
-            # # Check if this Email exists
-            # existing_user = User.find_by_email(email)
-            # unless existing_user.present?
-            #   #no user with this email
-            #   #create user
-            #   puts "no user with this email"
-            #   current_user = User.create(:name => name, :email => email, :login_with_facebook => true,
-            #    :facebook_id => facebook_id, :picture_url => picture_url)
-            #   current_user.access_token = Devise.friendly_token.first(65)
-            #   current_user.save
-            #   #present "Successfully Created Account"
-            #   present current_user
-            #   # With Above, we can find the user by the client access_token(doorkeeper_token)
-            # else
-            #   # user exists, check facebook_id
-            #   if existing_user.facebook_id == facebook_id
-            #     puts "user exists, facebook_id"
-            #     present existing_user
-            #   else
-            #     #Error, Logging in with facebook. User might have logged in with email and now wants to use facebook.
-            #     # set user's facebook_id and allow user to pass
-            #     puts "Error, Logging in with facebook. User might have logged in with email"
-            #     existing_user.picture_url = picture_url
-            #     existing_user.facebook_id = facebook_id
-            #     existing_user.login_with_facebook = true
-            #     existing_user.access_token = Devise.friendly_token.first(65)
-            #     existing_user.save
-            #     # set user equal to the resource_owner_id, to set token
-            #
-            #     present existing_user
-            #
-            #   end
-            #
-            # end
+            name = params[:uname] # get name through facebook
+            email = params[:uemail].downcase
+            facebook_id = params[:ufacebook_id] # this acts as a password
+            picture_url = params[:picture_url] # from facebook (Saving money from AWS)
+            
+            # Check if this Email exists
+            existing_user = User.find_by_email(email)
+            unless existing_user.present?
+              #no user with this email
+              #create user
+              puts "no user with this email"
+              current_user = User.create(:name => name, :email => email, :login_with_facebook => true,
+               :facebook_id => facebook_id, :picture_url => picture_url)
+              current_user.access_token = Devise.friendly_token.first(65)
+              current_user.save
+              #present "Successfully Created Account"
+              present current_user
+              # With Above, we can find the user by the client access_token(doorkeeper_token)
+            else
+              # user exists, check facebook_id
+              if existing_user.facebook_id == facebook_id
+                puts "user exists, facebook_id"
+                present existing_user
+              else
+                #Error, Logging in with facebook. User might have logged in with email and now wants to use facebook.
+                # set user's facebook_id and allow user to pass
+                puts "Error, Logging in with facebook. User might have logged in with email"
+                existing_user.picture_url = picture_url
+                existing_user.facebook_id = facebook_id
+                existing_user.login_with_facebook = true
+                existing_user.access_token = Devise.friendly_token.first(65)
+                existing_user.save
+                # set user equal to the resource_owner_id, to set token
+
+                present existing_user
+
+              end
+
+            end
           end
         end
       end

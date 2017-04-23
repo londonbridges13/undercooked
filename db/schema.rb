@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422233709) do
+ActiveRecord::Schema.define(version: 20170422234326) do
 
   create_table "actions", force: :cascade do |t|
     t.string   "action"
@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 20170422233709) do
     t.boolean  "login_with_facebook"
     t.string   "facebook_id"
     t.string   "picture_url"
+    t.integer  "topic_order",            default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
