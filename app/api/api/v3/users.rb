@@ -185,10 +185,10 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              unless existing_user.image.url.include? "missing"
-                present existing_user.image
-              elsif existing_user.picture_url # facebook profile picture url
+              if existing_user.image.url.include? "missing"
                 present existing_user.picture_url
+              elsif existing_user.picture_url # facebook profile picture url
+                present existing_user.image
               end
             else
               present "ERROR: Cannot find user by token, please sign in again"
