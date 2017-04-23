@@ -82,12 +82,14 @@ module API
               #no user with this email
               #create user
               puts "no user with this email"
-              @user = User.new(:name => name, :email => email, :login_with_facebook => true,
-               :facebook_id => facebook_id, :picture_url => picture_url)
-              @user.access_token = Devise.friendly_token.first(65)
-              @user.save
+              current_user = User.create(:name => name, :email => email)
+              current_user.picture_url = picture_url
+              current_user.login_with_facebook = true
+              current_user.facebook_id = facebook_id
+              current_user.access_token = Devise.friendly_token.first(65)
+              current_user.save
               #present "Successfully Created Account"
-              present @user
+              present current_user
               # With Above, we can find the user by the client access_token(doorkeeper_token)
             else
               # user exists, check facebook_id
