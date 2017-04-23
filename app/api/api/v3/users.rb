@@ -82,7 +82,7 @@ module API
               #no user with this email
               #create user
               puts "no user with this email"
-              current_user = User.create(:name => name, :email => email, :login_with_facebook => true,
+              current_user = User.new(:name => name, :email => email, :login_with_facebook => true,
                :facebook_id => facebook_id, :picture_url => picture_url)
               current_user.access_token = Devise.friendly_token.first(65)
               current_user.save
