@@ -75,7 +75,7 @@ module API
             email = params[:uemail].downcase
             facebook_id = params[:ufacebook_id] # this acts as a password
             picture_url = params[:picture_url] # from facebook (Saving money from AWS)
-            
+
             # Check if this Email exists
             existing_user = User.find_by_email(email)
             unless existing_user.present?
@@ -105,7 +105,7 @@ module API
                 existing_user.save
                 # set user equal to the resource_owner_id, to set token
 
-                present existing_user
+                present "nope, there's a problem"#existing_user
 
               end
 
