@@ -88,6 +88,7 @@ module API
               current_user.facebook_id = facebook_id
               current_user.access_token = Devise.friendly_token.first(65)
               current_user.save
+              puts current_user.errors.full_messages
               #present "Successfully Created Account"
               present current_user
               # With Above, we can find the user by the client access_token(doorkeeper_token)
