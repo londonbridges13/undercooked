@@ -185,7 +185,7 @@ module API
               existing_user = User.find_by_id(doorkeeper_token.resource_owner_id)
             end
             if  existing_user.present?
-              if existing_user.image
+              unless existing_user.image.url.include? "missing"
                 present existing_user.image
               elsif existing_user.picture_url # facebook profile picture url
                 present existing_user.picture_url
