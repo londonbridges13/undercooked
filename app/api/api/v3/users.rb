@@ -186,7 +186,12 @@ module API
             end
             if  existing_user.present?
               if existing_user.image.url.include? "missing"
-                present existing_user.picture_url
+                if existing_user.picture_url
+                  present existing_user.picture_url
+                else
+                  # both are nil, present missing url 
+                  present existing_user.image
+                end
               elsif existing_user.picture_url # facebook profile picture url
                 present existing_user.image
               end
