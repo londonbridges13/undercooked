@@ -186,14 +186,16 @@ module API
             end
             if  existing_user.present?
               if existing_user.image.url.include? "missing"
+                # present facebook picture_url, if there is one
                 if existing_user.picture_url
                   present existing_user.picture_url
                 else
-                  # both are nil, present missing url 
-                  present existing_user.image
+                  # both are nil, present missing url
+                  present existing_user.image.url
                 end
-              elsif existing_user.picture_url # facebook profile picture url
-                present existing_user.image
+              elsif existing_user.image
+                # image is not missing, present image 
+                present existing_user.image.url
               end
             else
               present "ERROR: Cannot find user by token, please sign in again"
