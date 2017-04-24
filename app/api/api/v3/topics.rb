@@ -18,7 +18,7 @@ module API
             # if a topic = Featured, remove it from list of presented topics. Because featured isnt an option
             display_topics = []
             topics.each do |t|
-              unless t.id == 4 # The Featured Topic
+              unless t.id == 12 # The Featured Topic
                 #add to display_topics
                 display_topics.push(t)
               end
@@ -133,7 +133,7 @@ module API
               all_topics.each do |t|
                 unless current_user.topics.include? t
                   # add to display array
-                  unless t.id == 4 # The Featured Topic
+                  unless t.id == 12 # The Featured Topic
                     swappable_topics.push(t)
                   end
 

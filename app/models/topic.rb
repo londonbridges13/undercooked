@@ -17,7 +17,7 @@ class Topic < ActiveRecord::Base
 
 
   #Scopes
-    scope :viewable_topics, -> { where.not(id: 4).all } # skips the featured topic
+    scope :viewable_topics, -> { where.not(id: 12).all } # skips the featured topic
 
 
 end

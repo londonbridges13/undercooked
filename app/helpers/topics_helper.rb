@@ -102,7 +102,7 @@ module TopicsHelper
 
       @amount += 3 - count
 
-      # featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
+      # featured_topic = Topic.where(:id => 12).first # the id of te featured_topic should be four 1/13/17
       # # featured_articles = featured_topic.articles.where(:publish_it => true).limit(5).sort_by(&:created_at).reverse
       # featured_articles = featured_topic.articles.limit(10).where(:publish_it => true).order("article_date DESC")
       #
@@ -133,7 +133,7 @@ module TopicsHelper
 
   def add_featured_articles(amount)
     # this querys for the amount of featured articles needed
-    featured_topic = Topic.where(:id => 4).first # the id of te featured_topic should be four 1/13/17
+    featured_topic = Topic.where(:id => 12).first # the id of te featured_topic should be four 1/13/17
     featured_articles = featured_topic.articles.limit(10).where(:publish_it => true).order("article_date DESC")
     i = 0
     count = 0

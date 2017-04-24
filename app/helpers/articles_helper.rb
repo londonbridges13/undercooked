@@ -112,7 +112,7 @@ module ArticlesHelper
 
       @amount += 3 - count # I want 3 articles. if they only got 2, search featured articles for the third
 
-      # featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
+      # featured_topic = Topic(:id => 12) # the id of te featured_topic should be four 1/13/17
       # featured_articles = featured_topic.articles.where(:publish_it => true).sort_by(&:article_date).reverse.limit(5).all
       # done = false
       # i = 0
@@ -139,7 +139,7 @@ module ArticlesHelper
 
   def add_featured_articles(amount)
     # this querys for the amount of featured articles needed
-    featured_topic = Topic(:id => 4) # the id of te featured_topic should be four 1/13/17
+    featured_topic = Topic(:id => 12) # the id of te featured_topic should be four 1/13/17
     featured_articles = featured_topic.articles.limit(10).where(:publish_it => true).order("article_date DESC")
     i = 0
     count = 0
