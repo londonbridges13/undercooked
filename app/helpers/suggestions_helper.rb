@@ -47,6 +47,19 @@ module SuggestionsHelper
               new_suggestion.article = a
               new_suggestion.save
             end
+          else
+            article_tags = []
+            a.tags.each do |tag|
+              # add tag title to article_tags
+              article_tags.push tag.title.downcase
+            end
+
+            if article_tags.include? k.downcase
+              # article's tag contains keyword, create suggestion
+              new_suggestion = topic.suggestions.build(:reason => "Tag", :evidence => k)
+              new_suggestion.article = a
+              new_suggestion.save
+            end
           end
         end
 

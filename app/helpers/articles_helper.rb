@@ -79,7 +79,7 @@ module ArticlesHelper
   # end
 
   def add_articles(topic)
-    two_days_ago = Time.now - 3.days # change back to 3
+    two_days_ago = Time.now - 7.days # change back to 3
     potential_articles = topic.articles.where('article_date > ?', two_days_ago).where(:publish_it => true)
     if potential_articles.count > 2 # 3 is enough
       # add each to @articles if they aren't in the article
