@@ -3,10 +3,11 @@ module SuggestionsHelper
 
   def create_suggestions_for_topic(topic)
     remove_accepted_suggestions(topic)
-    all_recent_articles = Article.where('article_date > ?', 3.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
+    x_days = 3
+    all_recent_articles = Article.where('article_date > ?', x_days.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
 
     existing_suggested_articles = [] # get existing suggestions
-    existing_topic_articles = topic.articles.where('article_date > ?', 3.days.ago) # get recent articles from topic
+    existing_topic_articles = topic.articles.where('article_date > ?', x_days.days.ago) # get recent articles from topic
 
     # set existing_suggested_articles
     topic.suggestions.each do |s|
@@ -31,7 +32,7 @@ module SuggestionsHelper
         topic.tags.each do |keyword|
           # see if the keyword exists in in the article's desc or title
           k = keyword.title
-          if a.title.include? k.downcase
+          if a.title.downcase.include? k.downcase
             #create suggestion
             unless existing_suggested_articles.include? a or existing_topic_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
@@ -39,7 +40,7 @@ module SuggestionsHelper
               new_suggestion.save
             end
 
-          elsif a.desc.include? k.downcase
+          elsif a.desc.downcase.include? k.downcase
             #create suggestion
             unless existing_suggested_articles.include? a or existing_topic_articles.include? a
               new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
