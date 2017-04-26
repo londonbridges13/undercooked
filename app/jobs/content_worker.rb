@@ -3,7 +3,7 @@ require 'hangry'
 
 class ContentWorker
   include SuckerPunch::Job
-  # workers 2
+  workers 1
 
   def perform(none)
     ActiveRecord::Base.connection_pool.with_connection do
