@@ -1,6 +1,6 @@
 class Article < ActiveRecord::Base
 
-  paginates_per 1
+  # paginates_per 1
   max_paginates_per 5
 
 
