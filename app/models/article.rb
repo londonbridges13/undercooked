@@ -1,7 +1,7 @@
 class Article < ActiveRecord::Base
 
   # paginates_per 1
-  max_paginates_per 5
+  max_paginates_per 2
 
 
   validates_uniqueness_of :article_url
