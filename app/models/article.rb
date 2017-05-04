@@ -1,4 +1,7 @@
 class Article < ActiveRecord::Base
+
+  paginates_per 5
+
   validates_uniqueness_of :article_url
   validates_presence_of :resource
   validates_presence_of :article_url
