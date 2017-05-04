@@ -335,10 +335,31 @@ class RecipeIngredientsController < ApplicationController
       rebuilt_i = i
     end
 
-    p rebuilt_i
+    p rebuilt_i.gsub! /\t/, '' # removing tabs (namely marly)
     p "rebuilt_i"
 
     return rebuilt_i
+  end
+
+
+
+  def decipher(html, parse)
+    #return time, name, or comment
+
+    content = "" #what we'll be returning
+    parse.each do |p|
+      if html.include? p
+        p_index = html.index(p)
+        html.slice! html[0...p_index]
+      end
+    end
+
+    lp_length = parse.last.length
+    html.slice! html[0...lp_length]
+    if html.include? "<"
+      content = html[0...html.index("<")]
+      return content
+    end
   end
 
 # First Conversion approach
