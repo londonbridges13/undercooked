@@ -251,7 +251,7 @@ module API
                 a.desc = "From #{a.resource.title}"
               end
             end
-            present articles.padding(1).page params[:page]
+            present articles.page params[:page]
           end
         end
       end
