@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :auto_publishings
   resources :actions
   resources :instructions
   resources :ingredients

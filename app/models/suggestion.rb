@@ -5,6 +5,7 @@ class Suggestion < ActiveRecord::Base
 
   belongs_to :topic
   belongs_to :article
+  has_one :auto_publishing
 
 
 end

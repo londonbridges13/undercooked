@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422234326) do
+ActiveRecord::Schema.define(version: 20170509021113) do
 
   create_table "actions", force: :cascade do |t|
     t.string   "action"
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(version: 20170422234326) do
 
   add_index "articles_users", ["article_id", "user_id"], name: "index_articles_users_on_article_id_and_user_id"
   add_index "articles_users", ["user_id", "article_id"], name: "index_articles_users_on_user_id_and_article_id"
+
+  create_table "auto_publishings", force: :cascade do |t|
+    t.string   "reasons"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "suggestion_id"
+  end
+
+  add_index "auto_publishings", ["suggestion_id"], name: "index_auto_publishings_on_suggestion_id"
 
   create_table "content_managements", force: :cascade do |t|
     t.string   "last_new_article_grab_date"
@@ -277,6 +286,7 @@ ActiveRecord::Schema.define(version: 20170422234326) do
     t.datetime "image_updated_at"
     t.string   "taglist",            default: "--- []\n"
     t.string   "keywords",           default: "--- []\n"
+    t.string   "auto_proofs",        default: "{}"
   end
 
   create_table "topics_users", id: false, force: :cascade do |t|

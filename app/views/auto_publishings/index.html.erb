@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Auto Publishings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Reasons</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @auto_publishings.each do |auto_publishing| %>
+      <tr>
+        <td><%= auto_publishing.reasons %></td>
+        <td><%= link_to 'Show', auto_publishing %></td>
+        <td><%= link_to 'Edit', edit_auto_publishing_path(auto_publishing) %></td>
+        <td><%= link_to 'Destroy', auto_publishing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Auto publishing', new_auto_publishing_path %>
