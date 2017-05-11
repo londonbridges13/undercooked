@@ -144,6 +144,52 @@ module API
 
 
       resource :topics do
+        namespace 'set_proofs' do
+          desc "Self"
+          post do
+            #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS
+            id = params[:utopic]
+            proofs = params[:proofs]#.downcase
+
+            topic = Topic.find_by_id(id)
+            topic.auto_proofs.clear
+            array_of_proofs = proofs
+
+            array_of_proofs.each do |proof|
+              proof.downcase!
+              unless topic.auto_proofs.include? proof
+                topic.auto_proofs.push(proof)
+                topic.save
+              end
+            end
+
+            present topic
+          end
+        end
+      end
+
+
+      resource :topics do
+        namespace 'get_topic_proofs' do
+          desc "Query a Topic's Proofs"
+          post do
+            #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            # PRESENT LIKE A TAG SO THAT THERE ARE NO ISSUES IN CLIENT APP
+            proofs = []
+            if topic
+              topic.auto_proofs.each do |proof|
+                proof_tag = Tag.find_or_create_by(:title => k) #converting into tag for content app
+                proofs.push(proof_tag)
+              end
+            end
+            present proofs
+          end
+        end
+      end
+
+      resource :topics do
         namespace 'get_new_articles_from_topic' do
           desc "self"
           post do
