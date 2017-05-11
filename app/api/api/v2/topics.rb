@@ -153,6 +153,7 @@ module API
 
             topic = Topic.find_by_id(id)
             topic.auto_proofs.clear
+            topic.save
             array_of_proofs = proofs
 
             array_of_proofs.each do |proof|
@@ -180,7 +181,7 @@ module API
             proofs = []
             if topic
               topic.auto_proofs.each do |proof|
-                proof_tag = Tag.find_or_create_by(:title => proof) #converting into tag for content app
+                proof_tag = Tag.new(:title => proof) #converting into tag for content app
                 proofs.push(proof_tag)
               end
             end
