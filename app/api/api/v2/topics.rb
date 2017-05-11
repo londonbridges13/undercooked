@@ -180,7 +180,7 @@ module API
             proofs = []
             if topic
               topic.auto_proofs.each do |proof|
-                proof_tag = Tag.find_or_create_by(:title => k) #converting into tag for content app
+                proof_tag = Tag.find_or_create_by(:title => proof) #converting into tag for content app
                 proofs.push(proof_tag)
               end
             end
