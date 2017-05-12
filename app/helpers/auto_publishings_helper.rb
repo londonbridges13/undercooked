@@ -20,6 +20,7 @@ module AutoPublishingsHelper
       suggestion.rejected = false
       suggestion.save
       create_explaination(reasons, suggestion)
+      publish_article(suggestion)
     end
 
   end
@@ -139,11 +140,21 @@ module AutoPublishingsHelper
   def create_explaination(reasons, suggestion)
     ap = AutoPublishing.new
     ap.reasons = reasons
-    ap.suggestion = suggestion
-    ap.save
+    unless suggestion.auto_publishing
+      ap.suggestion = suggestion
+      ap.save
+    end
     return ap
   end
 
+  def publish_article(suggestion)
+    suggestion.article.publish_it = true
+    unless suggestion.article.topics.include? suggestion.topic
+      suggestion.article.topics.push suggestion.topic
+    end
+    suggestion.article.save
+
+  end
 
   def clear_inner_tags(i)
     rebuilt_i = ""
