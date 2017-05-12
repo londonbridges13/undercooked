@@ -138,7 +138,7 @@ module AutoPublishingsHelper
 
 
   def create_explaination(reasons, suggestion)
-    ap = AutoPublishing.new
+    ap = AutoPublishing.find_or_create_by(:suggestion => suggestion)
     ap.reasons = reasons
     unless suggestion.auto_publishing
       ap.suggestion = suggestion
