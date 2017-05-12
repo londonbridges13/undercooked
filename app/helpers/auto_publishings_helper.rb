@@ -83,7 +83,7 @@ module AutoPublishingsHelper
     # check each proof to see if the sentence contains the proof in it
     # return reason array
 
-    reasons = []
+    reasons = ""
 
     sentences.each do |s|
       proofs.each do |e|
