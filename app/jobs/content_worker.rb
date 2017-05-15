@@ -10,7 +10,7 @@ class ContentWorker
       topics = Topic.all
       @cm = ContentManagement.first
       @count = 0
-      a_day_ago = Time.now - 1.min
+      a_day_ago = Time.now - 1.day
       if a_day_ago > @cm.updated_at
         topics.each do |topic|
           if topic
