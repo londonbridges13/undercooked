@@ -20,7 +20,7 @@ module AutoPublishingsHelper
           create_explaination(reasons, suggestion)
           publish_article(suggestion)
         end
-      end 
+      end
     end
     # else there are no sentences found
 
@@ -42,6 +42,7 @@ module AutoPublishingsHelper
     else
       p "Unable to crop article, parse the whole url?"
       p "No, not yet developed"
+      return nil
     end
   end
 
