@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'open_uri_redirections'
 
 module AutoPublishingsHelper
 
@@ -29,7 +30,7 @@ module AutoPublishingsHelper
 
   def get_article_sentences(url)
 
-    html = Nokogiri::HTML(open(url)) # displays all text on url
+    html = Nokogiri::HTML(open(url, :allow_redirections => :safe)) # displays all text on url
     article = "#{html}"
     start = article.index("<article")
     ending = article.index("</article")

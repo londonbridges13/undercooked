@@ -185,6 +185,7 @@ GEM
     oga (2.7)
       ast
       ruby-ll (~> 2.1)
+    open_uri_redirections (0.2.1)
     orm_adapter (0.5.0)
     paperclip (5.0.0)
       activemodel (>= 4.2.0)
@@ -321,6 +322,7 @@ DEPENDENCIES
   link_thumbnailer
   newrelic-grape
   newrelic_rpm
+  open_uri_redirections
   paperclip (~> 5.0.0)
   pg
   rails (= 4.2.6)

@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'open_uri_redirections'
 require 'hangry'
 
 class ContentWorker
@@ -472,7 +473,7 @@ class ContentWorker
     def found_sentence(sentence, url)
       # use Nokogiri to find sentence in the web script
 
-      site = Nokogiri::HTML(open(url)) # this is the website source code
+      site = Nokogiri::HTML(open(url, :allow_redirections => :safe)) # this is the website source code
 
       if site.include? sentence
         return true
@@ -486,7 +487,7 @@ class ContentWorker
     def grab_two_sentences(first_step, last_step, url)
       # grab all the instructions between the first and last
 
-      site = Nokogiri::HTML(open(url)) # this is the website source code
+      site = Nokogiri::HTML(open(url, :allow_redirections => :safe)) # this is the website source code
 
       # grab the index of the first and last step
       f_index = site.index(first_step)
@@ -525,7 +526,7 @@ class ContentWorker
       ingredients = []
 
       # convert here
-      recipe_html_string = open(article.article_url).read
+      recipe_html_string = open(article.article_url, :allow_redirections => :safe).read
       recipe = Hangry.parse(recipe_html_string)
 
       recipe.author         # "Rachel Ray"
@@ -650,7 +651,7 @@ class ContentWorker
       #returns array of sentences
       # splits Text by . ! ?
       #article is the text in the article
-      html = Nokogiri::HTML(open(url)) # displays all text on url
+      html = Nokogiri::HTML(open(url, :allow_redirections => :safe)) # displays all text on url
       article = "#{html}"
       start = article.index("<article")
       ending = article.index("</article")
