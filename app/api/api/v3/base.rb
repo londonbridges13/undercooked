@@ -10,11 +10,11 @@ module API
 
       mount V3::Resources
       mount V3::Articles
-      # mount V3::Products
       mount V3::Topics
       mount V3::Users
       mount V3::Feedbacks
       # mount V3::Tags
+      # mount V3::Products
 
     end
   end

@@ -198,4 +198,16 @@ module AutoPublishingsHelper
   end
 
 
+
+  def get_video_description(content)
+    video = VideoInfo.new(content.article_url)
+    if video
+      if video.description
+        p  video.description
+        content.desc = video.description
+        content.save
+      end 
+    end
+  end
+
 end

@@ -95,8 +95,16 @@ class ContentWorker
                 article_image_url = LinkThumbnailer.generate(entry.url).images.first.src.to_s
                 # article_image_url = images.images.first.src.to_s
 
+                #description
+                video = VideoInfo.new(entry.url)
+                description = ""
+                if video
+                  if video.description
+                    description = video.description
+                  end 
+                end
                 new_article = resource.articles.build(:title => entry.title, :article_url => entry.url, :article_image_url => article_image_url,
-                :desc => Sanitize.fragment(entry.summary), :resource_type => 'video', :article_date => entry.published, :publish_it => nil)#, :image)
+                :desc => description, :resource_type => 'video', :article_date => entry.published, :publish_it => nil)#, :image)
                 new_article.save
               end
             end
