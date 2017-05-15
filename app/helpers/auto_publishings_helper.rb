@@ -7,17 +7,20 @@ module AutoPublishingsHelper
 
     sentences = get_article_sentences suggestion.article.article_url
 
-    proofs = organize_topic_proofs suggestion.topic
+    if sentences.count > 1
+      proofs = organize_topic_proofs suggestion.topic
 
-    reasons = assess_proofs(proofs, sentences)
+      reasons = assess_proofs(proofs, sentences)
 
-    if reasons.length > 1
+      if reasons.length > 1
 
-      suggestion.rejected = false
-      suggestion.save
-      create_explaination(reasons, suggestion)
-      publish_article(suggestion)
+        suggestion.rejected = false
+        suggestion.save
+        create_explaination(reasons, suggestion)
+        publish_article(suggestion)
+      end
     end
+    # else there are no sentences found
 
   end
 
