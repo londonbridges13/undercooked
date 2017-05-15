@@ -8,12 +8,12 @@ module API
         doorkeeper_authorize!
       end
       format :json
+      helpers AutoPublishingsHelper
 
       resource :auto_publishings do
         namespace 'automatically_publish' do
           desc "Self"
           post do
-            helpers AutoPublishingsHelper
 
             p "Assessing Suggestions..."
             suggestions = []
