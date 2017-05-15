@@ -4,19 +4,15 @@ module AutoPublishingsHelper
 
 
   def automatic_publishing(suggestion)
-    # using a suggestion, determine whether the article is right for the topic
 
-    #get sentences from article
     sentences = get_article_sentences suggestion.article.article_url
 
-    # get proofs
     proofs = organize_topic_proofs suggestion.topic
 
     reasons = assess_proofs(proofs, sentences)
 
-    if reasons.count > 0
-      # set suggestion.rejected = false
-      # create auto_publish to explain why article automatically published
+    if reasons.length > 1
+
       suggestion.rejected = false
       suggestion.save
       create_explaination(reasons, suggestion)
@@ -27,15 +23,13 @@ module AutoPublishingsHelper
 
 
   def get_article_sentences(url)
-    #returns array of sentences
-    # splits Text by . ! ?
-    #article is the text in the article
+
     html = Nokogiri::HTML(open(url)) # displays all text on url
     article = "#{html}"
     start = article.index("<article")
     ending = article.index("</article")
     if start and ending
-      cropped_article = article[start...ending]
+      cropped_article = article[start...ending].downcase!
       cropped_article = clear_inner_tags(cropped_article)
 
       sentences = cropped_article.scan(/[^\.!?]+[\.!?]/).map(&:strip)
@@ -47,33 +41,36 @@ module AutoPublishingsHelper
   end
 
   def organize_topic_proofs(topic)
-    #return proofs (an array of arrays of strings (ALL DOWNCASED))
-    # [["no", "gluten"], ["gluten-free"], ["gluten", "free"]]
 
-    # take array of proofs and split them by the "~" to get the keywords in the array
     proofs = []
     ap = topic.auto_proofs
-    ap.each do |pp|
+    ap.each do |ppp|
+      pp = ppp
       # organize into proof array
       # split by "~"
+      p pp
       pp.downcase!
+      p pp
+      array = []
+
       if pp.include? "~"
         # Split by ~
-        array = []
+        p "Split by ~"
         while pp.include? "~"
+          p "while"
           index = pp.index("~")
           part = pp[0...index]
           array.push part
           pp.slice! pp[0...index + 1]
         end
         array.push pp[0...pp.length]
-        proofs.push array
       else
         # doesn't contain ~
-        array = []
+        p "doesn't contain ~"
         array.push pp
-        proofs.push array
       end
+      proofs.push array
+
     end
     return proofs
   end
@@ -87,7 +84,6 @@ module AutoPublishingsHelper
 
     sentences.each do |s|
       proofs.each do |e|
-        # see if e (array) is in s (sentence)
         array = e # e hold an array of keywords, find all keywords in sentences
 
         count = 0
@@ -99,18 +95,15 @@ module AutoPublishingsHelper
         end
 
         if count == pass
-          # sentence contains all keys in proof, automatically publish and create reason
           reason = create_reason(e)
-          reasons.push reason
+          reasons = reasons + reason
+          p reasons
         end
       end
     end
 
-    # if we have any reason for automatically publishing this article to this website, do it
-    if reasons.count > 0
-      # add topic to article's topic
-      # create auto_publish to explain why article automatically published
-      # this is done on the top func
+    if reasons.length > 10
+
     else
       p "no reason to add this topic"
     end
@@ -119,16 +112,13 @@ module AutoPublishingsHelper
   end
 
   def create_reason(proof)
-    # return elegant response (string)
     reason = "A sentence in this article contained these keywords: #{proof}."
 
     previous_word = ""
     proof.each do |e|
       if previous_word == ""
-        # this is the first word set as first word
         previous_word = e
       else
-        # create aloborate sentence
         part = " '#{previous_word.capitalize}' appearing before '#{e}'."
         reason = reason + part
       end
@@ -138,8 +128,7 @@ module AutoPublishingsHelper
 
 
   def create_explaination(reasons, suggestion)
-    ap = AutoPublishing.find_or_create_by(:suggestion => suggestion)
-    ap.reasons = reasons
+    ap = AutoPublishing.find_or_create_by(:suggestion => suggestion, :reasons => reasons)
     unless suggestion.auto_publishing
       ap.suggestion = suggestion
       ap.save
@@ -206,7 +195,7 @@ module AutoPublishingsHelper
         p  video.description
         content.desc = video.description
         content.save
-      end 
+      end
     end
   end
 
