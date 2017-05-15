@@ -10,7 +10,7 @@ module API
 
       mount V2::Resources
       mount V2::Articles
-      mount V2::AutoPublishing
+      mount V2::AutoPublishings
       # mount V2::Products
       mount V2::Topics
       mount V2::Suggestions

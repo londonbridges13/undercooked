@@ -174,6 +174,9 @@ GEM
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
     net_http_timeout_errors (0.3.0)
+    newrelic-grape (2.1.0)
+      grape
+      newrelic_rpm
     newrelic_rpm (3.18.1.330)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -316,6 +319,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   link_thumbnailer
+  newrelic-grape
   newrelic_rpm
   paperclip (~> 5.0.0)
   pg
