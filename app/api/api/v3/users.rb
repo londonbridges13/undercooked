@@ -194,7 +194,7 @@ module API
                   present existing_user.image.url
                 end
               elsif existing_user.image
-                # image is not missing, present image 
+                # image is not missing, present image
                 present existing_user.image.url
               end
             else
@@ -457,7 +457,36 @@ module API
 
 
 
+  # Follow System
 
+      resource :users do
+        namespace 'count_users_following' do
+          post do
+            # Create User using Params
+            token = params[:utoken]
+
+            user = User.find_by_token(token)
+            if user
+              present user.count_following
+            end
+          end
+        end
+      end
+
+
+      resource :users do
+        namespace 'display_users_following' do
+          post do
+            # Create User using Params
+            token = params[:utoken]
+
+            user = User.find_by_token(token)
+            if user
+              present user.display_following
+            end
+          end
+        end
+      end
 
 
 

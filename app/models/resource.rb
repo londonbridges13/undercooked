@@ -11,4 +11,23 @@ class Resource < ActiveRecord::Base
   has_attached_file :image, styles: { medium: "200x200>", thumb: "90x90>" }, default_url: "/images/:style/missing.png"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
+
+  # Follow System, Followers, Following
+  def count_followers
+    follow_count = Relationship.where(:followed_id => self.id).count
+    return follow_count
+  end
+
+  # Channel's Content
+  def count_posts
+    post_count = self.articles.count
+    return post_count
+  end
+
+  def share_alittle
+    # show a glispe of what this channel has to offer, use for suggesting articles
+    a_little = self.articles.order('updated_at DESC').limit(5)
+    return a_little
+  end
+
 end
