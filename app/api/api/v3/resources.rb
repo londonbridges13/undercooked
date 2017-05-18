@@ -42,7 +42,7 @@ module API
           post do
             id = params[:uchannel]
             resource = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
-            articles = resource.articles.where(:publish_it => true).order(article_date: :desc).all
+            articles = resource.articles.order(article_date: :desc).all
             articles.each do |a|
               if a.desc == ""
                 a.desc = "From #{a.resource.title}"
