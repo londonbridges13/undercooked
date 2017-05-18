@@ -40,7 +40,7 @@ module API
         namespace 'display_resource_articles' do
           desc "Query All Resource's Articles"
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             resource = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             articles = resource.articles.where(:publish_it => true).order(article_date: :desc).all
             articles.each do |a|
@@ -58,7 +58,7 @@ module API
         namespace 'count_channel_posts' do
           desc ""
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             resource = Resource.find_by_id(id)
             present resource.count_posts
           end
@@ -69,7 +69,7 @@ module API
         namespace 'count_channel_followers' do
           desc ""
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             resource = Resource.find_by_id(id)
             present resource.count_followers
           end
@@ -80,9 +80,20 @@ module API
         namespace 'glimpse_channel_content' do
           desc ""
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             resource = Resource.find_by_id(id)
             present resource.share_alittle
+          end
+        end
+      end
+
+      resource :resources do
+        namespace 'channel_description' do
+          desc ""
+          post do
+            id = params[:uchannel]
+            resource = Resource.find_by_id(id)
+            present resource.desc
           end
         end
       end
@@ -94,7 +105,7 @@ module API
         namespace 'follow_channel' do
           desc "self"
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
             user = User.find_by_token(token)
@@ -110,7 +121,7 @@ module API
         namespace 'unfollow_channel' do
           desc "self"
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
             user = User.find_by_token(token)
@@ -126,7 +137,7 @@ module API
         namespace 'is_following_channel' do
           desc "self"
           post do
-            id = params[:uresource]
+            id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
             user = User.find_by_token(token)
