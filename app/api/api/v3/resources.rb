@@ -24,6 +24,19 @@ module API
       end
 
       resource :resources do
+        namespace 'get_channel_info' do
+          desc ""
+          post do
+            id = params[:uchannel]
+            channel = Resource.find_by_id(id)
+
+            display = Article.new(id: channel.id, title: channel.title, article_image_url: channel.image.url)
+            present display #article.resource
+          end
+        end
+      end
+
+      resource :resources do
         namespace 'display_resource_articles' do
           desc "Query All Resource's Articles"
           post do
