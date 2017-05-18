@@ -108,7 +108,7 @@ module API
             id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
-            user = User.find_by_token(token)
+            user = User.find_by_access_token(token)
             if user
               user.follow_channel! channel.id
               present "Successfully Followed #{channel.title}"
@@ -124,7 +124,7 @@ module API
             id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
-            user = User.find_by_token(token)
+            user = User.find_by_access_token(token)
             if user
               user.unfollow_channel! channel.id
               present "Successfully Unfollowed #{channel.title}"
@@ -140,7 +140,7 @@ module API
             id = params[:uchannel]
             channel = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
             token = params[:utoken]
-            user = User.find_by_token(token)
+            user = User.find_by_access_token(token)
             if user
               if user.following_channel? channel.id
                 present "true"
