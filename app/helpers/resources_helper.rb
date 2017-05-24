@@ -85,7 +85,14 @@ module ResourcesHelper
         recommend_channel t
       end
 
-      present @channels
+
+      # change channel to article, for the image
+      channels = []
+      @channels.each do |c|
+        display = Article.new(id: c.id, title: c.title, article_image_url: c.image.url)
+        channels.push display
+      end
+      present channels
     end
 
     def recommend_channel(topic)

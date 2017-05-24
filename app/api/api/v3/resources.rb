@@ -8,6 +8,7 @@ module API
         doorkeeper_authorize!
       end
       format :json
+      helpers ResourcesHelper
 
 
       resource :resources do
@@ -28,7 +29,6 @@ module API
         namespace 'recommend_channels' do
           desc "Recommend Channels Based on Topics"
           post do
-            id = params[:uarticle]
             topic_ids = params[:utopics]
             topics = []
             topic_ids.each do |t|
@@ -36,7 +36,7 @@ module API
               if topic
                 topics.push topic
               end
-            end 
+            end
             recommend_channels_by_topics(topics)
           end
         end
