@@ -9,7 +9,7 @@ module ResourcesHelper
     if resource.resource_type == "error"
       #do nothing
       present "This resoruce has it's own error"
-    elsif resource.resource_type == "article-xml" #or resource.resource_url.include? "autoimmunewellness.com" or 
+    elsif resource.resource_type == "article-xml" #or resource.resource_url.include? "autoimmunewellness.com" or
       # the weird articles that cause errors
       get_other_articles(resource)
     elsif resource.resource_url.include? "youtube.com" or resource.resource_type == "video"
@@ -73,6 +73,52 @@ module ResourcesHelper
       end
     end
 
+
+
+    # Channel Functions
+
+    def recommend_channels_by_topics(topics)
+      # present channels based on the topics that the user follows
+      @channels = []
+
+      topics.each do |t|
+        recommend_channel t
+      end
+
+      present @channels
+    end
+
+    def recommend_channel(topic)
+      # from this one topic, suggest 3 channels that are not yset in the @channels
+      # find the channels with the must content under this topic (within last 30 days)
+
+      x_days = 30
+      # Grab content from the last 30 days
+      articles = topic.articles.where('article_date > ?', x_days.days.ago)
+
+      potential_channels = []
+      articles.each do |a|
+        potential_channels.push a.resource
+      end
+
+      counts = {}
+      potential_channels.group_by(&:itself).each { |k,v| counts[k] = v.length }
+
+      counts.sort_by{|x,y| y}.reverse # order by number of appearances, highest to lowest
+
+      added_channels = 0 #number of channels added by this topic
+      counts.each do |c|
+        # add channels to the @channels
+        # stop when you've added 3 channels
+        unless added_channels == 3
+          unless @channels.include? c[0]
+            @channels.push c[0]
+            added_channels += 1
+          end
+        end
+      end
+
+    end
 
 
 

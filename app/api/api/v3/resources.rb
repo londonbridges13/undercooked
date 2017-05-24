@@ -23,6 +23,26 @@ module API
         end
       end
 
+
+      resource :resources do
+        namespace 'recommend_channels' do
+          desc "Recommend Channels Based on Topics"
+          post do
+            id = params[:uarticle]
+            topic_ids = params[:utopics]
+            topics = []
+            topic_ids.each do |t|
+              topic = Topic.find_by_id(t)
+              if topic
+                topics.push topic
+              end
+            end 
+            recommend_channels_by_topics(topics)
+          end
+        end
+      end
+
+
       resource :resources do
         namespace 'get_channel_info' do
           desc ""
@@ -42,7 +62,7 @@ module API
           post do
             id = params[:uchannel]
             resource = Resource.find_by_id(id)#, with: Entity::V3::ArticlesEntity
-            articles = resource.articles.order(article_date: :desc).all
+            articles = resource.articles.order(article_date: :desc).limit(200).all
             articles.each do |a|
               if a.desc == ""
                 a.desc = "From #{a.resource.title}"
