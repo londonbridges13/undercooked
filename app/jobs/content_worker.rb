@@ -635,13 +635,15 @@ class ContentWorker
 
       reasons = assess_proofs(proofs, sentences)
 
-      if reasons.count > 0
-        # set suggestion.rejected = false
-        # create auto_publish to explain why article automatically published
-        suggestion.rejected = false
-        suggestion.save
-        create_explaination(reasons, suggestion)
-        publish_article(suggestion)
+      if reasons
+        if reasons.count > 0
+          # set suggestion.rejected = false
+          # create auto_publish to explain why article automatically published
+          suggestion.rejected = false
+          suggestion.save
+          create_explaination(reasons, suggestion)
+          publish_article(suggestion)
+        end
       end
 
     end
@@ -728,12 +730,14 @@ class ContentWorker
       end
 
       # if we have any reason for automatically publishing this article to this website, do it
-      if reasons and reasons.count > 0
-        # add topic to article's topic
-        # create auto_publish to explain why article automatically published
-        # this is done on the top func
-      else
-        p "no reason to add this topic"
+      if reasons
+        if reasons.count > 0
+          # add topic to article's topic
+          # create auto_publish to explain why article automatically published
+          # this is done on the top func
+        else
+          p "no reason to add this topic"
+        end
       end
 
       return reasons
