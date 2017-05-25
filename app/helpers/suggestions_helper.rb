@@ -89,7 +89,9 @@ module SuggestionsHelper
       # get article suggestions
       if topic.articles.include? s.article
         # remove the suggestion
-        s.auto_publishing.delete 
+        s.auto_publishing.delete
+        s.auto_publishing = nil
+        s.save 
         s.delete # WE DON'T NEED TO KEEP A SUGGESTION IF IT WAS ACCEPTED
       end
     end
