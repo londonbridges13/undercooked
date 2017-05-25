@@ -633,16 +633,18 @@ class ContentWorker
       # get proofs
       proofs = organize_topic_proofs suggestion.topic
 
-      reasons = assess_proofs(proofs, sentences)
+      if sentences and proofs
+        reasons = assess_proofs(proofs, sentences)
 
-      if reasons
-        if reasons.length > 0
-          # set suggestion.rejected = false
-          # create auto_publish to explain why article automatically published
-          suggestion.rejected = false
-          suggestion.save
-          create_explaination(reasons, suggestion)
-          publish_article(suggestion)
+        if reasons
+          if reasons.length > 0
+            # set suggestion.rejected = false
+            # create auto_publish to explain why article automatically published
+            suggestion.rejected = false
+            suggestion.save
+            create_explaination(reasons, suggestion)
+            publish_article(suggestion)
+          end
         end
       end
 
