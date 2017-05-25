@@ -636,7 +636,7 @@ class ContentWorker
       reasons = assess_proofs(proofs, sentences)
 
       if reasons
-        if reasons.count > 0
+        if reasons.length > 0
           # set suggestion.rejected = false
           # create auto_publish to explain why article automatically published
           suggestion.rejected = false
@@ -731,7 +731,7 @@ class ContentWorker
 
       # if we have any reason for automatically publishing this article to this website, do it
       if reasons
-        if reasons.count > 0
+        if reasons.length > 10
           # add topic to article's topic
           # create auto_publish to explain why article automatically published
           # this is done on the top func
