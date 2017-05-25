@@ -668,6 +668,7 @@ class ContentWorker
       else
         p "Unable to crop article, parse the whole url?"
         p "No, not yet developed"
+        return nil
       end
     end
 
