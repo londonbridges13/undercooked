@@ -728,7 +728,7 @@ class ContentWorker
       end
 
       # if we have any reason for automatically publishing this article to this website, do it
-      if reasons.count > 0
+      if reasons and reasons.count > 0
         # add topic to article's topic
         # create auto_publish to explain why article automatically published
         # this is done on the top func
