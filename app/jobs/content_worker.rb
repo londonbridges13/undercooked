@@ -20,7 +20,7 @@ class ContentWorker
             topic.suggestions.each do |s|
               # assess suggestions
               p "Assessing Suggestion: #{s.id}"
-              # automatic_publishing s
+              automatic_publishing s
             end
             @count += 1
           else
@@ -727,9 +727,7 @@ class ContentWorker
           if count == pass
             # sentence contains all keys in proof, automatically publish and create reason
             reason = create_reason(e)
-            if  and reason != ""
-              reasons.push reason
-            end
+            reasons.push reason
           end
         end
       end
