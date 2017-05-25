@@ -727,7 +727,7 @@ class ContentWorker
           if count == pass
             # sentence contains all keys in proof, automatically publish and create reason
             reason = create_reason(e)
-            unless reason == "" or reason == nil
+            if  and reason != "" 
               reasons.push reason
             end
           end
