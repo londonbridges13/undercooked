@@ -29,8 +29,8 @@ module API
         namespace 'my_channels' do
           desc ""
           post do
-            id = params[:userid]
-            user = User.find_by_id(id)
+            token = params[:utoken]
+            user = User.find_by_token(token)
             following = user.display_following
 
             channels = []
