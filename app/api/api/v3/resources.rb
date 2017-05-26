@@ -26,6 +26,27 @@ module API
 
 
       resource :resources do
+        namespace 'my_channels' do
+          desc ""
+          post do
+            id = params[:userid]
+            user = User.find_by_id(id)
+            following = user.display_following
+
+            channels = []
+            following.each do |f|
+              # convert to article, easier to present
+              channel = Article.new(id: f.id, title: f.title, article_image_url: f.image.url)
+              channels.push channel
+            end
+
+            present channels #article.resource
+          end
+        end
+      end
+
+
+      resource :resources do
         namespace 'recommend_channels' do
           desc "Recommend Channels Based on Topics"
           post do
