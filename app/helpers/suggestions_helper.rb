@@ -101,7 +101,7 @@ module SuggestionsHelper
 
 
   def accept_all_suggestions_for(topic)
-    suggestions = topic.suggestions.where('rejected = ?', nil)
+    suggestions = topic.suggestions.where('rejected IS ?', nil)
 
     suggestions.each do |s|
       # accept suggested article and publish it
