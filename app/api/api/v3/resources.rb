@@ -30,7 +30,7 @@ module API
           desc ""
           post do
             token = params[:utoken]
-            user = User.find_by_token(token)
+            user = User.find_by_access_token(token)
             following = user.display_following
 
             channels = []
