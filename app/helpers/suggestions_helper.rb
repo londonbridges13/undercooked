@@ -91,12 +91,29 @@ module SuggestionsHelper
         # remove the suggestion
         if s.auto_publishing
           s.auto_publishing.delete
-        end 
+        end
         s.auto_publishing = nil
         s.save
         s.delete # WE DON'T NEED TO KEEP A SUGGESTION IF IT WAS ACCEPTED
       end
     end
+  end
+
+
+  def accept_all_suggestions_for(topic)
+    suggestions = topic.suggestions.where('rejected = ?', nil)
+
+    suggestions.each do |s|
+      # accept suggested article and publish it
+      s.article.publish_it = true
+      unless s.article.topics.include? topic
+        s.article.topics.push topic
+      end
+      s.article.save
+      s.rejected = false
+      s.save
+    end
+    present "Successfully accepted all suggestions"
   end
 
 

@@ -53,10 +53,22 @@ module API
                   end
                   suggested_articles.push(s.article)
                 end
-              end 
+              end
             end
 
             present suggested_articles
+          end
+        end
+      end
+
+      resource :suggestions do
+        namespace 'accept_all_suggestions' do
+          desc ""
+          post do
+            id = params[:utopic]
+            topic = Topic.find_by_id(id)#, with: Entity::V1::ArticlesEntity
+            accept_all_suggestions_for topic
+
           end
         end
       end
