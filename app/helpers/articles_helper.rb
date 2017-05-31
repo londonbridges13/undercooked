@@ -198,7 +198,13 @@ module ArticlesHelper
 
   def recommended_content
     #shuffle all articles
-    articles = Article.all.where(:publish_it => true).limit(3).shuffle
+    articles = []
+    while articles.count < 3
+      an_article = Article.where(:publish_it => true).shuffle.first
+      unless articles.include? an_article
+        articles.push an_article
+      end
+    end
     return articles
   end
 
