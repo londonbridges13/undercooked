@@ -159,16 +159,12 @@ module ArticlesHelper
 
 
   def get_handpicked_articles(user)
-    #Query 3 articles from each channel
-    #Query 2 newest articles from each Topic
-    #Order by date, newest first
-    #(Later make this unlimited)
+
 
     if user
-      #query channels
       all_articles = []
-      user.display_following.where(:is_channel => true).each do |c|
-        # add the 3 newest articles
+      channels = user.display_following
+      channels.each do |c|
         c_articles = c.articles.order('article_date DESC').limit(3)
         c_articles.each do |a|
           unless all_articles.include? a
@@ -177,10 +173,8 @@ module ArticlesHelper
         end
       end
 
-      #Get topic articles
       topics = user.topics
       topics.each do |t|
-        # get 3 newest articles
         t.articles.order('article_date DESC').limit(3).each do |a|
           unless all_articles.include? a
             all_articles.push a
@@ -188,8 +182,7 @@ module ArticlesHelper
         end
       end
 
-      #organize articles by date
-      all_articles = all_articles.order('article_date DESC')
+      all_articles = all_articles.sort_by(&:article_date).reverse#('article_date DESC')
       return all_articles
     end
   end
