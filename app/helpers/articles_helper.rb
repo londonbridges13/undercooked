@@ -174,8 +174,9 @@ module ArticlesHelper
       end
 
       topics = user.topics
+      x_days_ago = 23
       topics.each do |t|
-        t.articles.order('article_date DESC').limit(3).each do |a|
+        t.articles.where('article_date > ?', x_days_ago).order('article_date DESC').limit(3).each do |a|
           unless all_articles.include? a
             all_articles.push a
           end
