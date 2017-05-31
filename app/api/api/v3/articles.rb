@@ -15,17 +15,35 @@ module API
           desc "Query Articles based on User's Topics"
           post do
             token = params[:utoken]
+            page = params[:page]
             current_user = User.find_by_access_token(token)
             if current_user
               # get articles
-              topics = current_user.topics.shuffle
-              get_articles_from(topics)
+              articles = get_handpicked_articles(current_user, page)
+
+              present articles.page params[:page]
+              # topics = current_user.topics.shuffle
+              # get_articles_from(topics)
             else
               present "ERROR: No User Found"
             end
           end
         end
       end
+
+
+      resource :articles do
+        namespace 'recommended_articles' do
+          desc "Query Articles based on User's Topics"
+          post do
+
+            #shuffle articles
+            articles = recommended_content
+            present articles
+          end
+        end
+      end
+
 
       resource :articles do
         namespace 'likedarticles' do
