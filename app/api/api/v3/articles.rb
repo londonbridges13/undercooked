@@ -19,7 +19,7 @@ module API
             current_user = User.find_by_access_token(token)
             if current_user
               # get articles
-              articles = get_handpicked_articles(current_user, page)
+              articles = get_handpicked_articles(current_user)
 
               present articles.page page
               # topics = current_user.topics.shuffle
