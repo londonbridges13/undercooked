@@ -1,4 +1,5 @@
 require 'doorkeeper/grape/helpers'
+require 'will_paginate/array'
 
 module API
   module V3
@@ -15,12 +16,13 @@ module API
           desc "Query Articles based on User's Topics"
           post do
             token = params[:utoken]
-            page = params[:page]
             current_user = User.find_by_access_token(token)
             if current_user
               # get articles
               articles = get_handpicked_articles(current_user)
-              present Kaminari.paginate_array(articles).page(params[:page]).per(2)
+              page = articles.paginate(:page => params[:page], :per_page => 2)
+              p page
+              present page
               # present articles.page params[:page]
               # topics = current_user.topics.shuffle
               # get_articles_from(topics)
