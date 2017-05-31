@@ -21,7 +21,7 @@ module API
               # get articles
               articles = get_handpicked_articles(current_user, page)
 
-              present articles.page params[:page]
+              present articles.page page
               # topics = current_user.topics.shuffle
               # get_articles_from(topics)
             else
