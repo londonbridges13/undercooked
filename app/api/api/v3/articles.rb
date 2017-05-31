@@ -20,8 +20,8 @@ module API
             if current_user
               # get articles
               articles = get_handpicked_articles(current_user)
-
-              present articles.page params[:page]
+              present Kaminari.paginate_array(articles).page(params[:page]).per(2)
+              # present articles.page params[:page]
               # topics = current_user.topics.shuffle
               # get_articles_from(topics)
             else
