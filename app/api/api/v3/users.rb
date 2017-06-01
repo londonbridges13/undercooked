@@ -116,6 +116,26 @@ module API
 
 
 
+      resource :users do
+        namespace 'launch_count' do
+          desc 'launch_count for user'
+          post do
+            # Create User using Params
+            token = params[:utoken].downcase
+            # Check if this Email exists
+            existing_user = User.find_by_access_token(token)
+            if existing_user and existing_user.lauch_count
+              existing_user.launch_count += 1
+              existing_user.save
+              present "yes"
+            elsif existing_user
+              existing_user.lauch_count = 1
+              existing_user.save
+              present "no"
+            end
+          end
+        end
+      end
 
       resource :users do
         namespace 'does_user_exist' do
