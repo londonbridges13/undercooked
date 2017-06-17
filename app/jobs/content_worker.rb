@@ -8,29 +8,30 @@ class ContentWorker
 
   def perform(none)
     ActiveRecord::Base.connection_pool.with_connection do
-      topics = Topic.all
+      channels = Resource.all
       @cm = ContentManagement.first
       @count = 0
       a_day_ago = Time.now - 1.day
       if a_day_ago > @cm.updated_at
-        topics.each do |topic|
-          if topic
+        channels.each do |channel|
+          if channel
             puts "Checking for new articles"
-            find_new_articles_from_topic(topic)
-            topic.suggestions.each do |s|
-              # assess suggestions
-              p "Assessing Suggestion: #{s.id}"
-              # automatic_publishing s
-            end
+            find_new_articles_from_channel(channel)
+            # channel.suggestions.each do |s| # with channel its not possible
+            #   # assess suggestions
+            #   p "Assessing Suggestion: #{s.id}"
+            #   # automatic_publishing s
+            # end
             @count += 1
           else
             puts "No Topic"
           end
         end
         # done with search, update ContentManagement time
-        if @count >= Topic.all.count
+        if @count >= channels.count
           @cm.last_new_article_grab_date = "#{Time.now}"
           @cm.save
+          create_and_accept_new_suggestions #automatic organizing
         else
           puts "All Topics are not acounted for. We only got #{@count}. Did not save the Content Management. Will try job again!"
         end
@@ -50,6 +51,16 @@ class ContentWorker
         #Take all the resources from the topic and searches them for new articles
         topic.resources.each do |r|
           check_resource(r)
+        end
+      end
+
+      def find_new_articles_from_channel(channel)
+          check_resource(channel)
+      end
+
+      def get_all_channel_articles
+        Resource.all.each do |r|
+          find_new_articles_from_channel r
         end
       end
 
@@ -837,6 +848,99 @@ class ContentWorker
           content.desc = video.description
           content.save
         end
+      end
+    end
+
+
+
+    def create_suggestions_for_topic(topic)
+      # remove_accepted_suggestions(topic)
+      x_days = 3
+      all_recent_articles = Article.where('article_date > ?', x_days.days.ago).where("publish_it != ? OR publish_it IS NULL",false) #test, not working with scope
+
+      existing_suggested_articles = [] # get existing suggestions
+      existing_topic_articles = topic.articles.where('article_date > ?', x_days.days.ago) # get recent articles from topic
+
+      # set existing_suggested_articles
+      topic.suggestions.each do |s|
+        unless existing_suggested_articles.include? s.article
+          existing_suggested_articles.push s.article
+        end
+      end
+
+      #out of all of the recent_articles, grab the onces that don't already exist in the Topic or in the Topic's Suggestions
+      all_recent_articles.each do |a|
+          #Resource
+        if topic.resources.include? a.resource
+          #create suggestions
+          unless existing_suggested_articles.include? a or existing_topic_articles.include? a #here is where we filter the above
+            new_suggestion = topic.suggestions.build(:reason => "Resource", :evidence => a.resource.title)
+            new_suggestion.article = a
+            new_suggestion.save
+          end
+        else
+          #Keyword
+          #USING TAGS FOR KEYWORDS, BECAUSE ARRAYS ARE FUCKED IN RAILS 4/22
+          topic.tags.each do |keyword|
+            # see if the keyword exists in in the article's desc or title
+            k = keyword.title
+            if a.title.downcase.include? k.downcase
+              #create suggestion
+              unless existing_suggested_articles.include? a or existing_topic_articles.include? a
+                new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
+                new_suggestion.article = a
+                new_suggestion.save
+              end
+
+            elsif a.desc.downcase.include? k.downcase
+              #create suggestion
+              unless existing_suggested_articles.include? a or existing_topic_articles.include? a
+                new_suggestion = topic.suggestions.build(:reason => "Keyword", :evidence => k)
+                new_suggestion.article = a
+                new_suggestion.save
+              end
+            else
+              article_tags = []
+              a.tags.each do |tag|
+                # add tag title to article_tags
+                article_tags.push tag.title.downcase
+              end
+
+              if article_tags.include? k.downcase
+                # article's tag contains keyword, create suggestion
+                new_suggestion = topic.suggestions.build(:reason => "Tag", :evidence => k)
+                new_suggestion.article = a
+                new_suggestion.save
+              end
+            end
+          end
+
+        end
+      end
+      # count_suggested_articles_of_topic(topic)
+      accept_all_suggestions_for topic
+    end
+
+
+    def accept_all_suggestions_for(topic)
+      suggestions = topic.suggestions.where('rejected IS ?', nil)
+
+      suggestions.each do |s|
+        # accept suggested article and publish it
+        s.article.publish_it = true
+        unless s.article.topics.include? topic
+          s.article.topics.push topic
+        end
+        s.article.save
+        s.rejected = false
+        s.save
+      end
+      # present "Successfully accepted all suggestions"
+    end
+
+    def create_and_accept_new_suggestions
+      Topic.all.each do |t|
+        create_suggestions_for_topic t
       end
     end
 

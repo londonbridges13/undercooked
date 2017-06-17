@@ -12,6 +12,14 @@ namespace :ping do
       Net::HTTP.get_response(uri)
 
       puts "success..."
+      unless ContentManagement.all.first
+        c = ContentManagement.new
+        c.last_new_article_grab_date = "#{Time.now - 1.day}"
+        c.save
+      end
+
+      ContentWorker.perform_async("id") # automatically adds new content
+
     end
   end
 end
