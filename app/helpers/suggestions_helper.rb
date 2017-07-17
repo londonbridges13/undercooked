@@ -280,4 +280,27 @@ module SuggestionsHelper
 
 
 
+
+    def tags_to_topic(array, t)
+      array.each do |a|
+        tag = Tag.find_or_create_by(title: a)
+        tag.save
+        t.tags.push tag
+      end
+    end
+
+  # for when a topic combines multiple topics in one
+    def add_all_tags_from_these_topics(topics, t)
+      tags = []
+      topics.each do |e|
+        e.tags.each do |a|
+          tags.push a
+        end
+      end
+      tags.each do |e|
+        t.tags.push e
+      end
+    end
+
+
 end
